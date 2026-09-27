@@ -16,4 +16,6 @@ npm run dev
 
 默认访问 <http://127.0.0.1:3000>。`RAYCHI_API_URL` 是服务端访问 wellspring 的地址，默认 `http://127.0.0.1:8080`。生产构建执行 `npm run build`，类型检查执行 `npm run typecheck`。
 
-本仓库独立构建，不读取相邻仓库的文件。产品规划和完整本地联调步骤保存在 RayDev 工作区的项目总纲中。
+本仓库独立构建，不读取相邻仓库的文件。产品依据、跨仓流程和唯一项目进度见 [raychi 项目文档](https://github.com/raychi-space/raychi)。
+
+本仓模块边界见[模块说明](docs/module.md)，Agent 长期约定见 [AGENTS.md](AGENTS.md)。跨仓任务按[项目流程](https://github.com/raychi-space/raychi/blob/main/docs/workflow.md)处理；当前状态看[唯一进度表](https://github.com/raychi-space/raychi/blob/main/docs/progress.md)。
