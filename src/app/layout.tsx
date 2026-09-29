@@ -4,7 +4,10 @@ import { siteSettings } from '@/features/contents/api'
 import { publicLinks, externalLink } from '@/features/contents/links'
 import { SocialLinks } from '@/features/contents/SocialLinks'
 import { SiteNav } from './SiteNav'
+import { ThemeToggle } from './ThemeToggle'
 import './globals.css'
+
+const themeInit = `try{if(localStorage.getItem('lantern-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}`
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await siteSettings()
@@ -17,12 +20,18 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const secondaryLinks = publicLinks(settings.navigation).filter(link =>
     !['/', '/posts', '/writing', '/thoughts', '/archive'].includes(link.href))
   const footerLinks = publicLinks([...secondaryLinks, ...settings.contacts, ...settings.accounts])
-  return <html lang="zh-CN"><body>
+  return <html lang="zh-CN" suppressHydrationWarning><body>
+    <script dangerouslySetInnerHTML={{ __html: themeInit }} />
     <div className="site-shell">
+      <div className="night-sky" aria-hidden="true">
+        <div className="nebula nebula-gold" /><div className="nebula nebula-blue" />
+        <div className="stars stars-a" /><div className="stars stars-b" />
+      </div>
       <header className="site-header">
         <div className="header-inner">
           <Link href="/" className="site-logo" aria-label={`${settings.siteName} 首页`}><span className="logo-mark">✳</span><span>{settings.siteName}</span></Link>
           <SiteNav configuredLinks={settings.navigation} />
+          <div className="header-tools"><ThemeToggle /></div>
         </div>
       </header>
       {children}

@@ -5,9 +5,9 @@ const date = (value: string) => new Intl.DateTimeFormat('zh-CN', { year: 'numeri
 
 export function ContentCard({ item }: { item: PublicContent }) {
   const path = contentPath(item)
-  return <Link className="feed-card article-feed-card" href={path}>
+  return <Link className="card feed-card" href={path} transitionTypes={['nav-forward']}>
     <span className="cover">
-      {item.coverUrl ? <img src={item.coverUrl} alt="" /> : <span className="default-cover"><span>✳</span><strong>{item.title}</strong></span>}
+      {item.coverUrl ? <img src={item.coverUrl} alt="" /> : <span className="default-cover"><span aria-hidden="true">✳</span><strong>{item.title}</strong></span>}
     </span>
     <div className="feed-content"><span className="content-meta">{typeNames[item.type]} · {date(item.publishedAt)}</span>
       <h3>{item.title}</h3>{item.summary && <p>{item.summary}</p>}</div>

@@ -5,6 +5,10 @@ import { notFound } from 'next/navigation'
 import { ContentCard } from './ContentCard'
 import { PostTimeline } from './PostTimeline'
 import { content, contents, names, type ContentType } from './api'
+import { PageTransition } from '@/shared/ui/PageTransition'
+import { ChipLink } from '@/shared/ui/Chip'
+import { EmptyState } from '@/shared/ui/EmptyState'
+import { Pagination } from '@/shared/ui/Pagination'
 
 const labels = {
   ARTICLE: { title: '文章', intro: '值得慢慢说的事情，写得完整一些。', path: '/writing' },
@@ -24,37 +28,39 @@ export async function ContentList({ type, page, category, tag }: { type: Content
     if (tag) params.set('tag', tag)
     return `${info.path}?${params}`
   }
-  return <main className="inner-page"><div className="page-intro"><p className="eyebrow">{type}</p><h1>{info.title}</h1><p>{info.intro}</p></div>
-    {(categoryNames.length > 0 || tagNames.length > 0) && <div className="filters">
-      <a href={info.path} className={!category && !tag ? 'active' : ''}>全部</a>
-      {categoryNames.map(name => <a href={`${info.path}?category=${encodeURIComponent(name)}`} className={category === name ? 'active' : ''} key={name}>{name}</a>)}
-      {tagNames.map(name => <a href={`${info.path}?tag=${encodeURIComponent(name)}`} className={tag === name ? 'active' : ''} key={name}>#{name}</a>)}
+  return <PageTransition><main className="inner-page">
+    <header className="page-intro"><p className="eyebrow">{type}</p><h1>{info.title}</h1><p>{info.intro}</p></header>
+    {(categoryNames.length > 0 || tagNames.length > 0) && <div className="chip-row">
+      <ChipLink href={info.path} active={!category && !tag}>全部</ChipLink>
+      {categoryNames.map(name => <ChipLink href={`${info.path}?category=${encodeURIComponent(name)}`} active={category === name} key={name}>{name}</ChipLink>)}
+      {tagNames.map(name => <ChipLink href={`${info.path}?tag=${encodeURIComponent(name)}`} active={tag === name} key={name}>#{name}</ChipLink>)}
     </div>}
     {type === 'POST' && tag && <div className="post-active-tag"><span>正在查看 #{tag}</span><Link href="/posts">查看全部帖子 ×</Link></div>}
     {result.items.length ? type === 'POST' ? <PostTimeline items={result.items} />
       : <div className="feed-grid">{result.items.map(item => <ContentCard item={item} key={item.id} />)}</div>
-      : <div className="empty-content"><span>✳</span><p>这里暂时还没有已发布内容。</p></div>}
-    <div className="pagination">{page > 1 && <Link href={query(page - 1)}>← 上一页</Link>}
-      {page * result.pageSize < result.total && <Link href={query(page + 1)}>下一页 →</Link>}</div>
-  </main>
+      : <EmptyState>这里暂时还没有已发布内容。</EmptyState>}
+    <Pagination prev={page > 1 ? query(page - 1) : undefined}
+      next={page * result.pageSize < result.total ? query(page + 1) : undefined} />
+  </main></PageTransition>
 }
 
 export async function ContentDetail({ type, slug }: { type: ContentType; slug: string }) {
   const item = await content(type, slug)
   if (!item) notFound()
   const info = labels[type]
-  if (type === 'POST') return <main className="inner-page post-detail-page">
+  if (type === 'POST') return <PageTransition><main className="inner-page post-detail-page">
     <h1 className="sr-only">{item.title || '帖子'}</h1>
-    <Link href="/posts" className="back-link">← 返回帖子时间线</Link>
+    <Link href="/posts" className="back-link" transitionTypes={['nav-back']}>← 返回帖子时间线</Link>
     <PostTimeline items={[item]} showPermalink={false} />
-  </main>
-  return <main className="article-page"><Link href={info.path} className="back-link">← 返回{info.title}</Link>
+  </main></PageTransition>
+  return <PageTransition><main className="article-page">
+    <Link href={info.path} className="back-link" transitionTypes={['nav-back']}>← 返回{info.title}</Link>
     <header className="article-heading"><p className="eyebrow">{info.title}</p>
       {item.title && <h1>{item.title}</h1>}
       <div className="article-meta"><time dateTime={item.publishedAt}>{new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.publishedAt))}</time>
         {item.category && <Link href={`${info.path}?category=${encodeURIComponent(item.category)}`}>{item.category}</Link>}
         {item.tags.map(tag => <Link key={tag} href={`${info.path}?tag=${encodeURIComponent(tag)}`}>#{tag}</Link>)}</div></header>
     <article className="prose"><Markdown remarkPlugins={[remarkGfm]} components={{ img: () => null }}>{item.bodyMarkdown ?? ''}</Markdown></article>
-    <div className="article-end"><span>✳</span><p>感谢读到这里。</p><Link href={info.path}>继续阅读 →</Link></div>
-  </main>
+    <div className="article-end"><span>✳</span><p>感谢读到这里。</p><Link href={info.path} transitionTypes={['nav-back']}>继续阅读 →</Link></div>
+  </main></PageTransition>
 }
