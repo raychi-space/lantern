@@ -8,6 +8,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-## Raychi 仓库约定
+## Raychi · 公开站入口
 
-先读本仓 [README](README.md) 与[模块说明](docs/module.md)；产品依据、唯一进度和跨仓流程在 [raychi 项目仓库](https://github.com/raychi-space/raychi)。本仓只负责公开阅读，通过 wellspring 公开 API 获取发布快照；不读取草稿、数据库或相邻仓库源码。接口变更先核对 [wellspring 契约](https://github.com/raychi-space/wellspring/blob/main/docs/api/contract-v0.1.md)。改动后运行 `npm run typecheck && npm run build`，涉及用户路径时记录与真实服务的验证结果；在 PR 中关联 Issue 和契约变更。
+开始任务先读本仓 [README](README.md)、当前 Issue/PR、[Raychi 仓库地图](https://github.com/raychi-space/raychi#仓库地图)、[开发流程](https://github.com/raychi-space/raychi/blob/main/docs/workflow.md)、[接口与联调](https://github.com/raychi-space/raychi/blob/main/docs/integration.md)及[验收规则](https://github.com/raychi-space/raychi/blob/main/docs/acceptance.md)；具体职责见[模块说明](docs/module.md)。无法访问项目仓库时先从这些链接和当前 Issue 确认范围，不能自行重定义跨仓规则。
+
+本仓只做公开阅读，消费 wellspring 的公开 API；不读取工作稿、数据库或相邻仓库源码。接口以 [wellspring 契约目录](https://github.com/raychi-space/wellspring/tree/main/docs/api)及 Issue 指定的 PR/提交为准。变更请求或字段时先协调 wellspring 的 OpenAPI/语义文档，并在 PR 写明兼容性和对其他仓库的影响。
+
+改动后按 README 执行 npm run typecheck 和 npm run build；涉及用户路径时用对应后端做浏览器/HTTP 验证。PR 关联 Issue，记录命令、版本、实际结果与未覆盖项。本仓检查通过不代表主 Issue 验收通过；联调组合和最终结果由主 Issue 记录。GitHub 操作优先 gh CLI，不可用时用网页。
