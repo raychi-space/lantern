@@ -1,5 +1,5 @@
-import { ContentDetail } from '@/features/contents/ContentPages'
+import { permanentRedirect } from 'next/navigation'
 
 export default async function ThoughtPage({ params }: { params: Promise<{ slug: string }> }) {
-  return <ContentDetail type="THOUGHT" slug={(await params).slug} />
+  permanentRedirect(`/posts/${encodeURIComponent((await params).slug)}`)
 }

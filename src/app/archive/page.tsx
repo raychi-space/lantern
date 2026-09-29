@@ -7,7 +7,7 @@ export default async function ArchivePage({ searchParams }: { searchParams: Prom
   const params = await searchParams
   const parsed = Number(params.page ?? '1')
   const page = Number.isInteger(parsed) && parsed > 0 ? parsed : 1
-  const type = ['ARTICLE', 'POST', 'THOUGHT'].includes(params.type ?? '') ? params.type as ContentType : undefined
+  const type = ['ARTICLE', 'POST'].includes(params.type ?? '') ? params.type as ContentType : undefined
   const [result, categories, tags] = await Promise.all([
     contents({ page, pageSize: 50, type, category: params.category, tag: params.tag }), names('categories'), names('tags'),
   ])

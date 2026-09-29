@@ -1,4 +1,4 @@
-export type ContentType = 'ARTICLE' | 'POST' | 'THOUGHT'
+export type ContentType = 'ARTICLE' | 'POST'
 export type PublicContent = {
   id: string
   slug: string
@@ -14,6 +14,14 @@ export type PublicContent = {
 }
 export type Page<T> = { items: T[]; page: number; pageSize: number; total: number }
 export type SiteLink = { label: string; href: string }
+export type HomepageProject = { name: string; description: string; status: string; href: string }
+export type HomepageSection = { id: 'featured' | 'posts' | 'writing' | 'projects' | 'stats'; visible: boolean }
+export type HomepageSettings = {
+  focus: string
+  projects: HomepageProject[]
+  recentSections: HomepageSection[]
+  bottomSections: HomepageSection[]
+}
 export type SiteSettings = {
   version: number
   siteName: string
@@ -23,6 +31,7 @@ export type SiteSettings = {
   accounts: SiteLink[]
   navigation: SiteLink[]
   homeSections: { id: 'feed' | 'writing' | 'posts' | 'thoughts'; visible: boolean }[]
+  homepage?: HomepageSettings
 }
 
 const base = process.env.RAYCHI_API_URL ?? 'http://127.0.0.1:8080'
@@ -57,11 +66,11 @@ export async function names(kind: 'categories' | 'tags'): Promise<string[]> {
 }
 
 export function contentPath(item: Pick<PublicContent, 'type' | 'slug'>): string {
-  const prefix = { ARTICLE: '/writing', POST: '/posts', THOUGHT: '/thoughts' }[item.type]
+  const prefix = { ARTICLE: '/writing', POST: '/posts' }[item.type]
   return `${prefix}/${encodeURIComponent(item.slug)}`
 }
 
-export const typeNames: Record<ContentType, string> = { ARTICLE: '长文', POST: '帖子', THOUGHT: '思考' }
+export const typeNames: Record<ContentType, string> = { ARTICLE: '文章', POST: '帖子' }
 
 export function firstSentence(markdown: string | null): string {
   const text = (markdown ?? '').replace(/!\[[^\]]*\]\([^)]*\)/g, '')

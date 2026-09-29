@@ -3,19 +3,19 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { notFound } from 'next/navigation'
 import { ContentCard } from './ContentCard'
+import { PostTimeline } from './PostTimeline'
 import { content, contents, names, type ContentType } from './api'
 
 const labels = {
-  ARTICLE: { title: '长文', intro: '值得慢慢说的事情，写得完整一些。', path: '/writing' },
-  POST: { title: '帖子', intro: '短一些的记录，随时分享。', path: '/posts' },
-  THOUGHT: { title: '思考', intro: '正在形成的想法与问题。', path: '/thoughts' },
+  ARTICLE: { title: '文章', intro: '值得慢慢说的事情，写得完整一些。', path: '/writing' },
+  POST: { title: '帖子', intro: '按时间写下的短记录。', path: '/posts' },
 }
 
 export async function ContentList({ type, page, category, tag }: { type: ContentType; page: number; category?: string; tag?: string }) {
   const [result, categoryNames, tagNames] = await Promise.all([
     contents({ type, page, pageSize: 12, category, tag }),
     type === 'POST' ? Promise.resolve([]) : names('categories'),
-    type === 'THOUGHT' ? Promise.resolve([]) : names('tags'),
+    type === 'POST' ? Promise.resolve([]) : names('tags'),
   ])
   const info = labels[type]
   const query = (nextPage: number) => {
@@ -30,7 +30,9 @@ export async function ContentList({ type, page, category, tag }: { type: Content
       {categoryNames.map(name => <a href={`${info.path}?category=${encodeURIComponent(name)}`} className={category === name ? 'active' : ''} key={name}>{name}</a>)}
       {tagNames.map(name => <a href={`${info.path}?tag=${encodeURIComponent(name)}`} className={tag === name ? 'active' : ''} key={name}>#{name}</a>)}
     </div>}
-    {result.items.length ? <div className="feed-grid">{result.items.map(item => <ContentCard item={item} key={item.id} />)}</div>
+    {type === 'POST' && tag && <div className="post-active-tag"><span>正在查看 #{tag}</span><Link href="/posts">查看全部帖子 ×</Link></div>}
+    {result.items.length ? type === 'POST' ? <PostTimeline items={result.items} />
+      : <div className="feed-grid">{result.items.map(item => <ContentCard item={item} key={item.id} />)}</div>
       : <div className="empty-content"><span>✳</span><p>这里暂时还没有已发布内容。</p></div>}
     <div className="pagination">{page > 1 && <Link href={query(page - 1)}>← 上一页</Link>}
       {page * result.pageSize < result.total && <Link href={query(page + 1)}>下一页 →</Link>}</div>
@@ -41,6 +43,11 @@ export async function ContentDetail({ type, slug }: { type: ContentType; slug: s
   const item = await content(type, slug)
   if (!item) notFound()
   const info = labels[type]
+  if (type === 'POST') return <main className="inner-page post-detail-page">
+    <h1 className="sr-only">{item.title || '帖子'}</h1>
+    <Link href="/posts" className="back-link">← 返回帖子时间线</Link>
+    <PostTimeline items={[item]} showPermalink={false} />
+  </main>
   return <main className="article-page"><Link href={info.path} className="back-link">← 返回{info.title}</Link>
     <header className="article-heading"><p className="eyebrow">{info.title}</p>
       {item.title && <h1>{item.title}</h1>}
