@@ -422,9 +422,10 @@ a.feed-card:hover h3 { color: var(--gold-hi) }
 @media (max-width: 650px) {
   .site-header { padding: 0 20px }
   .header-inner { grid-template-columns: minmax(0, 1fr) auto; min-height: 0; padding: 13px 0 10px; gap: 0 12px }
-  .site-logo { font-size: 21px }
+  .site-logo { grid-column: 1; grid-row: 1; font-size: 21px }
   .logo-mark { font-size: 25px }
-  .main-nav { grid-column: 1 / -1; justify-self: stretch; justify-content: space-between; gap: 12px; margin: 12px 0 0; padding: 0 }
+  .header-tools { grid-column: 2; grid-row: 1 }
+  .main-nav { grid-column: 1 / -1; grid-row: 2; justify-self: stretch; justify-content: space-between; gap: 12px; margin: 12px 0 0; padding: 0 }
   .main-nav a { padding: 7px 0 12px; font-size: 13px }
   .main-nav a.active::after { bottom: 6px }
   .home-page { padding: 0 20px }
