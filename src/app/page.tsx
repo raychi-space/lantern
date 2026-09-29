@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { contents, contentPath, firstSentence, siteSettings, type PublicContent } from '@/features/contents/api'
 import { externalLink, publicLinks } from '@/features/contents/links'
 import { SocialLinks } from '@/features/contents/SocialLinks'
+import { PageTransition } from '@/shared/ui/PageTransition'
 
 const date = (value: string) => new Intl.DateTimeFormat('zh-CN', {
   timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long', day: 'numeric',
@@ -9,8 +10,9 @@ const date = (value: string) => new Intl.DateTimeFormat('zh-CN', {
 
 function LatestWriting({ items }: { items: PublicContent[] }) {
   return <section className="home-latest-group home-writings" aria-labelledby="recent-writing">
-    <div className="home-list-heading"><h3 id="recent-writing">最近的文章</h3><Link href="/writing">全部文章 <span aria-hidden="true">↗</span></Link></div>
-    {items.length ? <div className="home-writing-list">{items.map(item => <Link href={contentPath(item)} key={item.id} className="home-writing-item">
+    <div className="home-list-heading"><h3 id="recent-writing">最近的文章</h3>
+      <Link href="/writing" transitionTypes={['nav-forward']}>全部文章 <span aria-hidden="true">↗</span></Link></div>
+    {items.length ? <div className="home-writing-list">{items.map(item => <Link href={contentPath(item)} key={item.id} className="home-writing-item" transitionTypes={['nav-forward']}>
       <time dateTime={item.publishedAt}>{date(item.publishedAt)}</time><strong>{item.title}</strong><span aria-hidden="true">↗</span>
     </Link>)}</div> : <p className="home-list-empty">更多文章正在准备中。</p>}
   </section>
@@ -18,8 +20,9 @@ function LatestWriting({ items }: { items: PublicContent[] }) {
 
 function LatestPosts({ items }: { items: PublicContent[] }) {
   return <section className="home-latest-group home-posts" aria-labelledby="recent-posts">
-    <div className="home-list-heading"><h3 id="recent-posts">最近的帖子</h3><Link href="/posts">全部帖子 <span aria-hidden="true">↗</span></Link></div>
-    {items.length ? <div className="home-post-list">{items.map(item => <Link href={contentPath(item)} key={item.id} className="home-post-item">
+    <div className="home-list-heading"><h3 id="recent-posts">最近的帖子</h3>
+      <Link href="/posts" transitionTypes={['nav-forward']}>全部帖子 <span aria-hidden="true">↗</span></Link></div>
+    {items.length ? <div className="home-post-list">{items.map(item => <Link href={contentPath(item)} key={item.id} className="home-post-item" transitionTypes={['nav-forward']}>
       <time dateTime={item.publishedAt}>{date(item.publishedAt)}</time>
       {item.title && <h4>{item.title}</h4>}
       {firstSentence(item.bodyMarkdown) && <p>{firstSentence(item.bodyMarkdown)}</p>}
@@ -36,7 +39,7 @@ export default async function HomePage() {
   const homepage = settings.homepage
   const projects = homepage.projects
 
-  return <main className="home-page">
+  return <PageTransition><main className="home-page">
     <section className="home-intro-grid" aria-label="站主介绍与最近内容">
       <div className="home-profile">
         {settings.avatarUrl ? <img className="home-avatar" src={settings.avatarUrl} alt={`${settings.siteName}头像`} />
@@ -55,18 +58,20 @@ export default async function HomePage() {
       <div className="home-recent">
         <div className="home-section-title"><p className="eyebrow">FROM THE DESK</p><h2>最近写下</h2></div>
         <div className="home-recent-sections">{homepage.recentSections.filter(section => section.visible).map(section => section.id === 'featured' ?
-          (featured ? <Link href={contentPath(featured)} className="home-featured" key="featured">
-          <p className="home-featured-label">精选文章 <span aria-hidden="true">／</span> <time dateTime={featured.publishedAt}>{date(featured.publishedAt)}</time></p>
-          <h3>{featured.title}</h3>
-          {(featured.summary || firstSentence(featured.bodyMarkdown)) && <p className="home-featured-summary">
-            {featured.summary || firstSentence(featured.bodyMarkdown)}</p>}
-        </Link> : <div className="home-featured home-featured-empty" key="featured"><p className="home-featured-label">精选文章</p><h3>第一篇文章正在准备中。</h3><Link href="/writing">浏览文章列表 ↗</Link></div>)
+          (featured ? <Link href={contentPath(featured)} className="home-featured" key="featured" transitionTypes={['nav-forward']}>
+            <p className="home-featured-label">精选文章 <span aria-hidden="true">／</span> <time dateTime={featured.publishedAt}>{date(featured.publishedAt)}</time></p>
+            <h3>{featured.title}</h3>
+            {(featured.summary || firstSentence(featured.bodyMarkdown)) && <p className="home-featured-summary">
+              {featured.summary || firstSentence(featured.bodyMarkdown)}</p>}
+          </Link> : <div className="home-featured home-featured-empty" key="featured"><p className="home-featured-label">精选文章</p>
+            <h3>第一篇文章正在准备中。</h3>
+            <Link href="/writing" transitionTypes={['nav-forward']}>浏览文章列表 ↗</Link></div>)
           : section.id === 'posts' ? <LatestPosts key="posts" items={posts.items} />
             : <LatestWriting key="writing" items={writing.items.slice(1)} />)}</div>
       </div>
     </section>
 
-    {homepage.bottomSections.filter(section => section.visible).map(section => section.id === 'projects' ?
+    <div className="home-bottom">{homepage.bottomSections.filter(section => section.visible).map(section => section.id === 'projects' ?
     <section className="home-projects" aria-labelledby="projects-title" key="projects">
       <div className="home-section-title"><p className="eyebrow">IN PROGRESS</p><h2 id="projects-title">最近在做</h2>
         {settings.projectIntro && <p>{settings.projectIntro}</p>}</div>
@@ -82,6 +87,6 @@ export default async function HomePage() {
       <div><strong>{writing.total}</strong><span>写过的文章</span></div>
       <div><strong>{posts.total}</strong><span>发布的帖子</span></div>
       <div><strong>{projects.length}</strong><span>公开项目</span></div>
-    </aside>)}
-  </main>
+    </aside>)}</div>
+  </main></PageTransition>
 }
