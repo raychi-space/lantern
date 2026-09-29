@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { siteSettings } from '@/features/contents/api'
 import { publicLinks, externalLink } from '@/features/contents/links'
+import { SocialLinks } from '@/features/contents/SocialLinks'
 import { SiteNav } from './SiteNav'
 import './globals.css'
 
@@ -28,7 +29,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <footer className="site-footer"><span>{settings.siteName} © {new Date().getFullYear()}</span>
         <div className="footer-links">{footerLinks.map(link => <a key={`${link.label}-${link.href}`} href={link.href}
           target={externalLink(link.href) ? '_blank' : undefined}
-          rel={externalLink(link.href) ? 'noopener noreferrer' : undefined}>{link.label}</a>)}</div></footer>
+          rel={externalLink(link.href) ? 'noopener noreferrer' : undefined}>{link.label}</a>)}
+          <SocialLinks accounts={settings.socialAccounts} /></div></footer>
     </div>
   </body></html>
 }

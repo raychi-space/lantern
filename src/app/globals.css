@@ -146,3 +146,48 @@
   .post-timeline-content h3{font-size:22px}
   .post-body{font-size:15px}
 }
+
+.social-icons{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.home-profile>.social-icons{margin-top:19px}
+.social-icons a{width:35px;height:35px;display:grid;place-items:center;border-radius:50%;color:#536f58;transition:background .18s,color .18s}
+.social-icons a:hover,.social-icons a:focus-visible{background:#dfeadd;color:#2d5d3b;outline:none}
+.social-icons svg{width:18px;height:18px;fill:currentColor}
+.footer-links{align-items:center}
+.footer-links .social-icons{margin-left:5px}
+.home-featured{display:block;transition:background .18s,transform .18s}
+a.home-featured:hover,a.home-featured:focus-visible{background:#e1ecdd;transform:translateY(-2px);outline:none}
+.home-post-item{display:block;transition:background .18s}
+.home-post-item:hover,.home-post-item:focus-visible{background:#edf3e9;outline:none}
+.feed-card{transition:transform .18s,box-shadow .18s}
+.feed-card:hover,.feed-card:focus-visible{transform:translateY(-3px);box-shadow:0 14px 30px rgba(52,78,55,.08);outline:none}
+.home-project-grid{display:block;border-top:1px solid var(--line)}
+.home-project{display:block;min-height:0;padding:20px 14px;margin:0;background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;transition:background .18s,padding .18s}
+.home-project:hover,.home-project:focus-visible{background:#eaf1e7;padding-left:21px;outline:none}
+.home-project h3{font-size:20px}
+.home-project p{margin:7px 0 0;max-width:720px}
+.archive-page{max-width:1210px;margin:auto}
+.archive-page .page-intro{margin-bottom:56px}
+.archive-section{margin:0 0 76px;scroll-margin-top:110px}
+.archive-section-heading{display:flex;align-items:baseline;gap:12px;margin-bottom:15px}
+.archive-section-heading h2{margin:0;font-family:Georgia,"Songti SC",serif;font-size:31px;font-weight:500}
+.archive-section-heading span{color:var(--muted);font-size:12px}
+.archive-list{border-top:1px solid var(--line)}
+.archive-entry{display:grid;grid-template-columns:112px minmax(0,1fr) 20px;gap:20px;align-items:start;padding:23px 13px;border-bottom:1px solid var(--line);transition:background .18s}
+.archive-entry:hover,.archive-entry:focus-visible{background:#edf3e9;outline:none}
+.archive-entry time{color:var(--muted);font-size:12px;line-height:1.8}
+.archive-entry-copy strong{display:block;font-family:Georgia,"Songti SC",serif;font-size:20px;font-weight:500;line-height:1.45}
+.archive-entry-copy small{display:block;margin-top:6px;color:var(--muted);font-size:13px;line-height:1.6}
+.archive-entry-arrow{color:#708d72}
+.archive-list-compact .archive-entry{padding-top:14px;padding-bottom:14px}
+.archive-list-compact .archive-entry-copy strong{font-family:inherit;font-size:15px;font-weight:600}
+.archive-list-compact .archive-entry-copy small{margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.archive-section .pagination{margin-top:22px;justify-content:flex-start}
+.archive-empty{padding:24px 13px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--muted);font-size:14px}
+@media(max-width:650px){
+  .archive-section{margin-bottom:58px}
+  .archive-entry{grid-template-columns:1fr 16px;gap:4px 12px;padding:18px 7px}
+  .archive-entry time{grid-column:1;grid-row:1}
+  .archive-entry-copy{grid-column:1;grid-row:2}
+  .archive-entry-arrow{grid-column:2;grid-row:2}
+  .archive-list-compact .archive-entry-copy small{white-space:normal}
+}

@@ -14,6 +14,7 @@ export type PublicContent = {
 }
 export type Page<T> = { items: T[]; page: number; pageSize: number; total: number }
 export type SiteLink = { label: string; href: string }
+export type SocialAccount = { platform: string; enabled: boolean; href: string }
 export type HomepageProject = { name: string; description: string; status: string; href: string }
 export type HomepageSection = { id: 'featured' | 'posts' | 'writing' | 'projects' | 'stats'; visible: boolean }
 export type HomepageSettings = {
@@ -29,9 +30,11 @@ export type SiteSettings = {
   avatarUrl: string | null
   contacts: SiteLink[]
   accounts: SiteLink[]
+  socialAccounts: SocialAccount[]
+  projectIntro: string
   navigation: SiteLink[]
   homeSections: { id: 'feed' | 'writing' | 'posts' | 'thoughts'; visible: boolean }[]
-  homepage?: HomepageSettings
+  homepage: HomepageSettings
 }
 
 const base = process.env.RAYCHI_API_URL ?? 'http://127.0.0.1:8080'

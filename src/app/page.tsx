@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { contents, contentPath, firstSentence, siteSettings, type PublicContent } from '@/features/contents/api'
 import { externalLink, publicLinks } from '@/features/contents/links'
-import { defaultHomepage } from '@/features/projects/projects'
+import { SocialLinks } from '@/features/contents/SocialLinks'
 
 const date = (value: string) => new Intl.DateTimeFormat('zh-CN', {
   timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long', day: 'numeric',
@@ -19,12 +19,11 @@ function LatestWriting({ items }: { items: PublicContent[] }) {
 function LatestPosts({ items }: { items: PublicContent[] }) {
   return <section className="home-latest-group home-posts" aria-labelledby="recent-posts">
     <div className="home-list-heading"><h3 id="recent-posts">最近的帖子</h3><Link href="/posts">全部帖子 <span aria-hidden="true">↗</span></Link></div>
-    {items.length ? <div className="home-post-list">{items.map(item => <article key={item.id} className="home-post-item">
+    {items.length ? <div className="home-post-list">{items.map(item => <Link href={contentPath(item)} key={item.id} className="home-post-item">
       <time dateTime={item.publishedAt}>{date(item.publishedAt)}</time>
       {item.title && <h4>{item.title}</h4>}
-      <p>{firstSentence(item.bodyMarkdown) || '打开这条帖子继续阅读。'}</p>
-      <Link href={contentPath(item)} aria-label={`阅读${item.title || '这条帖子'}`}>阅读帖子 <span aria-hidden="true">↗</span></Link>
-    </article>)}</div> : <p className="home-list-empty">最近还没有帖子。</p>}
+      {firstSentence(item.bodyMarkdown) && <p>{firstSentence(item.bodyMarkdown)}</p>}
+    </Link>)}</div> : <p className="home-list-empty">最近还没有帖子。</p>}
   </section>
 }
 
@@ -34,7 +33,7 @@ export default async function HomePage() {
   ])
   const featured = writing.items[0]
   const socialLinks = publicLinks([...settings.accounts, ...settings.contacts])
-  const homepage = settings.homepage ?? defaultHomepage
+  const homepage = settings.homepage
   const projects = homepage.projects
 
   return <main className="home-page">
@@ -51,16 +50,17 @@ export default async function HomePage() {
             target={externalLink(link.href) ? '_blank' : undefined}
             rel={externalLink(link.href) ? 'noopener noreferrer' : undefined}>{link.label}<span aria-hidden="true">↗</span></a>)}
         </div>}
+        <SocialLinks accounts={settings.socialAccounts} />
       </div>
       <div className="home-recent">
         <div className="home-section-title"><p className="eyebrow">FROM THE DESK</p><h2>最近写下</h2></div>
         <div className="home-recent-sections">{homepage.recentSections.filter(section => section.visible).map(section => section.id === 'featured' ?
-          (featured ? <article className="home-featured" key="featured">
+          (featured ? <Link href={contentPath(featured)} className="home-featured" key="featured">
           <p className="home-featured-label">精选文章 <span aria-hidden="true">／</span> <time dateTime={featured.publishedAt}>{date(featured.publishedAt)}</time></p>
-          <h3><Link href={contentPath(featured)}>{featured.title}</Link></h3>
-          <p className="home-featured-summary">{featured.summary || firstSentence(featured.bodyMarkdown) || '打开这篇文章，继续阅读。'}</p>
-          <Link className="home-featured-link" href={contentPath(featured)}>阅读这篇文章 <span aria-hidden="true">↗</span></Link>
-        </article> : <div className="home-featured home-featured-empty" key="featured"><p className="home-featured-label">精选文章</p><h3>第一篇文章正在准备中。</h3><Link href="/writing">浏览文章列表 ↗</Link></div>)
+          <h3>{featured.title}</h3>
+          {(featured.summary || firstSentence(featured.bodyMarkdown)) && <p className="home-featured-summary">
+            {featured.summary || firstSentence(featured.bodyMarkdown)}</p>}
+        </Link> : <div className="home-featured home-featured-empty" key="featured"><p className="home-featured-label">精选文章</p><h3>第一篇文章正在准备中。</h3><Link href="/writing">浏览文章列表 ↗</Link></div>)
           : section.id === 'posts' ? <LatestPosts key="posts" items={posts.items} />
             : <LatestWriting key="writing" items={writing.items.slice(1)} />)}</div>
       </div>
@@ -69,12 +69,13 @@ export default async function HomePage() {
     {homepage.bottomSections.filter(section => section.visible).map(section => section.id === 'projects' ?
     <section className="home-projects" aria-labelledby="projects-title" key="projects">
       <div className="home-section-title"><p className="eyebrow">IN PROGRESS</p><h2 id="projects-title">最近在做</h2>
-        <p>一些正在持续打磨的公开项目。</p></div>
-      <div className="home-project-grid">{projects.map((project, index) => <article className="home-project" key={`${project.href}-${index}`}>
+        {settings.projectIntro && <p>{settings.projectIntro}</p>}</div>
+      <div className="home-project-grid">{projects.map((project, index) => <a className="home-project" key={`${project.href}-${index}`}
+        href={project.href} target={externalLink(project.href) ? '_blank' : undefined}
+        rel={externalLink(project.href) ? 'noopener noreferrer' : undefined}>
         <div className="home-project-top"><h3>{project.name}</h3><span>{project.status}</span></div>
         <p>{project.description}</p>
-        <a href={project.href} target={externalLink(project.href) ? '_blank' : undefined} rel={externalLink(project.href) ? 'noopener noreferrer' : undefined}>查看项目 <span aria-hidden="true">↗</span></a>
-      </article>)}</div>
+      </a>)}</div>
     </section>
 
     : <aside className="home-numbers" aria-label="站点数据" key="stats">
