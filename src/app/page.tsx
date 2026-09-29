@@ -1,35 +1,87 @@
 import Link from 'next/link'
-import { ContentCard } from '@/features/contents/ContentCard'
-import { contents, siteSettings, type PublicContent } from '@/features/contents/api'
+import { contents, contentPath, firstSentence, siteSettings, type PublicContent } from '@/features/contents/api'
+import { externalLink, publicLinks } from '@/features/contents/links'
+import { SocialLinks } from '@/features/contents/SocialLinks'
 
-const sections = {
-  feed: { title: '最近更新', href: '/archive', link: '查看回顾' },
-  writing: { title: '长文', href: '/writing', link: '全部长文' },
-  posts: { title: '帖子', href: '/posts', link: '全部帖子' },
-  thoughts: { title: '思考', href: '/thoughts', link: '全部思考' },
+const date = (value: string) => new Intl.DateTimeFormat('zh-CN', {
+  timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long', day: 'numeric',
+}).format(new Date(value))
+
+function LatestWriting({ items }: { items: PublicContent[] }) {
+  return <section className="home-latest-group home-writings" aria-labelledby="recent-writing">
+    <div className="home-list-heading"><h3 id="recent-writing">最近的文章</h3><Link href="/writing">全部文章 <span aria-hidden="true">↗</span></Link></div>
+    {items.length ? <div className="home-writing-list">{items.map(item => <Link href={contentPath(item)} key={item.id} className="home-writing-item">
+      <time dateTime={item.publishedAt}>{date(item.publishedAt)}</time><strong>{item.title}</strong><span aria-hidden="true">↗</span>
+    </Link>)}</div> : <p className="home-list-empty">更多文章正在准备中。</p>}
+  </section>
+}
+
+function LatestPosts({ items }: { items: PublicContent[] }) {
+  return <section className="home-latest-group home-posts" aria-labelledby="recent-posts">
+    <div className="home-list-heading"><h3 id="recent-posts">最近的帖子</h3><Link href="/posts">全部帖子 <span aria-hidden="true">↗</span></Link></div>
+    {items.length ? <div className="home-post-list">{items.map(item => <Link href={contentPath(item)} key={item.id} className="home-post-item">
+      <time dateTime={item.publishedAt}>{date(item.publishedAt)}</time>
+      {item.title && <h4>{item.title}</h4>}
+      {firstSentence(item.bodyMarkdown) && <p>{firstSentence(item.bodyMarkdown)}</p>}
+    </Link>)}</div> : <p className="home-list-empty">最近还没有帖子。</p>}
+  </section>
 }
 
 export default async function HomePage() {
-  const settings = await siteSettings()
-  const visible = settings.homeSections.filter(section => section.visible)
-  const results = await Promise.all(visible.map(async section => ({
-    id: section.id,
-    items: (await contents({ pageSize: section.id === 'feed' ? 9 : 3,
-      type: section.id === 'writing' ? 'ARTICLE' : section.id === 'posts' ? 'POST' : section.id === 'thoughts' ? 'THOUGHT' : undefined })).items,
-  })))
-  const grouped = Object.fromEntries(results.map(result => [result.id, result.items])) as Record<string, PublicContent[]>
-  return <main>
-    <section className="hero"><div className="hero-copy"><p className="eyebrow"><span className="tiny-star">✦</span> WELCOME TO MY SPACE</p>
-      {settings.avatarUrl ? <img className="hero-avatar" src={settings.avatarUrl} alt={`${settings.siteName}头像`} />
-        : <span className="hero-avatar default-avatar" aria-label="默认头像">✳</span>}
-      <h1>你好，<br /><em>进来坐坐。</em></h1><p className="hero-lead">{settings.intro}</p>
-      <Link className="button-link" href="/archive">看看最近更新 <span aria-hidden="true">↗</span></Link></div>
-      <div className="hero-art" aria-hidden="true"><div className="orbit orbit-one" /><div className="orbit orbit-two" /><span className="art-star">✳</span><span className="art-caption">a little space<br />to think & make</span></div></section>
-    {visible.map(section => <section className="home-section" key={section.id}>
-      <div className="section-top"><div><p className="eyebrow">{section.id.toUpperCase()}</p><h2>{sections[section.id].title}</h2></div>
-        <Link className="text-link" href={sections[section.id].href}>{sections[section.id].link} ↗</Link></div>
-      {(grouped[section.id] ?? []).length ? <div className="feed-grid">{grouped[section.id].map(item => <ContentCard item={item} key={item.id} />)}</div>
-        : <div className="empty-content"><span>✳</span><p>这里暂时还没有已发布内容。</p></div>}
-    </section>)}
+  const [settings, writing, posts] = await Promise.all([
+    siteSettings(), contents({ type: 'ARTICLE', pageSize: 4 }), contents({ type: 'POST', pageSize: 3 }),
+  ])
+  const featured = writing.items[0]
+  const socialLinks = publicLinks([...settings.accounts, ...settings.contacts])
+  const homepage = settings.homepage
+  const projects = homepage.projects
+
+  return <main className="home-page">
+    <section className="home-intro-grid" aria-label="站主介绍与最近内容">
+      <div className="home-profile">
+        {settings.avatarUrl ? <img className="home-avatar" src={settings.avatarUrl} alt={`${settings.siteName}头像`} />
+          : <span className="home-avatar home-avatar-default" aria-hidden="true">✳</span>}
+        <p className="home-kicker">一个人的工作室</p>
+        <h1>{settings.siteName}</h1>
+        <p className="home-bio">{settings.intro}</p>
+        {homepage.focus && <div className="home-focus"><span>当前关注</span><strong>{homepage.focus}</strong></div>}
+        {socialLinks.length > 0 && <div className="home-socials" aria-label="社交账号与外部链接">
+          {socialLinks.map(link => <a key={`${link.label}-${link.href}`} href={link.href}
+            target={externalLink(link.href) ? '_blank' : undefined}
+            rel={externalLink(link.href) ? 'noopener noreferrer' : undefined}>{link.label}<span aria-hidden="true">↗</span></a>)}
+        </div>}
+        <SocialLinks accounts={settings.socialAccounts} />
+      </div>
+      <div className="home-recent">
+        <div className="home-section-title"><p className="eyebrow">FROM THE DESK</p><h2>最近写下</h2></div>
+        <div className="home-recent-sections">{homepage.recentSections.filter(section => section.visible).map(section => section.id === 'featured' ?
+          (featured ? <Link href={contentPath(featured)} className="home-featured" key="featured">
+          <p className="home-featured-label">精选文章 <span aria-hidden="true">／</span> <time dateTime={featured.publishedAt}>{date(featured.publishedAt)}</time></p>
+          <h3>{featured.title}</h3>
+          {(featured.summary || firstSentence(featured.bodyMarkdown)) && <p className="home-featured-summary">
+            {featured.summary || firstSentence(featured.bodyMarkdown)}</p>}
+        </Link> : <div className="home-featured home-featured-empty" key="featured"><p className="home-featured-label">精选文章</p><h3>第一篇文章正在准备中。</h3><Link href="/writing">浏览文章列表 ↗</Link></div>)
+          : section.id === 'posts' ? <LatestPosts key="posts" items={posts.items} />
+            : <LatestWriting key="writing" items={writing.items.slice(1)} />)}</div>
+      </div>
+    </section>
+
+    {homepage.bottomSections.filter(section => section.visible).map(section => section.id === 'projects' ?
+    <section className="home-projects" aria-labelledby="projects-title" key="projects">
+      <div className="home-section-title"><p className="eyebrow">IN PROGRESS</p><h2 id="projects-title">最近在做</h2>
+        {settings.projectIntro && <p>{settings.projectIntro}</p>}</div>
+      <div className="home-project-grid">{projects.map((project, index) => <a className="home-project" key={`${project.href}-${index}`}
+        href={project.href} target={externalLink(project.href) ? '_blank' : undefined}
+        rel={externalLink(project.href) ? 'noopener noreferrer' : undefined}>
+        <div className="home-project-top"><h3>{project.name}</h3><span>{project.status}</span></div>
+        <p>{project.description}</p>
+      </a>)}</div>
+    </section>
+
+    : <aside className="home-numbers" aria-label="站点数据" key="stats">
+      <div><strong>{writing.total}</strong><span>写过的文章</span></div>
+      <div><strong>{posts.total}</strong><span>发布的帖子</span></div>
+      <div><strong>{projects.length}</strong><span>公开项目</span></div>
+    </aside>)}
   </main>
 }
