@@ -26,3 +26,9 @@ npm run dev
 - `src/features/articles/` 保留旧文章 API 类型；`src/features/contents/` 放 v0.2 内容、配置 API 与展示组件；其他业务功能以 `src/features/<feature>/` 扩展。
 - 页面从功能目录读取数据，不在页面中复制 `/api/v1` 请求逻辑；仅服务端访问 `RAYCHI_API_URL`。
 - `docs/` 放产品或技术说明；构建配置、环境示例和 CI 留在仓库根目录。
+
+## 搜索
+
+`/search` 使用 wellspring 的 `GET /api/v1/public/search`，支持关键词、article/post 筛选与 nextOffset 分页。配置服务端 `RAYCHI_API_URL`；禁止配置搜索内核 token 或让浏览器直连内核。页面按纯文本渲染结果，保留关键词和筛选，提供空状态、加载与独立搜索故障提示。
+
+接口契约：[wellspring 搜索 v1](https://github.com/raychi-space/wellspring/blob/main/docs/api/search-v1.md)。跨仓复现脚本及验收位于 raychi `scripts/search-e2e.ts` 与 `docs/search`。

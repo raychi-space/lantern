@@ -20,5 +20,6 @@ export function SiteNav({ configuredLinks }: { configuredLinks: SiteLink[] }) {
       return <Link key={link.href} href={link.href} aria-current={active ? 'page' : undefined}
         transitionTypes={direction} className={active ? 'active' : undefined}>{link.label}</Link>
     })}
+    <Link href="/search" aria-label="搜索文章和帖子" aria-current={pathname === "/search" ? "page" : undefined} className={pathname === "/search" ? "active" : undefined}>搜索</Link>
   </nav>
 }
