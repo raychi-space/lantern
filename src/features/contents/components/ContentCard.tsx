@@ -1,5 +1,6 @@
+import type { PublicContent } from '../types'
 import Link from 'next/link'
-import { contentPath, firstSentence, typeNames, type PublicContent } from './api'
+import { contentPath, firstSentence, typeNames } from '../api'
 
 const date = (value: string) => new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(value))
 

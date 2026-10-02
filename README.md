@@ -25,8 +25,8 @@ npm run dev
 ## 目录约束
 
 - `src/app/` 遵循 Next.js App Router 文件约定，放路由、布局、404 和全局样式。
-- `src/features/articles/` 保留旧文章 API 类型；`src/features/contents/` 放 v0.2 内容、配置 API 与展示组件；其他业务功能以 `src/features/<feature>/` 扩展。
-- 页面从功能目录读取数据，不在页面中复制 `/api/v1` 请求逻辑；仅服务端访问 `RAYCHI_API_URL`。
+- `src/features/articles/` 保留旧文章 API 类型；`src/features/contents/` 放 v0.2 内容与配置 API、独立 types.ts、components/ 展示组件及 index.ts 公开入口；首页和回顾的组合逻辑也在该功能目录中。其他业务功能以 `src/features/<feature>/` 扩展。
+- 导航和主题切换在 `src/shared/ui/`，导航数据类型在 `src/shared/types/`。页面从功能目录读取数据，不在页面中复制 `/api/v1` 请求逻辑；仅服务端访问 `RAYCHI_API_URL`。
 - `docs/` 放产品或技术说明；构建配置、环境示例和 CI 留在仓库根目录。
 
 ## 搜索
