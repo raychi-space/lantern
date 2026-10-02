@@ -1,5 +1,5 @@
 import { siGithub, siX, siBilibili, siYoutube, siZhihu, siJuejin, siXiaohongshu, siMastodon } from 'simple-icons'
-import type { SocialAccount } from './api'
+import type { SocialAccount } from '../types'
 
 const platforms = {
   github: { name: 'GitHub', path: siGithub.path },

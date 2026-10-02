@@ -1,4 +1,4 @@
-import { ContentList } from '@/features/contents/ContentPages'
+import { ContentList } from '@/features/contents'
 
 export default async function PostsPage({ searchParams }: { searchParams: Promise<{ page?: string; tag?: string }> }) {
   const params = await searchParams
