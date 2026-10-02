@@ -3,6 +3,7 @@ import { contents, contentPath, firstSentence, siteSettings, type PublicContent 
 import { externalLink, publicLinks } from '@/features/contents/links'
 import { SocialLinks } from '@/features/contents/SocialLinks'
 import { PageTransition } from '@/shared/ui/PageTransition'
+import { ContentCard } from '@/features/contents/ContentCard'
 
 const date = (value: string) => new Intl.DateTimeFormat('zh-CN', {
   timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long', day: 'numeric',
@@ -12,9 +13,8 @@ function LatestWriting({ items }: { items: PublicContent[] }) {
   return <section className="home-latest-group home-writings" aria-labelledby="recent-writing">
     <div className="home-list-heading"><h3 id="recent-writing">最近的文章</h3>
       <Link href="/writing" transitionTypes={['nav-forward']}>全部文章 <span aria-hidden="true">↗</span></Link></div>
-    {items.length ? <div className="home-writing-list">{items.map(item => <Link href={contentPath(item)} key={item.id} className="home-writing-item" transitionTypes={['nav-forward']}>
-      <time dateTime={item.publishedAt}>{date(item.publishedAt)}</time><strong>{item.title}</strong><span aria-hidden="true">↗</span>
-    </Link>)}</div> : <p className="home-list-empty">更多文章正在准备中。</p>}
+    {items.length ? <div className="article-list home-writing-list">{items.map(item => <ContentCard item={item} key={item.id} />)}</div>
+      : <p className="home-list-empty">更多文章正在准备中。</p>}
   </section>
 }
 
@@ -58,12 +58,8 @@ export default async function HomePage() {
       <div className="home-recent">
         <div className="home-section-title"><p className="eyebrow">FROM THE DESK</p><h2>最近写下</h2></div>
         <div className="home-recent-sections">{homepage.recentSections.filter(section => section.visible).map(section => section.id === 'featured' ?
-          (featured ? <Link href={contentPath(featured)} className="home-featured" key="featured" transitionTypes={['nav-forward']}>
-            <p className="home-featured-label">精选文章 <span aria-hidden="true">／</span> <time dateTime={featured.publishedAt}>{date(featured.publishedAt)}</time></p>
-            <h3>{featured.title}</h3>
-            {(featured.summary || firstSentence(featured.bodyMarkdown)) && <p className="home-featured-summary">
-              {featured.summary || firstSentence(featured.bodyMarkdown)}</p>}
-          </Link> : <div className="home-featured home-featured-empty" key="featured"><p className="home-featured-label">精选文章</p>
+          (featured ? <ContentCard item={featured} featured key="featured" />
+          : <div className="home-featured home-featured-empty" key="featured"><p className="home-featured-label">精选文章</p>
             <h3>第一篇文章正在准备中。</h3>
             <Link href="/writing" transitionTypes={['nav-forward']}>浏览文章列表 ↗</Link></div>)
           : section.id === 'posts' ? <LatestPosts key="posts" items={posts.items} />
