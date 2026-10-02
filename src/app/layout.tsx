@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { siteSettings } from '@/features/contents/api'
-import { publicLinks, externalLink } from '@/features/contents/links'
-import { SocialLinks } from '@/features/contents/SocialLinks'
-import { SiteNav } from './SiteNav'
-import { ThemeToggle } from './ThemeToggle'
+import { siteSettings, publicLinks, externalLink, SocialLinks } from '@/features/contents'
+import { SiteNav } from '@/shared/ui/SiteNav'
+import { ThemeToggle } from '@/shared/ui/ThemeToggle'
 import './globals.css'
 
 const themeInit = `try{if(localStorage.getItem('lantern-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}`

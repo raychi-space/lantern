@@ -1,7 +1,8 @@
+import type { PublicContent } from '../types'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { contentPath, firstSentence, type PublicContent } from './api'
+import { contentPath, firstSentence } from '../api'
 import { ChipLink } from '@/shared/ui/Chip'
 
 const month = new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long' })

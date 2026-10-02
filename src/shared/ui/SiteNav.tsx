@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { SiteLink } from '@/features/contents/api'
+import type { SiteLink } from '@/shared/types/navigation'
 
 const primaryPaths = ['/', '/posts', '/writing', '/archive']
 

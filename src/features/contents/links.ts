@@ -1,4 +1,4 @@
-import type { SiteLink } from './api'
+import type { SiteLink } from './types'
 
 export function publicLinks(links: SiteLink[]): SiteLink[] {
   return links.map(link => ({ label: link.label.trim(), href: link.href.trim() })).filter(link =>
