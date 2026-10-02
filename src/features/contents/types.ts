@@ -19,7 +19,10 @@ export type PublicContent = {
 export type Page<T> = { items: T[]; page: number; pageSize: number; total: number }
 export type SocialAccount = { platform: string; enabled: boolean; href: string }
 export type HomepageProject = { name: string; description: string; status: string; href: string }
-export type HomepageSection = { id: 'featured' | 'posts' | 'writing' | 'projects' | 'stats'; visible: boolean }
+export type HomepageSection = {
+  id: 'featured' | 'posts' | 'writing' | 'projects' | 'stats'
+  visible: boolean
+}
 export type HomepageSettings = {
   focus: string
   projects: HomepageProject[]

@@ -1,4 +1,12 @@
-export { contents, content, siteSettings, names, contentPath, typeNames, firstSentence } from './api'
+export {
+  contents,
+  content,
+  siteSettings,
+  names,
+  contentPath,
+  typeNames,
+  firstSentence,
+} from './api'
 export { publicLinks, externalLink } from './links'
 export { ContentList, ContentDetail } from './components/ContentPages'
 export { SocialLinks } from './components/SocialLinks'

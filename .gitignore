@@ -8,3 +8,5 @@ coverage/
 *.tsbuildinfo
 /tsconfig.tsbuildinfo
 *.log
+
+.next-audit/
