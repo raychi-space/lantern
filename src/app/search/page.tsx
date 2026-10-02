@@ -30,7 +30,7 @@ export default async function SearchPage({
           <h1>搜索</h1>
           <p>寻找文章和帖子中的文字。</p>
         </header>
-        <form action="/search" className="search-form">
+        <form action={`${process.env.RAYCHI_BASE_PATH ?? ''}/search`} className="search-form">
           <label htmlFor="search-q" className="sr-only">
             搜索关键词
           </label>
