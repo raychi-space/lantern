@@ -51,7 +51,7 @@ export async function ContentDetail({ type, slug }: { type: ContentType; slug: s
   if (type === 'POST') return <PageTransition><main className="inner-page post-detail-page">
     <h1 className="sr-only">{item.title || '帖子'}</h1>
     <Link href="/posts" className="back-link" transitionTypes={['nav-back']}>← 返回帖子时间线</Link>
-    <PostTimeline items={[item]} showPermalink={false} />
+    <PostTimeline items={[item]} linkToDetail={false} />
   </main></PageTransition>
   return <PageTransition><main className="article-page">
     <Link href={info.path} className="back-link" transitionTypes={['nav-back']}>← 返回{info.title}</Link>

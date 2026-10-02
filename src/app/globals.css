@@ -357,8 +357,13 @@ a.home-featured:hover h3 { color: var(--gold-hi) }
 .post-body code { overflow-wrap: anywhere }
 .timeline-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 24px; font-size: 12px }
 .post-tags { display: flex; gap: 10px; flex-wrap: wrap }
-.post-permalink { margin-left: auto; color: var(--gold); font-weight: 600 }
-.post-permalink:hover { text-decoration: underline; text-underline-offset: 4px }
+.post-entry-text { position: relative }
+.post-text-link::after { content: ""; position: absolute; inset: -6px -10px; z-index: 1; cursor: pointer; transition: background .18s }
+.post-text-link:hover::after { background: rgba(233, 197, 121, .04) }
+.post-text-link:focus-visible { outline: none }
+.post-text-link:focus-visible::after { outline: 1px solid var(--gold); outline-offset: 3px }
+/* Markdown links keep their own destinations above the entry's detail link. */
+.post-entry-text.linked .post-body a { position: relative; z-index: 2 }
 .post-detail-page { max-width: 1120px; margin: 0 auto }
 .post-detail-page .back-link { display: inline-block; margin-bottom: 14px }
 .post-detail-page .timeline { margin-top: 40px }
