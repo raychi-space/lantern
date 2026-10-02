@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { content } from '@/features/contents/api'
+import { content } from '@/features/contents'
 import { PageTransition } from '@/shared/ui/PageTransition'
 
 type Props = { params: Promise<{ slug: string }> }
