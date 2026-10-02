@@ -37,7 +37,7 @@ export async function ContentList({ type, page, category, tag }: { type: Content
     </div>}
     {type === 'POST' && tag && <div className="post-active-tag"><span>正在查看 #{tag}</span><Link href="/posts">查看全部帖子 ×</Link></div>}
     {result.items.length ? type === 'POST' ? <PostTimeline items={result.items} />
-      : <div className="feed-grid">{result.items.map(item => <ContentCard item={item} key={item.id} />)}</div>
+      : <div className="article-list">{result.items.map((item, index) => <ContentCard item={item} featured={index === 0} key={item.id} />)}</div>
       : <EmptyState>这里暂时还没有已发布内容。</EmptyState>}
     <Pagination prev={page > 1 ? query(page - 1) : undefined}
       next={page * result.pageSize < result.total ? query(page + 1) : undefined} />

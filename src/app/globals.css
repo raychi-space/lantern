@@ -263,7 +263,7 @@ a.home-featured:hover h3 { color: var(--gold-hi) }
 .home-featured-empty > a { display: inline-flex; gap: 13px; margin-top: 27px; color: var(--gold); font-size: 13px; font-weight: 700 }
 .home-featured-empty > a:hover { text-decoration: underline; text-underline-offset: 4px }
 .home-featured-empty h3 { font-size: 27px }
-.home-recent-sections { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 36px; row-gap: 34px }
+.home-recent-sections { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 36px; row-gap: 34px }
 .home-recent-sections > .home-featured { grid-column: 1 / -1 }
 .home-latest-group { min-width: 0 }
 .home-list-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line) }
@@ -275,7 +275,8 @@ a.home-featured:hover h3 { color: var(--gold-hi) }
 .home-writing-item strong { font-family: var(--serif); font-size: 17px; font-weight: 500; line-height: 1.45; transition: color .18s }
 .home-writing-item > span { align-self: center; color: var(--gold); font-size: 13px }
 .home-writing-item:hover strong { color: var(--gold-hi) }
-.home-post-item { display: block; padding: 14px 0 17px; border-bottom: 1px solid var(--line-soft); transition: background .18s }
+.home-post-item { display: block; position: relative; padding: 14px 0 17px 22px; border: 0; background: transparent; border-radius: 0; transition: background .18s }
+.home-post-item::before { content: ""; position: absolute; left: 2px; top: 21px; width: 5px; height: 5px; border-radius: 50%; background: var(--gold) }
 .home-post-item:hover, .home-post-item:focus-visible { background: rgba(233, 197, 121, .04); outline: none }
 .home-post-item time { color: var(--faint); font-size: 11px }
 .home-post-item h4 { margin: 8px 0 0; font-size: 15px; font-weight: 700 }
@@ -308,18 +309,28 @@ a.home-featured:hover h3 { color: var(--gold-hi) }
 .page-intro > p:last-child a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px }
 .post-active-tag { display: flex; gap: 18px; align-items: center; margin: 0 0 22px; color: var(--muted); font-size: 13px }
 .post-active-tag a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px }
-.feed-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px }
-.feed-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; min-width: 0 }
-.cover { display: block; aspect-ratio: 16 / 9; background: var(--night-2); border-bottom: 1px solid var(--line) }
-.cover img { width: 100%; height: 100%; object-fit: cover }
-.default-cover { height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 18px; background: linear-gradient(135deg, #1b2649, #0f1730) }
-.default-cover > span { font-size: 40px; line-height: 1; color: var(--gold); text-shadow: 0 0 20px rgba(233, 197, 121, .4) }
-.default-cover strong { color: var(--ink); font-family: var(--serif); font-size: 18px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
-.feed-content { padding: 24px; display: flex; flex-direction: column; flex: 1 }
-.content-meta { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: .05em }
-.feed-card h3 { font-family: var(--serif); font-size: 25px; font-weight: 500; line-height: 1.4; margin: 12px 0; transition: color .18s }
-a.feed-card:hover h3 { color: var(--gold-hi) }
-.feed-card p { color: var(--muted); line-height: 1.7; font-size: 14px; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden }
+/* A single image-led entry followed by compact text-only rows. */
+.article-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px }
+.article-row { display: block; min-width: 0; border: 0; border-left: 2px solid var(--line-strong); border-radius: 0; background: transparent; transition: background .18s, border-color .18s }
+.article-row:hover, .article-row:focus-visible { background: var(--gold-dim); border-left-color: var(--gold) }
+.article-row:focus-visible { outline: 2px solid var(--gold); outline-offset: 5px }
+.article-row-featured { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 7fr) }
+.article-cover { display: block; min-height: 210px; height: 100%; background: var(--night-2); overflow: hidden }
+.article-cover img { display: block; width: 100%; height: 100%; object-fit: cover }
+.article-cover-fallback { display: grid; place-items: center; height: 100%; color: var(--gold); font-size: 64px; background: var(--gold-dim) }
+.article-row-copy { min-width: 0; padding: 22px 28px }
+.article-row h3 { font-family: var(--serif); font-size: 25px; font-weight: 500; line-height: 1.4; margin: 0; overflow-wrap: anywhere; transition: color .18s }
+.article-row-featured h3 { font-size: clamp(28px, 3vw, 40px) }
+.article-row:hover h3 { color: var(--gold-hi) }
+.article-row-meta { display: flex; flex-wrap: wrap; gap: 9px 18px; color: var(--faint); font-size: 12px; margin-top: 12px }
+.article-row-meta > span { color: var(--gold) }
+.article-row p { color: var(--muted); line-height: 1.75; font-size: 14px; margin: 13px 0 0; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden }
+.home-recent-sections > .article-row { grid-column: 1 / -1 }
+.home-writing-list { gap: 14px; margin-top: 18px }
+.home-writing-list .article-row-copy { padding: 14px 18px }
+.home-writing-list h3 { font-size: 21px }
+.home-writing-list .article-row-meta { font-size: 11px; margin-top: 9px }
+.home-writing-list p { font-size: 13px; margin-top: 9px }
 
 /* ---------- 帖子时间线 ---------- */
 .timeline { position: relative; max-width: 900px; margin-top: 40px }
@@ -330,13 +341,13 @@ a.feed-card:hover h3 { color: var(--gold-hi) }
 .timeline-month { margin: 0 0 30px; color: var(--gold); font-family: var(--serif); font-size: 21px; font-weight: 500 }
 .timeline-entry { position: relative; display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 50px; padding: 0 0 50px }
 .timeline-entry::before {
-  content: ""; position: absolute; left: 113px; top: 34px; width: 13px; height: 13px; border-radius: 50%;
-  background: var(--gold); box-shadow: 0 0 0 5px rgba(233, 197, 121, .12), 0 0 14px rgba(233, 197, 121, .55);
+  content: ""; position: absolute; left: 116px; top: 8px; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold);
 }
-.timeline-date { display: grid; gap: 5px; align-content: start; padding-top: 26px; text-align: right; color: var(--faint); font-size: 12px }
+.timeline-date { display: grid; gap: 5px; align-content: start; padding-top: 0; text-align: right; color: var(--faint); font-size: 12px }
 .timeline-date strong { color: var(--gold-hi); font-family: var(--serif); font-size: 23px; font-weight: 500; line-height: 1 }
-.timeline-card { padding: 26px 30px }
-.timeline-card h3 { margin: 0 0 14px; font-family: var(--serif); font-size: 24px; font-weight: 500; line-height: 1.4 }
+.timeline-content { min-width: 0; padding: 0; border: 0; border-radius: 0; background: transparent }
+.timeline-content h3 { margin: 0 0 14px; font-family: var(--serif); font-size: 24px; font-weight: 500; line-height: 1.4 }
 .post-body { color: var(--body-ink); font-size: 16px; line-height: 1.9; overflow-wrap: anywhere }
 .post-body > *:first-child { margin-top: 0 }
 .post-body > *:last-child { margin-bottom: 0 }
@@ -405,7 +416,6 @@ a.feed-card:hover h3 { color: var(--gold-hi) }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 1000px) {
-  .feed-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
   .main-nav { gap: 20px }
 }
 @media (max-width: 900px) {
@@ -443,16 +453,19 @@ a.feed-card:hover h3 { color: var(--gold-hi) }
   .inner-page { padding: 60px 25px 90px }
   .page-intro { margin-bottom: 45px }
   .page-intro h1 { font-size: 58px }
-  .feed-grid { grid-template-columns: 1fr }
+  .article-row-featured { grid-template-columns: minmax(0, 1fr) }
+  .article-cover { min-height: 0; height: 170px }
+  .article-row-copy { padding: 19px 20px }
+  .article-row h3 { font-size: 24px }
+  .article-row-featured h3 { font-size: 30px }
   .timeline { margin-top: 26px }
   .timeline::before { left: 8px; top: 40px }
   .timeline-month { margin-bottom: 21px; padding-left: 32px; font-size: 19px }
   .timeline-entry { display: block; padding: 0 0 38px 32px }
-  .timeline-entry::before { left: 2px; top: 5px }
+  .timeline-entry::before { left: 5px; top: 5px }
   .timeline-date { display: flex; gap: 9px; align-items: baseline; padding: 0 0 15px; text-align: left }
   .timeline-date strong { font-size: 20px }
-  .timeline-card { padding: 20px 22px }
-  .timeline-card h3 { font-size: 21px }
+  .timeline-content h3 { font-size: 21px }
   .post-body { font-size: 15px }
   .article-page { padding: 50px 25px 90px }
   .article-heading { margin: 70px 0 45px }
