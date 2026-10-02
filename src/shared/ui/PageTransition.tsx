@@ -9,5 +9,9 @@ const animation = {
 } as const
 
 export function PageTransition({ children }: { children: ReactNode }) {
-  return <ViewTransition enter={animation} exit={animation} default="none">{children}</ViewTransition>
+  return (
+    <ViewTransition enter={animation} exit={animation} default="none">
+      {children}
+    </ViewTransition>
+  )
 }
