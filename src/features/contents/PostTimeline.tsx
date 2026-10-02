@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { contentPath, type PublicContent } from './api'
-import { Card } from '@/shared/ui/Card'
 import { ChipLink } from '@/shared/ui/Chip'
 
 const month = new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long' })
@@ -20,7 +19,7 @@ export function PostTimeline({ items, showPermalink = true }: { items: PublicCon
       {showMonth && <h2 className="timeline-month">{label}</h2>}
       <article className="timeline-entry">
         <time dateTime={item.publishedAt} className="timeline-date"><strong>{day.format(published)}</strong><span>{clock.format(published)}</span></time>
-        <Card className="timeline-card">
+        <div className="timeline-content">
           {item.title && <h3>{item.title}</h3>}
           <div className="post-body"><Markdown remarkPlugins={[remarkGfm]} components={{ img: () => null }}>{item.bodyMarkdown ?? ''}</Markdown></div>
           {(item.tags.length > 0 || showPermalink) && <div className="timeline-footer">
@@ -28,7 +27,7 @@ export function PostTimeline({ items, showPermalink = true }: { items: PublicCon
               <ChipLink href={`/posts?tag=${encodeURIComponent(tag)}`} key={tag}>#{tag}</ChipLink>)}</div>}
             {showPermalink && <Link href={contentPath(item)} className="post-permalink" transitionTypes={['nav-forward']}>独立链接 ↗</Link>}
           </div>}
-        </Card>
+        </div>
       </article>
     </div>
   })}</div>

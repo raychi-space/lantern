@@ -1,15 +1,17 @@
 import Link from 'next/link'
-import { contentPath, typeNames, type PublicContent } from './api'
+import { contentPath, firstSentence, typeNames, type PublicContent } from './api'
 
-const date = (value: string) => new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(value))
+const date = (value: string) => new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(value))
 
-export function ContentCard({ item }: { item: PublicContent }) {
+export function ContentCard({ item, featured = false }: { item: PublicContent; featured?: boolean }) {
   const path = contentPath(item)
-  return <Link className="card feed-card" href={path} transitionTypes={['nav-forward']}>
-    <span className="cover">
-      {item.coverUrl ? <img src={item.coverUrl} alt="" /> : <span className="default-cover"><span aria-hidden="true">✳</span><strong>{item.title}</strong></span>}
-    </span>
-    <div className="feed-content"><span className="content-meta">{typeNames[item.type]} · {date(item.publishedAt)}</span>
-      <h3>{item.title}</h3>{item.summary && <p>{item.summary}</p>}</div>
+  const summary = item.summary || firstSentence(item.bodyMarkdown)
+  return <Link className={`article-row${featured ? ' article-row-featured' : ''}`} href={path} transitionTypes={['nav-forward']}>
+    {featured && <span className="article-cover" aria-hidden="true">
+      {item.coverUrl ? <img src={item.coverUrl} alt="" /> : <span className="article-cover-fallback">✳</span>}
+    </span>}
+    <div className="article-row-copy"><h3>{item.title}</h3>
+      <div className="article-row-meta"><span>{item.category || typeNames[item.type]}</span><time dateTime={item.publishedAt}>{date(item.publishedAt)}</time></div>
+      {summary && <p>{summary}</p>}</div>
   </Link>
 }
