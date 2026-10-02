@@ -1,6 +1,5 @@
+import { ArticleDetail } from './ArticleDetail'
 import Link from 'next/link'
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { notFound } from 'next/navigation'
 import { ContentCard } from './ContentCard'
 import { PostTimeline } from './PostTimeline'
@@ -16,7 +15,17 @@ const labels = {
   POST: { title: '帖子', intro: '按时间写下的短记录。', path: '/posts' },
 }
 
-export async function ContentList({ type, page, category, tag }: { type: ContentType; page: number; category?: string; tag?: string }) {
+export async function ContentList({
+  type,
+  page,
+  category,
+  tag,
+}: {
+  type: ContentType
+  page: number
+  category?: string
+  tag?: string
+}) {
   const [result, categoryNames, tagNames] = await Promise.all([
     contents({ type, page, pageSize: 12, category, tag }),
     type === 'POST' ? Promise.resolve([]) : names('categories'),
@@ -29,39 +38,82 @@ export async function ContentList({ type, page, category, tag }: { type: Content
     if (tag) params.set('tag', tag)
     return `${info.path}?${params}`
   }
-  return <PageTransition><main className="inner-page">
-    <header className="page-intro"><p className="eyebrow">{type}</p><h1>{info.title}</h1><p>{info.intro}</p></header>
-    {(categoryNames.length > 0 || tagNames.length > 0) && <div className="chip-row">
-      <ChipLink href={info.path} active={!category && !tag}>全部</ChipLink>
-      {categoryNames.map(name => <ChipLink href={`${info.path}?category=${encodeURIComponent(name)}`} active={category === name} key={name}>{name}</ChipLink>)}
-      {tagNames.map(name => <ChipLink href={`${info.path}?tag=${encodeURIComponent(name)}`} active={tag === name} key={name}>#{name}</ChipLink>)}
-    </div>}
-    {type === 'POST' && tag && <div className="post-active-tag"><span>正在查看 #{tag}</span><Link href="/posts">查看全部帖子 ×</Link></div>}
-    {result.items.length ? type === 'POST' ? <PostTimeline items={result.items} />
-      : <div className="article-list">{result.items.map((item, index) => <ContentCard item={item} featured={index === 0} key={item.id} />)}</div>
-      : <EmptyState>这里暂时还没有已发布内容。</EmptyState>}
-    <Pagination prev={page > 1 ? query(page - 1) : undefined}
-      next={page * result.pageSize < result.total ? query(page + 1) : undefined} />
-  </main></PageTransition>
+  return (
+    <PageTransition>
+      <main className="inner-page">
+        <header className="page-intro">
+          <p className="eyebrow">{type}</p>
+          <h1>{info.title}</h1>
+          <p>{info.intro}</p>
+        </header>
+        {(categoryNames.length > 0 || tagNames.length > 0) && (
+          <div className="chip-row">
+            <ChipLink href={info.path} active={!category && !tag}>
+              全部
+            </ChipLink>
+            {categoryNames.map((name) => (
+              <ChipLink
+                href={`${info.path}?category=${encodeURIComponent(name)}`}
+                active={category === name}
+                key={name}
+              >
+                {name}
+              </ChipLink>
+            ))}
+            {tagNames.map((name) => (
+              <ChipLink
+                href={`${info.path}?tag=${encodeURIComponent(name)}`}
+                active={tag === name}
+                key={name}
+              >
+                #{name}
+              </ChipLink>
+            ))}
+          </div>
+        )}
+        {type === 'POST' && tag && (
+          <div className="post-active-tag">
+            <span>正在查看 #{tag}</span>
+            <Link href="/posts">查看全部帖子 ×</Link>
+          </div>
+        )}
+        {result.items.length ? (
+          type === 'POST' ? (
+            <PostTimeline items={result.items} />
+          ) : (
+            <div className="article-list">
+              {result.items.map((item, index) => (
+                <ContentCard item={item} featured={index === 0} key={item.id} />
+              ))}
+            </div>
+          )
+        ) : (
+          <EmptyState>这里暂时还没有已发布内容。</EmptyState>
+        )}
+        <Pagination
+          prev={page > 1 ? query(page - 1) : undefined}
+          next={page * result.pageSize < result.total ? query(page + 1) : undefined}
+        />
+      </main>
+    </PageTransition>
+  )
 }
 
 export async function ContentDetail({ type, slug }: { type: ContentType; slug: string }) {
   const item = await content(type, slug)
   if (!item) notFound()
   const info = labels[type]
-  if (type === 'POST') return <PageTransition><main className="inner-page post-detail-page">
-    <h1 className="sr-only">{item.title || '帖子'}</h1>
-    <Link href="/posts" className="back-link" transitionTypes={['nav-back']}>← 返回帖子时间线</Link>
-    <PostTimeline items={[item]} linkToDetail={false} />
-  </main></PageTransition>
-  return <PageTransition><main className="article-page">
-    <Link href={info.path} className="back-link" transitionTypes={['nav-back']}>← 返回{info.title}</Link>
-    <header className="article-heading"><p className="eyebrow">{info.title}</p>
-      {item.title && <h1>{item.title}</h1>}
-      <div className="article-meta"><time dateTime={item.publishedAt}>{new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.publishedAt))}</time>
-        {item.category && <Link href={`${info.path}?category=${encodeURIComponent(item.category)}`}>{item.category}</Link>}
-        {item.tags.map(tag => <Link key={tag} href={`${info.path}?tag=${encodeURIComponent(tag)}`}>#{tag}</Link>)}</div></header>
-    <article className="prose"><Markdown remarkPlugins={[remarkGfm]} components={{ img: () => null }}>{item.bodyMarkdown ?? ''}</Markdown></article>
-    <div className="article-end"><span>✳</span><p>感谢读到这里。</p><Link href={info.path} transitionTypes={['nav-back']}>继续阅读 →</Link></div>
-  </main></PageTransition>
+  if (type === 'POST')
+    return (
+      <PageTransition>
+        <main className="inner-page post-detail-page">
+          <h1 className="sr-only">{item.title || '帖子'}</h1>
+          <Link href="/posts" className="back-link" transitionTypes={['nav-back']}>
+            ← 返回帖子时间线
+          </Link>
+          <PostTimeline items={[item]} linkToDetail={false} />
+        </main>
+      </PageTransition>
+    )
+  return <ArticleDetail item={item} />
 }

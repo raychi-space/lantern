@@ -34,3 +34,9 @@ npm run dev
 `/search` 使用 wellspring 的 `GET /api/v1/public/search`，支持关键词、article/post 筛选与 nextOffset 分页。配置服务端 `RAYCHI_API_URL`；禁止配置搜索内核 token 或让浏览器直连内核。页面按纯文本渲染结果，保留关键词和筛选，提供空状态、加载与独立搜索故障提示。
 
 接口契约：[wellspring 搜索 v1](https://github.com/raychi-space/wellspring/blob/main/docs/api/search-v1.md)。跨仓复现脚本及验收位于 raychi `scripts/search-e2e.ts` 与 `docs/search`。
+
+## 代码与故障回归（2026-10-03）
+
+`npm run lint` 检查功能和 shared 依赖边界；`npm run format:check` 检查统一排版，`npm run format` 修复排版。CI 执行上述检查。网站级 HTTP 回归脚本位于 raychi 的 `scripts/site-e2e.py`，只允许显式确认的隔离环境；运行方式见项目的完整网站验收文档。
+
+回顾页每栏最多 50 条，文章/帖子分页和排序各自独立；后端先排序再分页，不再读取全部归档。公开内容请求有 5 秒超时；页面和根布局故障提供重新加载入口。生产验证可设置 `RAYCHI_BUILD_DIR=.next-audit` 使用独立构建目录，构建与启动必须使用相同目录和 API 地址。
