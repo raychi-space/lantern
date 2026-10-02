@@ -106,7 +106,7 @@ export async function HomePage() {
             {socialLinks.length > 0 && (
               <div className="home-socials" aria-label="社交账号与外部链接">
                 {socialLinks.map((link) => (
-                  <a
+                  <Link
                     key={`${link.label}-${link.href}`}
                     href={link.href}
                     target={externalLink(link.href) ? '_blank' : undefined}
@@ -114,7 +114,7 @@ export async function HomePage() {
                   >
                     {link.label}
                     <span aria-hidden="true">↗</span>
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
@@ -164,7 +164,7 @@ export async function HomePage() {
                   </div>
                   <div className="home-project-grid">
                     {projects.map((project, index) => (
-                      <a
+                      <Link
                         className="home-project"
                         key={`${project.href}-${index}`}
                         href={project.href}
@@ -176,7 +176,7 @@ export async function HomePage() {
                           <span>{project.status}</span>
                         </div>
                         <p>{project.description}</p>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </section>
