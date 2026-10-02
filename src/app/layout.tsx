@@ -51,14 +51,14 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             </span>
             <div className="footer-links">
               {footerLinks.map((link) => (
-                <a
+                <Link
                   key={`${link.label}-${link.href}`}
                   href={link.href}
                   target={externalLink(link.href) ? '_blank' : undefined}
                   rel={externalLink(link.href) ? 'noopener noreferrer' : undefined}
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <SocialLinks accounts={settings.socialAccounts} />
             </div>
