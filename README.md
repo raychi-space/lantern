@@ -40,3 +40,7 @@ npm run dev
 `npm run lint` 检查功能和 shared 依赖边界；`npm run format:check` 检查统一排版，`npm run format` 修复排版。CI 执行上述检查。网站级 HTTP 回归脚本位于 raychi 的 `scripts/site-e2e.py`，只允许显式确认的隔离环境；运行方式见项目的完整网站验收文档。
 
 回顾页每栏最多 50 条，文章/帖子分页和排序各自独立；后端先排序再分页，不再读取全部归档。公开内容请求有 5 秒超时；页面和根布局故障提供重新加载入口。生产验证可设置 `RAYCHI_BUILD_DIR=.next-audit` 使用独立构建目录，构建与启动必须使用相同目录和 API 地址。
+
+## 子路径独立部署
+
+保留既有网站时，可在构建与启动阶段设置 `RAYCHI_BASE_PATH=/raychi`。导航与搜索表单均使用该前缀；接口与上传图片仍由同源 `/api/v1/` 提供，需配置代理。`RAYCHI_STANDALONE=1` 生成 Next standalone 服务目录；复制 `.next/static` 与 public 到该目录后，通过 Node server.js 启动。前缀在构建时固定，修改后须重新构建。未设置时保留根路径部署。
