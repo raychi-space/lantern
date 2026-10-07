@@ -1,6 +1,6 @@
 # Raychi v0.2 · lantern 公开站任务说明
 
-状态：待实现；[模块 Issue #2](https://github.com/raychi-space/lantern/issues/2)，[跨仓主 Issue #1](https://github.com/raychi-space/raychi/issues/1)。项目级产品依据见 [Raychi 产品需求 v0.2](https://github.com/raychi-space/raychi/blob/main/docs/product-v0.2.md)；当前公开站仍仅实现首页和长文列表/详情。本文只列公开站职责，不定义 HTTP 字段或后端状态规则。
+本文保留早期任务范围；对应[模块 Issue #2](https://github.com/raychi-space/lantern/issues/2)及已完成的[跨仓主 Issue #1](https://github.com/raychi-space/raychi/issues/1)。项目级产品依据见 [Raychi 产品需求 v0.2](https://github.com/raychi-space/raychi/blob/main/docs/product-v0.2.md)。后续公开内容已收敛为文章和帖子，增加归档与搜索，阅读布局也已迭代；当前路由与行为以 [README](../README.md)为准，下文不是当前功能进度或使用说明。
 
 ## 访客路径
 
