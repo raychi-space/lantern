@@ -1,3 +1,4 @@
+import { PublicPageView } from '@/shared/ui/PublicPageView'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -8,6 +9,7 @@ export function ArticleDetail({ item }: { item: PublicContent }) {
   return (
     <PageTransition>
       <main className="article-page">
+        <PublicPageView path={`/writing/${item.slug}`} />
         <Link href="/writing" className="back-link" transitionTypes={['nav-back']}>
           ← 返回文章
         </Link>

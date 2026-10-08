@@ -1,3 +1,4 @@
+import { PublicPageView } from '@/shared/ui/PublicPageView'
 import Link from 'next/link'
 import { contents, contentPath, firstSentence, siteSettings } from '../api'
 import type { PublicContent } from '../types'
@@ -81,6 +82,7 @@ export async function HomePage() {
   return (
     <PageTransition>
       <main className="home-page">
+        <PublicPageView path="/" />
         <section className="home-intro-grid" aria-label="站主介绍与最近内容">
           <div className="home-profile">
             {settings.avatarUrl ? (

@@ -1,3 +1,4 @@
+import { PublicPageView } from '@/shared/ui/PublicPageView'
 import Link from 'next/link'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { pageMetadata } from '@/features/contents'
@@ -10,6 +11,7 @@ export default function MorePage() {
   return (
     <PageTransition>
       <main className="inner-page">
+        <PublicPageView path="/more" />
         <div className="page-intro">
           <p className="eyebrow">MORE</p>
           <h1>更多</h1>
