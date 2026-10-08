@@ -7,7 +7,7 @@ import { siteOrigin, siteUrl } from '@/shared/seo/site-url'
 import './globals.css'
 import { AnalyticsPreference } from '@/shared/ui/AnalyticsPreference'
 
-const themeInit = `try{if(localStorage.getItem('lantern-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}`
+const themeInit = `try{if(localStorage.getItem('lantern-theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await siteSettings()
@@ -30,12 +30,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <div className="site-shell">
-          <div className="night-sky" aria-hidden="true">
-            <div className="nebula nebula-gold" />
-            <div className="nebula nebula-blue" />
-            <div className="stars stars-a" />
-            <div className="stars stars-b" />
-          </div>
+          <div className="paper-texture" aria-hidden="true" />
           <header className="site-header">
             <div className="header-inner">
               <Link href="/" className="site-logo" aria-label={`${settings.siteName} 首页`}>

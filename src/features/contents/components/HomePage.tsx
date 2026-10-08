@@ -1,11 +1,14 @@
 import { PublicPageView } from '@/shared/ui/PublicPageView'
 import Link from 'next/link'
+import Image from 'next/image'
+import headphoneGirlAvatar from '@/shared/assets/headphone-girl-avatar.webp'
 import { contents, contentPath, firstSentence, siteSettings } from '../api'
 import type { PublicContent } from '../types'
 import { externalLink, publicLinks } from '../links'
 import { SocialLinks } from './SocialLinks'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { ContentCard } from './ContentCard'
+import { PaperScene } from '@/shared/ui/PaperScene'
 
 const date = (value: string) =>
   new Intl.DateTimeFormat('zh-CN', {
@@ -92,9 +95,12 @@ export async function HomePage() {
                 alt={`${settings.siteName}头像`}
               />
             ) : (
-              <span className="home-avatar home-avatar-default" aria-hidden="true">
-                ✳
-              </span>
+              <Image
+                className="home-avatar"
+                src={headphoneGirlAvatar}
+                alt={`${settings.siteName}头像：戴耳机的少女与诗人工作室`}
+                sizes="(max-width: 650px) 104px, 128px"
+              />
             )}
             <p className="home-kicker">一个人的工作室</p>
             <h1>{settings.siteName}</h1>
@@ -121,6 +127,10 @@ export async function HomePage() {
               </div>
             )}
             <SocialLinks accounts={settings.socialAccounts} />
+            <figure className="home-illustration">
+              <PaperScene />
+              <figcaption>在日常的缝隙里，留一点时间给自己。</figcaption>
+            </figure>
           </div>
           <div className="home-recent">
             <div className="home-section-title">
