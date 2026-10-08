@@ -1,4 +1,12 @@
-import { ContentList } from '@/features/contents'
+import { ContentList, listMetadata } from '@/features/contents'
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; category?: string; tag?: string }>
+}) {
+  return listMetadata('ARTICLE', await searchParams)
+}
 
 export default async function WritingPage({
   searchParams,

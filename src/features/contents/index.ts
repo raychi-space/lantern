@@ -23,3 +23,5 @@ export type {
   HomepageSettings,
   SiteSettings,
 } from './types'
+export { pageMetadata, contentMetadata, listMetadata } from './metadata'
+export { sitemapIndex, sitemapPage, rssFeed } from './syndication'
