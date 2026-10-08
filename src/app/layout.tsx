@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { siteSettings, publicLinks, externalLink, SocialLinks } from '@/features/contents'
 import { SiteNav } from '@/shared/ui/SiteNav'
 import { ThemeToggle } from '@/shared/ui/ThemeToggle'
+import { siteOrigin, siteUrl } from '@/shared/seo/site-url'
 import './globals.css'
 
 const themeInit = `try{if(localStorage.getItem('lantern-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}`
@@ -10,8 +11,10 @@ const themeInit = `try{if(localStorage.getItem('lantern-theme')==='light')docume
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await siteSettings()
   return {
+    metadataBase: siteOrigin(),
     title: { default: `${settings.siteName} · 个人空间`, template: `%s · ${settings.siteName}` },
     description: settings.intro,
+    alternates: { types: { 'application/rss+xml': siteUrl('/feed.xml') } },
   }
 }
 
@@ -61,6 +64,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 </Link>
               ))}
               <SocialLinks accounts={settings.socialAccounts} />
+              <Link href="/feed.xml" prefetch={false}>
+                RSS 订阅
+              </Link>
             </div>
           </footer>
         </div>
