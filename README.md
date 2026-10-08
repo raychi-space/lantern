@@ -39,7 +39,7 @@ npm run dev
 
 公开页面有独立标题、描述、canonical、Open Graph/Twitter；`/robots.txt`、动态分页 `/sitemap.xml` 和 `/feed.xml` 已实现。RSS 提供最近50条文章/帖子的摘要和详情链接，包含自动发现和页脚入口；草稿不进入，撤回/删除在下次请求移除。搜索、筛选页面及管理台不收录。
 
-`RAYCHI_SITE_URL` 配置公开 HTTP(S) 域名原点，不含路径，默认 `https://dev.raychi.site`；与 `RAYCHI_BASE_PATH` 组合生成绝对链接，不读取 Host。线上开发域名的代理仍保留整体 noindex，正式启用索引须配套调整代理。详见[SEO/RSS 说明](docs/seo-rss.md)。
+`RAYCHI_SITE_URL` 配置公开 HTTP(S) 域名原点，不含路径，默认 `https://dev.raychi.site`；与 `RAYCHI_BASE_PATH` 组合生成绝对链接，不读取 Host。本次按用户要求配套开放开发域名公开页面收录，管理台、搜索与 API 继续排除。详见[SEO/RSS 说明](docs/seo-rss.md)。
 
 ## 代码与故障回归（2026-10-03）
 

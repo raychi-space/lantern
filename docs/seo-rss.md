@@ -8,7 +8,7 @@
 
 `RAYCHI_SITE_URL` 是运行时 HTTP(S) 域名原点，不包含路径、查询或凭证；默认 `https://dev.raychi.site`，本机 `.env.example` 为 `http://127.0.0.1:3000`。公开页面链接加构建固定的 `RAYCHI_BASE_PATH`，不信任请求 Host。图片 API 地址仍在域名根目录。修改正式域名时调整运行时配置即可；修改子路径需要重新构建。
 
-当前 dev 域名在 Nginx 整体设置 X-Robots-Tag noindex,nofollow，继续保留开发站不收录策略。正式站要开放收录时需与页面 metadata、代理规则一致；代码提供 SEO 信息不等于搜索引擎已收录。
+用户明确要求开放 dev 域名收录，本次发布配套移除公开路由的 Nginx 全局 noindex；管理台、搜索和 API 保留排除。正式域名切换时调整公开URL配置及代理；提供 SEO 信息不等于搜索引擎已收录。
 
 ## 站点地图
 
