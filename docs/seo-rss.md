@@ -8,11 +8,11 @@
 
 `RAYCHI_SITE_URL` 是运行时 HTTP(S) 域名原点，不包含路径、查询或凭证；默认 `https://dev.raychi.site`，本机 `.env.example` 为 `http://127.0.0.1:3000`。公开页面链接加构建固定的 `RAYCHI_BASE_PATH`，不信任请求 Host。图片 API 地址仍在域名根目录。修改正式域名时调整运行时配置即可；修改子路径需要重新构建。
 
-用户明确要求开放 dev 域名收录，本次发布配套移除公开路由的 Nginx 全局 noindex；管理台、搜索和 API 保留排除。正式域名切换时调整公开URL配置及代理；提供 SEO 信息不等于搜索引擎已收录。
+用户明确要求开放 dev 域名收录，本次发布配套移除公开路由的 Nginx 全局 noindex；管理台、搜索和 API 保留排除，已发布公开图片允许抓取。正式域名切换时调整公开URL配置及代理；提供 SEO 信息不等于搜索引擎已收录。
 
 ## 站点地图
 
-`/robots.txt` 指向 `/sitemap.xml` 并禁止抓取 API，允许抓取搜索及管理入口以读取其 noindex；robots 不承担内容授权。管理台 HTML 本身由 inkwell 标记 noindex,nofollow，线上代理也已有对应响应头。
+`/robots.txt` 指向 `/sitemap.xml` 并禁止抓取 API，但更具体的 /api/v1/public/assets/ 允许抓取公开图片以生成分享封面；图片仍按发布快照鉴权，允许抓取搜索及管理入口以读取其 noindex；robots 不承担内容授权。管理台 HTML 本身由 inkwell 标记 noindex,nofollow，线上代理也已有对应响应头。
 
 `/sitemap.xml` 为动态索引：包含 `/sitemap-pages.xml`（公开固定页）和 `/sitemap-1.xml` 等内容分片。每份内容地图50条，覆盖全部已发布文章/帖子，lastmod 使用 publicUpdatedAt，不使用私人工作稿的 updatedAt。根目录 URL 通过 Next rewrite 路由到 `/sitemaps/[name]`。每个分片只请求一页，避免全站正文一次加载；索引最多49999个内容分片，越界失败而不静默截断。
 
