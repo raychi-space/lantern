@@ -62,3 +62,7 @@ npm run dev
 ## 文章目录
 
 文章详情根据已发布 Markdown 的二至四级顶层标题生成可折叠目录（至少两项、最多100项）；代码块、引用和原始 HTML 不作为目录章节。正文和目录共用 CommonMark/GFM 标题顺序，中文和重复标题各有独立锚点；点击只改变 URL 片段，不额外采集浏览。目录服务端渲染，无额外客户端监听；只有工作稿保存不会改变公开目录。`npm test`（Node22.18+）验证真实解析树与锚点一致性，生产构建仍按原命令运行。锚点序号随正文标题结构调整，不作为永久章节链接承诺。
+
+## 相关文章
+
+文章详情显示至多3篇有共同发布标签或非默认分类的文章；评分、精确标签匹配和限量由 wellspring 负责，只消费公开元数据。工作稿不改变推荐，帖子不展示；空结果或可选接口失败/1500ms超时隐藏推荐，正文仍可读。契约见 [相关文章v1](https://github.com/raychi-space/wellspring/blob/main/docs/api/related-articles-v1.md)。`scripts/related-articles-e2e.mjs` 在明确隔离环境验证真实后端和生产页面；故障验收使用仅用于测试的 `related-fault-proxy.mjs`，不安装到生产。

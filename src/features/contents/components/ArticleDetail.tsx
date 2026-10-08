@@ -3,12 +3,21 @@ import Link from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { PageTransition } from '@/shared/ui/PageTransition'
-import type { PublicContent } from '../types'
+import type { PublicContent, RelatedArticle } from '../types'
 import type { ReactNode } from 'react'
 import { ReadingOutline } from './ReadingOutline'
 import { remarkReadingHeadings } from '../reading-outline'
+import { RelatedArticles } from './RelatedArticles'
 
-export function ArticleDetail({ item, footer }: { item: PublicContent; footer?: ReactNode }) {
+export function ArticleDetail({
+  item,
+  related,
+  footer,
+}: {
+  item: PublicContent
+  related: RelatedArticle[]
+  footer?: ReactNode
+}) {
   return (
     <PageTransition>
       <main className="article-page">
@@ -53,6 +62,7 @@ export function ArticleDetail({ item, footer }: { item: PublicContent; footer?: 
             继续读文章 →
           </Link>
         </div>
+        <RelatedArticles items={related} />
         {footer}
       </main>
     </PageTransition>

@@ -8,4 +8,6 @@
 
 访问统计接入见 [wellspring 统计契约](https://github.com/raychi-space/wellspring/blob/main/docs/api/analytics-v1.md)。采集服务和聚合状态归独立 waymarks；应用不访问其 SQLite，浏览器不接收服务 token。
 
+文章目录与相关文章均归 `features/contents`；相关文章只读取公开元数据，接口错误/1500ms超时返回空推荐，正文保留。`shared/api/publicApi` 的默认5000ms读取预算保持不变，可选推荐传入独立预算。排序语义由 wellspring 契约定义，不在前端重复实现。
+
 `features/comments` 独立管理 giscus 配置和浏览器组件，由 app 路由通过内容详情的服务端 footer 插槽组合；不导入 contents 功能，也不修改站点 API 或评论存储。详见 [评论说明](comments.md)。
