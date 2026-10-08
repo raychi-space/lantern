@@ -1372,6 +1372,37 @@ a.home-featured:hover h3 {
   text-underline-offset: 4px;
 }
 
+.github-comments {
+  max-width: 760px;
+  margin: 64px auto 0;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.github-comments h2 {
+  color: var(--ink);
+  font-family: var(--serif);
+}
+.github-comments button {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--code-bg);
+  color: var(--gold);
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.github-comments a {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--gold);
+}
+.github-comments button:focus-visible,
+.github-comments a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
 /* ---------- 回顾页 ---------- */
 .archive-page .page-intro {
   margin-bottom: 56px;

@@ -5,7 +5,8 @@ import { notFound } from 'next/navigation'
 import { ContentCard } from './ContentCard'
 import { PostTimeline } from './PostTimeline'
 import { content, contents, names } from '../api'
-import type { ContentType } from '../types'
+import type { ContentType, PublicContent } from '../types'
+import type { ReactNode } from 'react'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { ChipLink } from '@/shared/ui/Chip'
 import { EmptyState } from '@/shared/ui/EmptyState'
@@ -101,10 +102,17 @@ export async function ContentList({
   )
 }
 
-export async function ContentDetail({ type, slug }: { type: ContentType; slug: string }) {
+export async function ContentDetail({
+  type,
+  slug,
+  footer,
+}: {
+  type: ContentType
+  slug: string
+  footer?: (item: PublicContent) => ReactNode
+}) {
   const item = await content(type, slug)
   if (!item) notFound()
-  const info = labels[type]
   if (type === 'POST')
     return (
       <PageTransition>
@@ -115,8 +123,9 @@ export async function ContentDetail({ type, slug }: { type: ContentType; slug: s
             ← 返回帖子时间线
           </Link>
           <PostTimeline items={[item]} linkToDetail={false} />
+          {footer?.(item)}
         </main>
       </PageTransition>
     )
-  return <ArticleDetail item={item} />
+  return <ArticleDetail item={item} footer={footer?.(item)} />
 }
