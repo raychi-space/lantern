@@ -7,3 +7,5 @@
 改动公开页面时，检查深链接、未发布/撤回返回、危险链接与图片代理是否仍符合契约；运行 `npm run typecheck && npm run build`，涉及用户路径还要用当前 wellspring 做浏览器/HTTP 验证并在 PR 记录实际结果。跨仓任务按[项目流程](https://github.com/raychi-space/raychi/blob/main/docs/workflow.md)关联 Issue/PR，模块构建通过不代表整功能验收通过。
 
 访问统计接入见 [wellspring 统计契约](https://github.com/raychi-space/wellspring/blob/main/docs/api/analytics-v1.md)。采集服务和聚合状态归独立 waymarks；应用不访问其 SQLite，浏览器不接收服务 token。
+
+`features/comments` 独立管理 giscus 配置和浏览器组件，由 app 路由通过内容详情的服务端 footer 插槽组合；不导入 contents 功能，也不修改站点 API 或评论存储。详见 [评论说明](comments.md)。
