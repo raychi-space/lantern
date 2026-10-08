@@ -8,7 +8,10 @@ const nextConfig: NextConfig = {
   distDir: process.env.RAYCHI_BUILD_DIR ?? '.next',
   turbopack: { root: process.cwd() },
   async rewrites() {
-    return [{ source: '/api/:path*', destination: `${apiUrl}/api/:path*` }]
+    return [
+      { source: '/sitemap-:name.xml', destination: '/sitemaps/:name.xml' },
+      { source: '/api/:path*', destination: `${apiUrl}/api/:path*` },
+    ]
   },
 }
 

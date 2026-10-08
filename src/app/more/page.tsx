@@ -1,5 +1,10 @@
 import Link from 'next/link'
 import { PageTransition } from '@/shared/ui/PageTransition'
+import { pageMetadata } from '@/features/contents'
+
+export async function generateMetadata() {
+  return pageMetadata('更多', '/more', '个人空间的更多内容与入口。')
+}
 
 export default function MorePage() {
   return (
