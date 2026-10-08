@@ -2,7 +2,11 @@ import Link from 'next/link'
 import { search } from '@/features/search/api'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { EmptyState } from '@/shared/ui/EmptyState'
-export const metadata = { title: '搜索' }
+import { pageMetadata } from '@/features/contents'
+
+export async function generateMetadata() {
+  return pageMetadata('搜索', '/search', '寻找文章和帖子中的文字。', false)
+}
 export default async function SearchPage({
   searchParams,
 }: {
