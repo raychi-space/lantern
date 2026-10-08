@@ -13,7 +13,7 @@ export function GithubComments({
 }) {
   const [phase, setPhase] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const [attempt, setAttempt] = useState(0)
-  const [theme, setTheme] = useState('dark')
+  const [theme, setTheme] = useState('light')
   const container = useRef<HTMLDivElement>(null)
   const active = phase === 'loading' || phase === 'ready'
 
@@ -30,7 +30,7 @@ export function GithubComments({
 
   useEffect(() => {
     const update = () =>
-      setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark')
+      setTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light')
     update()
     const observer = new MutationObserver(update)
     observer.observe(document.documentElement, {
