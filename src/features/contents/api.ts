@@ -1,4 +1,4 @@
-import type { ContentType, PublicContent, Page, SiteSettings } from './types'
+import type { ContentType, PublicContent, Page, SiteSettings, RelatedArticle } from './types'
 
 import { publicApi } from '@/shared/api/publicApi'
 
@@ -27,6 +27,20 @@ export async function contents(
 
 export async function content(type: ContentType, slug: string): Promise<PublicContent | null> {
   return publicApi<PublicContent>(`contents/${type}/${encodeURIComponent(slug)}`)
+}
+
+export async function relatedArticles(slug: string): Promise<RelatedArticle[]> {
+  try {
+    return (
+      (await publicApi<RelatedArticle[]>(
+        `contents/ARTICLE/${encodeURIComponent(slug)}/related?limit=3`,
+        1500,
+      )) ?? []
+    )
+  } catch {
+    // Recommendations are optional; a provider outage must not prevent reading.
+    return []
+  }
 }
 
 export async function siteSettings(): Promise<SiteSettings> {
