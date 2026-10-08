@@ -17,6 +17,10 @@ export type PublicContent = {
   publicUpdatedAt: string
 }
 export type Page<T> = { items: T[]; page: number; pageSize: number; total: number }
+export type RelatedArticle = Pick<
+  PublicContent,
+  'id' | 'slug' | 'title' | 'summary' | 'category' | 'publishedAt'
+>
 export type SocialAccount = { platform: string; enabled: boolean; href: string }
 export type HomepageProject = { name: string; description: string; status: string; href: string }
 export type HomepageSection = {
