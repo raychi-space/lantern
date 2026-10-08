@@ -10,3 +10,5 @@ coverage/
 *.log
 
 .next-audit/
+
+.next-analytics/

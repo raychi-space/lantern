@@ -1,3 +1,4 @@
+import { PublicPageView } from '@/shared/ui/PublicPageView'
 import Link from 'next/link'
 import { contentPath, contents, firstSentence } from '../api'
 import type { PublicContent } from '../types'
@@ -94,6 +95,7 @@ export async function ArchivePage({ searchParams }: { searchParams: Promise<Para
   return (
     <PageTransition>
       <main className="inner-page archive-page">
+        <PublicPageView path="/archive" />
         <header className="page-intro">
           <p className="eyebrow">ARCHIVE</p>
           <h1>回顾</h1>

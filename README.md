@@ -50,3 +50,7 @@ npm run dev
 ## 子路径独立部署
 
 保留既有网站时，可在构建与启动阶段设置 `RAYCHI_BASE_PATH=/raychi`。导航与搜索表单均使用该前缀；接口与上传图片仍由同源 `/api/v1/` 提供，需配置代理。`RAYCHI_STANDALONE=1` 生成 Next standalone 服务目录；复制 `.next/static` 与 public 到该目录后，通过 Node server.js 启动。前缀在构建时固定，修改后须重新构建。未设置时保留根路径部署。
+
+## 访问统计与退出
+
+已成功加载的公开首页、列表、详情、回顾及更多页在浏览器可见后采集路径，不采集搜索、404、预取、查询词或全文。页脚可关闭统计，同时遵守浏览器 DNT/GPC；随机访客标识仅保存在当前标签页，每个 UTC 日更新，存储受限时仅匿名 PV。采集失败不会显示阅读错误。后端配置及保留策略见 [站点统计 v1](https://github.com/raychi-space/wellspring/blob/main/docs/api/analytics-v1.md)，启用线上服务仍需批准发布。
