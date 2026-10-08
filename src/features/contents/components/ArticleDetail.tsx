@@ -4,8 +4,9 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import type { PublicContent } from '../types'
+import type { ReactNode } from 'react'
 
-export function ArticleDetail({ item }: { item: PublicContent }) {
+export function ArticleDetail({ item, footer }: { item: PublicContent; footer?: ReactNode }) {
   return (
     <PageTransition>
       <main className="article-page">
@@ -47,6 +48,7 @@ export function ArticleDetail({ item }: { item: PublicContent }) {
             继续读文章 →
           </Link>
         </div>
+        {footer}
       </main>
     </PageTransition>
   )
