@@ -1299,6 +1299,43 @@ a.home-featured:hover h3 {
   border-bottom: 1px solid var(--line);
   padding-bottom: 0.35em;
 }
+.prose :is(h1, h2, h3, h4, h5, h6)[id] {
+  scroll-margin-top: 96px;
+}
+.reading-outline {
+  max-width: 760px;
+  margin: 0 auto 40px;
+  padding: 18px 0;
+  border-block: 1px solid var(--line);
+  color: var(--muted);
+}
+.reading-outline summary {
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 600;
+}
+.reading-outline ol {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+.reading-outline li {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.reading-outline .reading-depth-3 {
+  padding-left: 18px;
+}
+.reading-outline .reading-depth-4 {
+  padding-left: 36px;
+}
+.reading-outline a:hover {
+  color: var(--gold);
+}
+.reading-outline :is(summary, a):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
 .prose a {
   color: var(--gold);
   text-decoration: underline;

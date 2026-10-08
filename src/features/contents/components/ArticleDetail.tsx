@@ -5,6 +5,8 @@ import remarkGfm from 'remark-gfm'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import type { PublicContent } from '../types'
 import type { ReactNode } from 'react'
+import { ReadingOutline } from './ReadingOutline'
+import { remarkReadingHeadings } from '../reading-outline'
 
 export function ArticleDetail({ item, footer }: { item: PublicContent; footer?: ReactNode }) {
   return (
@@ -38,8 +40,11 @@ export function ArticleDetail({ item, footer }: { item: PublicContent; footer?: 
             ))}
           </div>
         </header>
+        <ReadingOutline markdown={item.bodyMarkdown ?? ''} />
         <article className="prose">
-          <Markdown remarkPlugins={[remarkGfm]}>{item.bodyMarkdown ?? ''}</Markdown>
+          <Markdown remarkPlugins={[remarkGfm, remarkReadingHeadings]}>
+            {item.bodyMarkdown ?? ''}
+          </Markdown>
         </article>
         <div className="article-end">
           <span>✳</span>
