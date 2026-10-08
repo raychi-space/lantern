@@ -1385,6 +1385,44 @@ a.home-featured:hover h3 {
   border: 1px solid var(--line);
   padding: 8px 12px;
 }
+.related-articles {
+  margin: 3rem 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.related-articles h2 {
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+.related-articles ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+.related-articles a {
+  display: block;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+.related-articles a:hover {
+  border-color: var(--gold);
+}
+.related-articles a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+.related-articles h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+.related-articles p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
 .article-end {
   text-align: center;
   margin-top: 100px;

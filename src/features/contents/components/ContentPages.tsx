@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ContentCard } from './ContentCard'
 import { PostTimeline } from './PostTimeline'
-import { content, contents, names } from '../api'
+import { content, contents, names, relatedArticles } from '../api'
 import type { ContentType, PublicContent } from '../types'
 import type { ReactNode } from 'react'
 import { PageTransition } from '@/shared/ui/PageTransition'
@@ -127,5 +127,7 @@ export async function ContentDetail({
         </main>
       </PageTransition>
     )
-  return <ArticleDetail item={item} footer={footer?.(item)} />
+  return (
+    <ArticleDetail item={item} related={await relatedArticles(item.slug)} footer={footer?.(item)} />
+  )
 }
