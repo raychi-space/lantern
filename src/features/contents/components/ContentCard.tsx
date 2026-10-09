@@ -1,7 +1,7 @@
 import type { PublicContent } from '../types'
 import Link from 'next/link'
 import { contentPath, firstSentence, typeNames } from '../api'
-import { PaperScene } from '@/shared/ui/PaperScene'
+import { GeneratedArticleCover } from './GeneratedArticleCover'
 
 const date = (value: string) =>
   new Intl.DateTimeFormat('zh-CN', {
@@ -31,7 +31,7 @@ export function ContentCard({
           {item.coverUrl ? (
             <img src={item.coverUrl} alt="" />
           ) : (
-            <PaperScene className="article-cover-fallback" />
+            <GeneratedArticleCover item={item} />
           )}
         </span>
       )}
