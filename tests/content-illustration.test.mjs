@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { contentIllustration } from '../src/features/contents/content-illustration.ts'
+import { illustrationSubjects, illustrationWeathers, illustrationTimes } from '../src/features/contents/illustration-catalog.ts'
 
 const article = {
   id: 'public-article-1', title: '海边散步', summary: '听潮声',
@@ -24,15 +25,47 @@ test('published content and identity vary the cover while metadata does not', ()
   assert.equal(new Set(varied.map((scene) => JSON.stringify(scene))).size, 100)
 })
 
-test('content keywords select scenes and empty or unusual text is safe', () => {
-  for (const [title, theme] of [['大海和潮汐', 'sea'], ['月夜星空', 'night'], ['阅读代码', 'room'], ['森林花园', 'garden'], ['城市街道', 'city']]) {
-    assert.equal(contentIllustration({ ...article, title, summary: '', bodyMarkdown: null }).theme, theme)
+test('content keywords select all subjects and unusual text is safe', () => {
+  for (const subject of illustrationSubjects) {
+    assert.equal(contentIllustration({ ...article, title: subject.title, summary: '', bodyMarkdown: subject.body }).theme, subject.id)
   }
   for (const title of ['', '😀 𠮷', '<script>alert(1)</script>']) {
     const scene = contentIllustration({ ...article, title, summary: '', bodyMarkdown: null })
     assert.ok(Number.isInteger(scene.seed))
     assert.ok(scene.seed >= 0 && scene.seed <= 0xffffffff)
-    assert.ok(['sea', 'night', 'room', 'garden', 'city'].includes(scene.theme))
+    assert.ok(illustrationSubjects.some((subject) => subject.id === scene.theme))
     assert.deepEqual(contentIllustration({ ...article, title, summary: '', bodyMarkdown: null }), scene)
   }
+})
+
+test('weather and time are inferred independently of the subject', () => {
+  for (const weather of illustrationWeathers) {
+    for (const time of illustrationTimes) {
+      const scene = contentIllustration({ ...article, title: `高楼 ${weather.name} ${time.name}`, summary: '', bodyMarkdown: null })
+      assert.equal(scene.theme, 'skyscrapers')
+      assert.equal(scene.weather, weather.id)
+      assert.equal(scene.time, time.id)
+    }
+  }
+})
+
+test('preview options support every combination without affecting article generation', () => {
+  const original = contentIllustration(article)
+  const seeds = new Set()
+  for (const subject of illustrationSubjects) {
+    for (const weather of illustrationWeathers) {
+      for (const time of illustrationTimes) {
+        const options = { subject: subject.id, weather: weather.id, time: time.id }
+        const scene = contentIllustration(article, options)
+        assert.deepEqual(contentIllustration(article, options), scene)
+        assert.equal(scene.theme, subject.id)
+        assert.equal(scene.weather, weather.id)
+        assert.equal(scene.time, time.id)
+        assert.ok(!('person' in scene))
+        seeds.add(scene.seed)
+      }
+    }
+  }
+  assert.equal(seeds.size, 18 * 6 * 3)
+  assert.deepEqual(contentIllustration(article), original)
 })

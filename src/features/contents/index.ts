@@ -12,6 +12,7 @@ export { ContentList, ContentDetail } from './components/ContentPages'
 export { SocialLinks } from './components/SocialLinks'
 export { HomePage } from './components/HomePage'
 export { ArchivePage } from './components/ArchivePage'
+export { CoverGallery } from './components/CoverGallery'
 export type {
   ContentType,
   PublicContent,
