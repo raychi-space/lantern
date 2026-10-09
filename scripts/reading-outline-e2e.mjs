@@ -55,7 +55,12 @@ try {
   if (process.env.RAYCHI_READING_E2E_SCREENSHOT) await toc.screenshot({ path: process.env.RAYCHI_READING_E2E_SCREENSHOT })
   await toc.getByRole('link', { name: '重复', exact: true }).nth(1).focus()
   await page.keyboard.press('Enter')
+  await page.waitForURL(url => url.hash === '#reading-section-5')
   assert.equal(new URL(page.url()).hash, '#reading-section-5')
+  await page.waitForFunction(() => {
+    const heading = document.querySelector('#reading-section-5')
+    return Math.abs(heading.getBoundingClientRect().top - parseFloat(getComputedStyle(heading).scrollMarginTop)) < 2
+  })
   assert.ok((await page.locator('#reading-section-5').boundingBox()).y >= 80, 'heading is not covered by navigation')
   await page.waitForTimeout(350)
   assert.equal(events, before, 'hash navigation does not emit another page view')
@@ -63,8 +68,10 @@ try {
   assert.equal(count, baseline + 1)
   await toc.locator('summary').focus()
   await page.keyboard.press('Enter')
+  await page.waitForFunction(() => !document.querySelector('.reading-outline details').open)
   assert.equal(await toc.locator('details').getAttribute('open'), null)
   await page.keyboard.press('Enter')
+  await page.waitForFunction(() => document.querySelector('.reading-outline details').open)
   assert.equal(await toc.locator('details').getAttribute('open'), '')
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
   // Working draft headings cannot alter the public outline until explicit publish.
