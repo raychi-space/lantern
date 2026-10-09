@@ -5,16 +5,15 @@ import { useEffect, useState } from 'react'
 const STORAGE_KEY = 'lantern-theme'
 
 export function ThemeToggle() {
-  const [light, setLight] = useState(false)
+  const [light, setLight] = useState(true)
   useEffect(() => {
-    setLight(document.documentElement.dataset.theme === 'light')
+    setLight(document.documentElement.dataset.theme !== 'dark')
   }, [])
 
   function toggle() {
     const next = !light
     setLight(next)
-    if (next) document.documentElement.dataset.theme = 'light'
-    else delete document.documentElement.dataset.theme
+    document.documentElement.dataset.theme = next ? 'light' : 'dark'
     try {
       localStorage.setItem(STORAGE_KEY, next ? 'light' : 'dark')
     } catch {
@@ -27,7 +26,7 @@ export function ThemeToggle() {
       type="button"
       className="theme-toggle"
       onClick={toggle}
-      aria-label={light ? '切换到深色星夜主题' : '切换到浅色纸张主题'}
+      aria-label={light ? '切换到深蓝纸感主题' : '切换到米白纸感主题'}
       title="切换主题"
     >
       <svg
