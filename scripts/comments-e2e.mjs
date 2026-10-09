@@ -65,13 +65,19 @@ try {
   assert.equal(lastParams.get('strict'), '1')
   assert.equal(lastParams.get('repo'), 'raychi-space/comments-fixture')
   assert.equal(lastParams.get('categoryId'), 'DIC_fixture')
+  assert.equal(lastParams.get('theme'), 'light', 'comments start in the default paper theme')
   assert.equal(thirdParty, 1)
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
   const frame = page.frames().find(frame => frame.url().startsWith('https://giscus.app/'))
   assert.ok(frame)
   const requestsBeforeTheme = thirdParty
-  await page.getByRole('button', { name: '切换到浅色纸张主题' }).click()
+  await page.getByRole('button', { name: '切换到深蓝纸感主题' }).click()
+  await frame.waitForFunction(() => window.lastConfig?.theme === 'dark')
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'dark')
+  assert.equal(thirdParty, requestsBeforeTheme, 'dark theme does not reload comments')
+  await page.getByRole('button', { name: '切换到米白纸感主题' }).click()
   await frame.waitForFunction(() => window.lastConfig?.theme === 'light')
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'light')
   assert.equal(thirdParty, requestsBeforeTheme, 'theme does not reload comments')
   // Same origin alone is insufficient: an unrelated sender cannot control UI.
   await page.evaluate(() => window.dispatchEvent(new MessageEvent('message', {
