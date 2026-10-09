@@ -1,4 +1,10 @@
 import type { PublicContent } from './types'
+import {
+  illustrationSubjects,
+  illustrationWeathers,
+  illustrationTimes,
+  type IllustrationOptions,
+} from './illustration-catalog.ts'
 
 type IllustrationContent = Pick<
   PublicContent,
@@ -32,17 +38,6 @@ const palettes = [
   },
 ] as const
 
-const themes = [
-  { name: 'sea', words: /海|潮|航|岛|沙滩|ocean|sea\b|coast|island/gi },
-  { name: 'night', words: /夜|月|星|梦|睡|night|moon|star|dream/gi },
-  {
-    name: 'room',
-    words: /书|阅读|写作|工作|代码|编程|技术|电脑|咖啡|read|book|code|software|coffee/gi,
-  },
-  { name: 'garden', words: /花|树|森林|春|秋|山|自然|garden|forest|flower|mountain/gi },
-  { name: 'city', words: /城市|街|路|旅行|车|雨|city|street|travel|train|rain/gi },
-] as const
-
 // FNV-1a followed by a seeded PRNG: no clocks, network calls or Math.random.
 function hash(text: string): number {
   let value = 2166136261
@@ -62,7 +57,10 @@ function randomFrom(seed: number) {
   }
 }
 
-export function contentIllustration(content: IllustrationContent) {
+export function contentIllustration(
+  content: IllustrationContent,
+  options: IllustrationOptions = {},
+) {
   const normalize = (value: string | null) =>
     (value ?? '').normalize('NFKC').replace(/\s+/g, ' ').trim()
   const text = [
@@ -74,40 +72,66 @@ export function contentIllustration(content: IllustrationContent) {
   ]
     .map(normalize)
     .join('\n')
-  const seed = hash(JSON.stringify([content.id, text]))
+  const seed = hash(
+    JSON.stringify([
+      content.id,
+      text,
+      options.subject ?? null,
+      options.weather ?? null,
+      options.time ?? null,
+    ]),
+  )
   const random = randomFrom(seed)
   const between = (min: number, max: number) => Math.round(min + random() * (max - min))
-  const scored = themes.map((theme) => ({
-    name: theme.name,
-    score: (text.match(theme.words) ?? []).length,
-  }))
-  const highest = Math.max(...scored.map((theme) => theme.score))
-  const candidates = highest ? scored.filter((theme) => theme.score === highest) : scored
-  const theme = candidates[between(0, candidates.length - 1)].name
+  function choose<T extends string>(catalog: readonly { id: T; words: RegExp }[]): T {
+    const scored = catalog.map((entry) => ({
+      id: entry.id,
+      score: (text.match(entry.words) ?? []).length,
+    }))
+    const highest = Math.max(...scored.map((entry) => entry.score))
+    const candidates = highest ? scored.filter((entry) => entry.score === highest) : scored
+    return candidates[between(0, candidates.length - 1)].id
+  }
+  const theme = options.subject ?? choose(illustrationSubjects)
+  const weather = options.weather ?? choose(illustrationWeathers)
+  const time = options.time ?? choose(illustrationTimes)
   return {
     seed,
     theme,
+    weather,
+    time,
     palette: palettes[between(0, palettes.length - 1)],
     flipped: random() > 0.5,
     sun: { x: between(355, 550), y: between(55, 110), r: between(17, 29) },
     horizon: between(192, 224),
     peak: { x: between(270, 430), y: between(128, 174) },
-    person: { x: between(245, 285), y: between(244, 275) },
-    clouds: Array.from({ length: between(2, 4) }, () => ({
-      x: between(70, 470),
-      y: between(44, 135),
-      width: between(55, 115),
-      height: between(8, 16),
-    })),
+    clouds: Array.from(
+      { length: weather === 'cloudy' || weather === 'rain' ? between(5, 8) : between(2, 4) },
+      () => ({
+        x: between(70, 470),
+        y: between(44, 135),
+        width: between(55, 115),
+        height: between(8, 16),
+      }),
+    ),
     plants: Array.from({ length: between(4, 7) }, () => ({
-      x: between(390, 615),
+      x: between(30, 615),
       height: between(38, 90),
       lean: between(-18, 18),
     })),
     buildings: Array.from({ length: 7 }, (_, index) => ({
       x: 35 + index * 85,
       width: between(42, 72),
-      height: between(35, 100),
+      height: between(50, 170),
+      tilt: between(-6, 6),
+      lit: random() > 0.5,
+    })),
+    variation: between(0, 3),
+    objectX: between(250, 380),
+    weatherMarks: Array.from({ length: 45 }, () => ({
+      x: between(5, 630),
+      y: between(5, 350),
+      size: between(2, 5),
     })),
     stars: Array.from({ length: between(6, 12) }, () => ({
       x: between(50, 585),
