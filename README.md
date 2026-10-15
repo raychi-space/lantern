@@ -2,6 +2,10 @@
 
 系统导航：[架构](https://github.com/raychi-space/raychi/blob/main/ARCHITECTURE.md)、[文档地图](https://github.com/raychi-space/raychi/blob/main/docs/README.md)、[当前产品](https://github.com/raychi-space/raychi/blob/main/docs/product-specs/current-behavior.md)。这些跨仓资料为私有；本仓运行、契约与工作约束可独立查阅，缺权限时由负责人提供相关范围与约束。
 
+<a id="系统文档审阅入口"></a>
+
+新系统文档由 [raychi#67](https://github.com/raychi-space/raychi/pull/67) 提供；该 PR 未合并时，上述 main 新路径尚不可用，可从[文档地图审阅版](https://github.com/raychi-space/raychi/blob/1b6cb94c68e00d7f375edec17ef9822fba5d1778/docs/README.md)进入架构、产品和流程。私有仓仍需访问权限。
+
 **Part of Raychi · 公开站**。访客在这里进入个人空间，浏览已发布文章和帖子。Next.js 16.3.8 + TypeScript；内容由 [wellspring](https://github.com/raychi-space/wellspring) 的公开 API 提供，管理界面在 [inkwell](https://github.com/raychi-space/inkwell)。
 
 当前实现首页 `/`、文章 `/writing`、帖子 `/posts`、回顾 `/archive`、更多 `/more`、详情页和 404；旧 `/thoughts` 路径转向帖子。只读取发布快照；服务端请求使用 `no-store`，文章图片通过同源 `/api` 转发给内容服务鉴权。原始 HTML 不作为 Markdown 渲染输入。
