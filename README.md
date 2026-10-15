@@ -8,7 +8,9 @@
 
 **Part of Raychi · 公开站**。访客在这里进入个人空间，浏览已发布文章和帖子。Next.js 16.3.8 + TypeScript；内容由 [wellspring](https://github.com/raychi-space/wellspring) 的公开 API 提供，管理界面在 [inkwell](https://github.com/raychi-space/inkwell)。
 
-当前实现首页 `/`、文章 `/writing`、帖子 `/posts`、回顾 `/archive`、更多 `/more`、详情页和 404；旧 `/thoughts` 路径转向帖子。只读取发布快照；服务端请求使用 `no-store`，文章图片通过同源 `/api` 转发给内容服务鉴权。原始 HTML 不作为 Markdown 渲染输入。
+当前实现首页 `/`、文章 `/writing`、帖子 `/posts`、回顾 `/archive`、拾阅 `/reading`、更多 `/more`、详情页和 404；旧 `/thoughts` 路径转向帖子。只读取发布快照；服务端请求使用 `no-store`，文章图片通过同源 `/api` 转发给内容服务鉴权。原始 HTML 不作为 Markdown 渲染输入。
+
+拾阅按来源展示最近 90 天的外部文章链接：中文译题优先、原标题保留，每个来源以纸片卡片展示最新文章和后续链接，展开只做竖直高度变化。封面复用本地确定性纸感插画，不请求来源图片；页面不显示同步周期、翻译机制或后台更新时间。
 
 全站采用无描边纸感插画风格：默认米白纸底、灰蓝色面与深蓝文字，明黄仅作少量点缀；保留深蓝哑光主题与既有主题偏好。静态颗粒层不拦截交互，减少动态效果的系统偏好同时关闭平滑滚动与页面过渡。首页加入窗边阅读插画，生成说明见[视觉说明](docs/paper-storybook.md)。未配置站点头像时，主页使用用户提供的「耳机少女与诗人工作室」图片，桌面显示 128px、手机显示 104px。
 
