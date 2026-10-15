@@ -13,6 +13,8 @@ export { SocialLinks } from './components/SocialLinks'
 export { HomePage } from './components/HomePage'
 export { ArchivePage } from './components/ArchivePage'
 export { CoverGallery } from './components/CoverGallery'
+export { IllustrationScene } from './components/IllustrationScene'
+export { contentIllustration } from './content-illustration'
 export type {
   ContentType,
   PublicContent,

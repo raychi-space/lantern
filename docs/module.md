@@ -1,6 +1,8 @@
 # lantern 模块说明
 
-本仓是 Raychi 的公开阅读端。路由、布局和阅读样式在 `src/app/`；旧文章的 HTTP 类型在 `src/features/articles/`；文章、帖子与站点配置的 HTTP 访问和展示组件在 `src/features/contents/`；搜索在 `src/features/search/`。页面组件通过功能层读取 wellspring 的公开 API，不访问管理 API、数据库或相邻仓库文件。当前路径包括 `/`、`/writing`、`/posts`、`/archive`、`/more`、`/search`、两类详情及 404；旧 `/thoughts` 路径转向帖子。
+所有者：lantern；核对：2026-10-15。本文件包含 reading-shelf 开发分支的新增说明；系统边界见[架构](https://github.com/raychi-space/raychi/blob/main/ARCHITECTURE.md)，线上状态仍以已部署提交为准。
+
+本仓是 Raychi 的公开阅读端。路由、布局和阅读样式在 `src/app/`；旧文章的 HTTP 类型在 `src/features/articles/`；文章、帖子与站点配置的 HTTP 访问和展示组件在 `src/features/contents/`；拾阅元数据访问在 `src/features/reading/`；搜索在 `src/features/search/`。页面组件通过功能层读取 wellspring 的公开 API，不访问管理 API、数据库或相邻仓库文件。当前路径包括 `/`、`/writing`、`/posts`、`/archive`、`/reading`、`/more`、`/search`、两类详情及 404；旧 `/thoughts` 路径转向帖子。
 
 服务端用 `RAYCHI_API_URL` 请求内容服务且设置 `no-store`。浏览器图片地址保持同源 `/api/v1/public/assets/{id}/content`，由 Next 转发到 wellspring；是否可读由内容服务按当前发布快照判定。正文使用 `react-markdown` 与 GFM 显示，不执行原始 HTML。接口字段、错误和私密图片语义以 [wellspring v0.2 契约](https://github.com/raychi-space/wellspring/blob/main/docs/api/contract-v0.2.md) 为准；管理写作在 [inkwell](https://github.com/raychi-space/inkwell)。
 
@@ -11,3 +13,7 @@
 文章目录与相关文章均归 `features/contents`；相关文章只读取公开元数据，接口错误/1500ms超时返回空推荐，正文保留。`shared/api/publicApi` 的默认5000ms读取预算保持不变，可选推荐传入独立预算。排序语义由 wellspring 契约定义，不在前端重复实现。
 
 `features/comments` 独立管理 giscus 配置和浏览器组件，由 app 路由通过内容详情的服务端 footer 插槽组合；不导入 contents 功能，也不修改站点 API 或评论存储。详见 [评论说明](comments.md)。
+
+## 路由与辅助能力入口
+
+SEO/RSS 路由包括 `robots.ts`、`sitemap.xml/route.ts`、`sitemaps/[name]/route.ts` 与 `feed.xml/route.ts`，链接/XML 共用 shared/seo；字段只读发布版。`/illustrations` 是纸感封面预览，noindex、不进入主导航/站点地图/统计，规则见[插画设计](paper-storybook.md)。访问采集在 shared/lib 与 shared/ui，服务 token 不进入浏览器。`/reading` 与 `features/reading/` 已在开发分支验收，尚未上线。

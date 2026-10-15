@@ -4,7 +4,7 @@ import { siteUrl } from '@/shared/seo/site-url'
 import { xml } from '@/shared/seo/xml'
 
 export const sitemapPageSize = 50
-const staticPages = ['/', '/writing', '/posts', '/archive', '/more']
+const staticPages = ['/', '/writing', '/posts', '/archive', '/reading', '/more']
 
 export async function sitemapIndex(): Promise<string> {
   const result = await contents({ pageSize: sitemapPageSize })

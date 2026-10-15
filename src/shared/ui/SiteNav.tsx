@@ -4,13 +4,18 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { SiteLink } from '@/shared/types/navigation'
 
-const primaryPaths = ['/', '/posts', '/writing', '/archive']
+const primaryPaths = ['/', '/posts', '/writing', '/archive', '/reading']
 
 export function SiteNav({ configuredLinks }: { configuredLinks: SiteLink[] }) {
   const pathname = usePathname()
-  const links = primaryPaths.flatMap((path) =>
-    configuredLinks.filter((link) => link.href === path).slice(0, 1),
-  )
+  const links = primaryPaths.flatMap((path) => {
+    const configured = configuredLinks.find((link) => link.href === path)
+    return configured
+      ? [configured]
+      : path === '/reading'
+        ? [{ label: '拾阅', href: '/reading' }]
+        : []
+  })
   const currentIndex = primaryPaths.findIndex((path) =>
     path === '/' ? pathname === '/' : pathname.startsWith(path),
   )

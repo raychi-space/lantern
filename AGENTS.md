@@ -8,10 +8,14 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-## Raychi · 公开站入口
+## RayChi · 公开站
 
-开始任务先读本仓 [README](README.md)、当前 Issue/PR、[Raychi 仓库地图](https://github.com/raychi-space/raychi#仓库地图)、[开发流程](https://github.com/raychi-space/raychi/blob/main/docs/workflow.md)、[接口与联调](https://github.com/raychi-space/raychi/blob/main/docs/integration.md)及[验收规则](https://github.com/raychi-space/raychi/blob/main/docs/acceptance.md)；具体职责见[模块说明](docs/module.md)。无法访问项目仓库时先从这些链接和当前 Issue 确认范围，不能自行重定义跨仓规则。
+先读本仓 [README](README.md)，按任务读[模块说明](docs/module.md)、[SEO/RSS](docs/seo-rss.md)、[评论](docs/comments.md)或[插画设计](docs/paper-storybook.md)，再检查相关 Issue/PR 与契约。
 
-本仓只做公开阅读，消费 wellspring 的公开 API；不读取工作稿、数据库或相邻仓库源码。接口以 [wellspring 契约目录](https://github.com/raychi-space/wellspring/tree/main/docs/api)及 Issue 指定的 PR/提交为准。变更请求或字段时先协调 wellspring 的 OpenAPI/语义文档，并在 PR 写明兼容性和对其他仓库的影响。
+新需求先检查相关需求、设计/ADR 与现有代码和公共能力，提出范围、复用方案、接口影响和验收方式，获得用户明确实施确认后再修改功能代码、配置或数据库。重大偏离重新确认；确认范围内持续执行，不重复审批常规细节。部署/线上启用另需授权。
 
-改动后按 README 执行 npm run typecheck 和 npm run build；涉及用户路径时用对应后端做浏览器/HTTP 验证。PR 关联 Issue，记录命令、版本、实际结果与未覆盖项。本仓检查通过不代表主 Issue 验收通过；联调组合和最终结果由主 Issue 记录。GitHub 操作优先 gh CLI，不可用时用网页。
+跨仓规则见[开发流程](https://github.com/raychi-space/raychi/blob/main/docs/workflow.md#文档驱动开发)、[架构](https://github.com/raychi-space/raychi/blob/main/ARCHITECTURE.md)、[文档地图](https://github.com/raychi-space/raychi/blob/main/docs/README.md)和[验收](https://github.com/raychi-space/raychi/blob/main/docs/acceptance.md)。这些项目资料为私有；无权限时从本仓和授权提供的相关资料明确范围，由负责人补必要约束，不能把 404 当作不存在或自行重定义跨仓规则。
+
+本仓只消费 wellspring 公开 API，不读取工作稿、数据库或相邻仓源码；Markdown 安全渲染与托管图片授权不能退化。可选访问采集也只经本站同源 Cookie/CSRF API，不将内核 token 发给浏览器。字段归 [wellspring API](https://github.com/raychi-space/wellspring/tree/main/docs/api)，变更先评审提供方 OpenAPI/语义定义及消费方兼容性，不在本仓另建字段权威。
+
+验证入口在 README/CI：lint、format:check、typecheck、npm test、build；受影响用户路径另用对应后端做 HTTP/浏览器验证，区分真实与模拟。纯文档修改只查内容、链接与差异。PR 记录版本、命令、实际结果和未覆盖项，同步本仓说明；单仓通过不代表主功能完成。历史验证保持固定日期/版本。GitHub 操作优先 gh CLI；不要提交密钥或私有运维资料。

@@ -22,3 +22,5 @@
 - 回顾的年/月分组、摘要行和筛选结果正确；撤回及仅保存工作稿不泄露新正文，旧长文地址仍可读。
 - 修改站点配置并刷新公开站后看到新值；手机端可读；首页区块显示与顺序按配置呈现。
 - 运行 `npm run typecheck && npm run build`，再用当前 wellspring 验证真实页面和匿名权限；构建通过不能代替跨仓验收。
+
+> 2026-10-15 导航：当前产品基线见[现行产品](https://github.com/raychi-space/raychi/blob/main/docs/product-specs/current-behavior.md)；本文件保留原任务范围和验收要求，未实现但已确认的约束由后续设计/Issue 核实，不自动取消。
