@@ -9,6 +9,7 @@ import { SocialLinks } from './SocialLinks'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { ContentCard } from './ContentCard'
 import { PaperScene } from '@/shared/ui/PaperScene'
+import { EmptyState } from '@/shared/ui/EmptyState'
 
 const date = (value: string) =>
   new Intl.DateTimeFormat('zh-CN', {
@@ -34,7 +35,7 @@ function LatestWriting({ items }: { items: PublicContent[] }) {
           ))}
         </div>
       ) : (
-        <p className="home-list-empty">更多文章正在准备中。</p>
+        <EmptyState inline>更多文章正在准备中。</EmptyState>
       )}
     </section>
   )
@@ -65,7 +66,7 @@ function LatestPosts({ items }: { items: PublicContent[] }) {
           ))}
         </div>
       ) : (
-        <p className="home-list-empty">最近还没有帖子。</p>
+        <EmptyState inline>最近还没有帖子。</EmptyState>
       )}
     </section>
   )

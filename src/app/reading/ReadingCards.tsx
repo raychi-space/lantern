@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { contentIllustration, IllustrationScene } from '@/features/contents'
 import type { ReadingArticle, ReadingSource } from '@/features/reading'
+import { EmptyState } from '@/shared/ui/EmptyState'
 
 export function ReadingCards({ sources }: { sources: ReadingSource[] }) {
   return (
@@ -82,7 +83,7 @@ function SourceCard({ source }: { source: ReadingSource }) {
           )}
         </>
       ) : (
-        <p className="reading-empty">最近 90 天暂无文章。</p>
+        <EmptyState inline>最近 90 天暂无文章。</EmptyState>
       )}
     </article>
   )

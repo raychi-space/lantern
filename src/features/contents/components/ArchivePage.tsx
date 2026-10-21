@@ -6,6 +6,7 @@ import { PageTransition } from '@/shared/ui/PageTransition'
 import { PageIntro } from '@/shared/ui/PageIntro'
 import { Pagination } from '@/shared/ui/Pagination'
 import { ChipLink } from '@/shared/ui/Chip'
+import { EmptyState } from '@/shared/ui/EmptyState'
 
 type Params = {
   postsSort?: string
@@ -36,7 +37,7 @@ const pageOf = (value?: string) =>
   /^\d+$/.test(value ?? '') && Number(value) > 0 && Number(value) <= 1000000 ? Number(value) : 1
 
 function ArchiveRows({ items, compact = false }: { items: PublicContent[]; compact?: boolean }) {
-  if (!items.length) return <p className="archive-empty">这里还没有已发布内容。</p>
+  if (!items.length) return <EmptyState inline>这里还没有已发布内容。</EmptyState>
   return (
     <div className={compact ? 'archive-list archive-list-compact' : 'archive-list'}>
       {items.map((item) => (
