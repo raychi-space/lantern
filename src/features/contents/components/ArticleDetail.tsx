@@ -22,9 +22,6 @@ export function ArticleDetail({
     <PageTransition>
       <main className="article-page">
         <PublicPageView path={`/writing/${item.slug}`} />
-        <Link href="/writing" className="back-link" transitionTypes={['nav-back']}>
-          ← 返回文章
-        </Link>
         <header className="article-heading">
           <p className="eyebrow">WRITING / 文章</p>
           <h1>{item.title}</h1>

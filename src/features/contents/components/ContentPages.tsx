@@ -8,6 +8,7 @@ import { content, contents, names, relatedArticles } from '../api'
 import type { ContentType, PublicContent } from '../types'
 import type { ReactNode } from 'react'
 import { PageTransition } from '@/shared/ui/PageTransition'
+import { PageIntro } from '@/shared/ui/PageIntro'
 import { ChipLink } from '@/shared/ui/Chip'
 import { EmptyState } from '@/shared/ui/EmptyState'
 import { Pagination } from '@/shared/ui/Pagination'
@@ -44,11 +45,9 @@ export async function ContentList({
     <PageTransition>
       <main className="inner-page">
         <PublicPageView path={info.path} />
-        <header className="page-intro">
-          <p className="eyebrow">{type}</p>
-          <h1>{info.title}</h1>
+        <PageIntro kicker={type} title={info.title}>
           <p>{info.intro}</p>
-        </header>
+        </PageIntro>
         {(categoryNames.length > 0 || tagNames.length > 0) && (
           <div className="chip-row">
             <ChipLink href={info.path} active={!category && !tag}>

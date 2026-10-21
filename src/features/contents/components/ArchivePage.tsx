@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { contentPath, contents, firstSentence } from '../api'
 import type { PublicContent } from '../types'
 import { PageTransition } from '@/shared/ui/PageTransition'
+import { PageIntro } from '@/shared/ui/PageIntro'
 import { Pagination } from '@/shared/ui/Pagination'
 import { ChipLink } from '@/shared/ui/Chip'
 
@@ -96,11 +97,9 @@ export async function ArchivePage({ searchParams }: { searchParams: Promise<Para
     <PageTransition>
       <main className="inner-page archive-page">
         <PublicPageView path="/archive" />
-        <header className="page-intro">
-          <p className="eyebrow">ARCHIVE</p>
-          <h1>回顾</h1>
+        <PageIntro kicker="ARCHIVE" title="回顾">
           <p>按公开时间，翻阅已经写下的内容。</p>
-        </header>
+        </PageIntro>
         <div className="archive-columns">
           <section className="archive-col" id="articles" aria-labelledby="archive-articles-title">
             <div className="archive-col-head">
