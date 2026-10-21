@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { CoverGallery } from '@/features/contents'
 import { PageTransition } from '@/shared/ui/PageTransition'
+import { PageIntro } from '@/shared/ui/PageIntro'
 
 export const metadata: Metadata = {
   title: '插画预览',
@@ -12,11 +13,9 @@ export default function IllustrationsPage() {
   return (
     <PageTransition>
       <main className="inner-page illustration-preview-page">
-        <header className="page-intro">
-          <p className="eyebrow">A LITTLE GALLERY</p>
-          <h1>插画预览</h1>
+        <PageIntro kicker="A LITTLE GALLERY" title="插画预览">
           <p>十八种题材，六种天气。高楼、屋顶、山谷、器物，都可以成为画面的主角。</p>
-        </header>
+        </PageIntro>
         <CoverGallery />
       </main>
     </PageTransition>

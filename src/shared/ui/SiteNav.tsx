@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { SiteLink } from '@/shared/types/navigation'
 
-const primaryPaths = ['/', '/posts', '/writing', '/archive', '/reading']
+const primaryPaths = ['/', '/posts', '/writing', '/archive', '/reading', '/more']
 
 export function SiteNav({ configuredLinks }: { configuredLinks: SiteLink[] }) {
   const pathname = usePathname()
@@ -47,6 +47,7 @@ export function SiteNav({ configuredLinks }: { configuredLinks: SiteLink[] }) {
         aria-label="搜索文章和帖子"
         aria-current={pathname === '/search' ? 'page' : undefined}
         className={pathname === '/search' ? 'active' : undefined}
+        transitionTypes={pathname === '/search' ? undefined : ['nav-forward']}
       >
         搜索
       </Link>

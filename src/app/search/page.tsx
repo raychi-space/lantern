@@ -3,6 +3,7 @@ import { search } from '@/features/search/api'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { EmptyState } from '@/shared/ui/EmptyState'
 import { pageMetadata } from '@/features/contents'
+import { PageIntro } from '@/shared/ui/PageIntro'
 
 export async function generateMetadata() {
   return pageMetadata('搜索', '/search', '寻找文章和帖子中的文字。', false)
@@ -29,11 +30,9 @@ export default async function SearchPage({
   return (
     <PageTransition>
       <main className="inner-page search-page">
-        <header className="page-intro">
-          <p className="eyebrow">SEARCH</p>
-          <h1>搜索</h1>
+        <PageIntro kicker="SEARCH" title="搜索">
           <p>寻找文章和帖子中的文字。</p>
-        </header>
+        </PageIntro>
         <form action={`${process.env.RAYCHI_BASE_PATH ?? ''}/search`} className="search-form">
           <label htmlFor="search-q" className="sr-only">
             搜索关键词
@@ -50,22 +49,6 @@ export default async function SearchPage({
           {type && <input type="hidden" name="type" value={type} />}
           <button type="submit">搜索</button>
         </form>
-        <nav className="chip-row" aria-label="搜索类型">
-          {[
-            ['', '全部'],
-            ['article', '文章'],
-            ['post', '帖子'],
-          ].map(([value, label]) => (
-            <Link
-              href={filter(value)}
-              key={value}
-              className={'chip ' + (type === value ? 'active' : '')}
-              aria-current={type === value ? 'page' : undefined}
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
         {error ? (
           <div role="alert">
             <EmptyState>{error}</EmptyState>
