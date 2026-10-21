@@ -140,6 +140,7 @@ input {
 }
 .site-shell > main {
   flex: 1;
+  width: 100%;
 }
 .site-header {
   position: sticky;
@@ -851,14 +852,14 @@ a.home-featured:hover h3 {
 }
 .page-intro h1 {
   font-family: var(--serif);
-  font-size: 74px;
+  font-size: 52px;
   font-weight: 500;
   letter-spacing: -0.06em;
   margin: 0;
 }
 .page-intro > p:last-child {
   color: var(--muted);
-  font-size: 17px;
+  font-size: 15px;
   margin: 16px 0 0;
 }
 .page-intro > p:last-child a {
@@ -934,7 +935,7 @@ a.home-featured:hover h3 {
 }
 .article-row h3 {
   font-family: var(--serif);
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 500;
   line-height: 1.4;
   margin: 0;
@@ -942,7 +943,7 @@ a.home-featured:hover h3 {
   transition: color 0.18s;
 }
 .article-row-featured h3 {
-  font-size: clamp(28px, 3vw, 40px);
+  font-size: clamp(22px, 2.4vw, 30px);
 }
 .article-row:hover h3 {
   color: var(--accent-hi);
@@ -1010,7 +1011,7 @@ a.home-featured:hover h3 {
   margin: 0 0 30px;
   color: var(--accent);
   font-family: var(--serif);
-  font-size: 21px;
+  font-size: 17px;
   font-weight: 500;
 }
 .timeline-entry {
@@ -1042,7 +1043,7 @@ a.home-featured:hover h3 {
 .timeline-date strong {
   color: var(--accent-hi);
   font-family: var(--serif);
-  font-size: 23px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 1;
 }
@@ -1056,13 +1057,13 @@ a.home-featured:hover h3 {
 .timeline-content h3 {
   margin: 0 0 14px;
   font-family: var(--serif);
-  font-size: 24px;
+  font-size: 19px;
   font-weight: 500;
   line-height: 1.4;
 }
 .post-body {
   color: var(--body-ink);
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.9;
   overflow-wrap: anywhere;
 }
@@ -1148,36 +1149,36 @@ a.home-featured:hover h3 {
 
 /* ---------- 文章详情 ---------- */
 .article-page {
-  max-width: 950px;
-  padding: 75px 32px 120px;
+  max-width: 1240px;
+  padding: 85px clamp(24px, 5vw, 72px) 120px;
   margin: auto;
 }
 .article-heading {
-  text-align: center;
-  margin: 90px 0 60px;
+  text-align: left;
+  margin: 0 0 44px;
 }
 .article-heading .eyebrow {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 .article-heading h1 {
   font-family: var(--serif);
-  font-size: clamp(42px, 6vw, 70px);
+  font-size: clamp(24px, 3vw, 34px);
   font-weight: 500;
   line-height: 1.25;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.04em;
   margin: 0;
 }
 .article-summary {
-  margin: 26px auto 0;
+  margin: 18px 0 0;
   max-width: 650px;
   color: var(--muted);
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.8;
 }
 .article-meta {
   display: flex;
   gap: 18px;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   margin-top: 30px;
   color: var(--faint);
@@ -1192,7 +1193,7 @@ a.home-featured:hover h3 {
   max-width: 760px;
   margin: auto;
   color: var(--body-ink);
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.95;
   overflow-wrap: anywhere;
 }
@@ -1702,10 +1703,10 @@ a.home-featured:hover h3 {
     font-size: 15px;
   }
   .article-page {
-    padding: 50px 25px 90px;
+    padding: 60px 25px 90px;
   }
   .article-heading {
-    margin: 70px 0 45px;
+    margin: 0 0 36px;
   }
   .prose {
     font-size: 16px;
@@ -1738,31 +1739,6 @@ a.home-featured:hover h3 {
 }
 
 /* ---------- 拾阅 ---------- */
-.reading-page {
-  width: calc(100% - clamp(40px, 8vw, 128px));
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: clamp(62px, 8vw, 104px) 0 110px;
-}
-.reading-intro {
-  max-width: 710px;
-  margin-bottom: 46px;
-}
-.reading-intro h1 {
-  margin: 8px 0 14px;
-  font-family: var(--serif);
-  font-size: clamp(52px, 7vw, 88px);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.05em;
-}
-.reading-intro > p:last-child {
-  margin: 0;
-  color: var(--muted);
-  font-family: var(--serif);
-  font-size: 17px;
-  line-height: 1.8;
-}
 .reading-source-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1802,7 +1778,7 @@ a.home-featured:hover h3 {
 .reading-note-head h2 {
   margin: 0;
   font-family: var(--serif);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 1.25;
 }
@@ -1829,7 +1805,7 @@ a.home-featured:hover h3 {
 }
 .reading-featured strong {
   font-family: var(--serif);
-  font-size: clamp(20px, 2.5vw, 28px);
+  font-size: clamp(17px, 2vw, 23px);
   font-weight: 500;
   line-height: 1.38;
 }
@@ -1921,16 +1897,6 @@ a.home-featured:hover h3 {
   }
 }
 @media (max-width: 650px) {
-  .reading-page {
-    width: calc(100% - 40px);
-    padding: 54px 0 76px;
-  }
-  .reading-intro {
-    margin-bottom: 34px;
-  }
-  .reading-intro > p:last-child {
-    font-size: 15px;
-  }
   .reading-note {
     padding: 24px 19px;
   }
@@ -1992,7 +1958,7 @@ a.home-featured:hover h3 {
 }
 .search-result h2 {
   margin: 9px 0;
-  font-size: clamp(20px, 2vw, 27px);
+  font-size: clamp(17px, 1.7vw, 22px);
   overflow-wrap: anywhere;
 }
 .search-result p {
