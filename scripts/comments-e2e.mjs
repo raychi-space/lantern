@@ -101,7 +101,7 @@ try {
   await page.getByRole('button', { name: '加载 GitHub 评论' }).click()
   await page.getByRole('status').filter({ hasText: '正在加载评论' }).waitFor({ state: 'hidden' })
   assert.equal(lastParams.get('term'), `raychi-content:${item.id}`)
-  await page.getByRole('link', { name: '← 返回文章' }).click()
+  await page.getByRole('link', { name: '继续读文章 →', exact: true }).click()
   await page.waitForURL(site + '/writing')
   assert.equal(await page.locator('giscus-widget').count(), 0)
   assert.equal(await page.getByRole('button', { name: '加载 GitHub 评论' }).count(), 0)
