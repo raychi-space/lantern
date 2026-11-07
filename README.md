@@ -69,7 +69,7 @@ npm run dev
 
 ## 访问统计与退出
 
-所有公开浏览器页面在可见后统一采集，包括拾阅、搜索、404 和翻页；SSR、预取、API、静态资源、查询词与正文不进入事件。公开站不展示统计开关；采集由管理台统一控制，继续遵守 DNT/GPC 及已有退出偏好。随机匿名标识保存在当前站点 localStorage，用于跨日和跨标签页去重；存储受限时只计 PV。采集失败不影响阅读。后端契约见 [站点统计 v2](https://github.com/raychi-space/wellspring/blob/main/docs/api/analytics-v2.md)，开发不代表已部署。
+根布局只注册一次 `PublicPageView`，所有公开浏览器页面在可见后统一采集，包括拾阅、搜索、404 和翻页；SSR、预取、API、静态资源、查询词与正文不进入事件。公开站不展示统计开关；采集由管理台统一控制，继续遵守 DNT/GPC 及已有退出偏好。随机匿名标识保存在当前站点 localStorage，用于跨日和跨标签页去重；存储受限时只计 PV。采集失败不影响阅读；浏览器不上传 IP，服务端按可信连接取得地址。实现入口见[模块说明](docs/module.md)。后端契约见 [站点统计 v2](https://github.com/raychi-space/wellspring/blob/main/docs/api/analytics-v2.md)，开发不代表已部署。
 
 ## GitHub 评论
 
@@ -82,7 +82,3 @@ npm run dev
 ## 相关文章
 
 文章详情显示至多3篇有共同发布标签或非默认分类的文章；评分、精确标签匹配和限量由 wellspring 负责，只消费公开元数据。工作稿不改变推荐，帖子不展示；空结果或可选接口失败/1500ms超时隐藏推荐，正文仍可读。契约见 [相关文章v1](https://github.com/raychi-space/wellspring/blob/main/docs/api/related-articles-v1.md)。`scripts/related-articles-e2e.mjs` 在明确隔离环境验证真实后端和生产页面；故障验收使用仅用于测试的 `related-fault-proxy.mjs`，不安装到生产。
-
-## 全公开页统计升级
-
-全局路由监听替代逐页挂载，覆盖拾阅、搜索、404 及查询参数翻页；不把查询词、URL 片段、正文发送到统计接口。匿名 UUID 保存在当前站点 localStorage，用于跨标签页/跨日近似访客去重；存储不可用只计 PV，继续遵守 DNT/GPC 和退出偏好。浏览器不能上传 IP，服务端按[新契约](https://github.com/raychi-space/wellspring/blob/main/docs/api/analytics-v2.md)取得可信地址。
