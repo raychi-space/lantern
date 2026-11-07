@@ -68,9 +68,6 @@ export function CoverGallery() {
           aria-label={`查看「${item.title}」版本 ${version} 大图`}
         >
           <GeneratedArticleCover item={item} instance="gallery" options={options} />
-          <span className="cover-preview-expand" aria-hidden="true">
-            ↗
-          </span>
         </button>
         <figcaption>
           <span>{item.title}</span>
@@ -194,7 +191,7 @@ export function CoverGallery() {
             placeholder="写几句日常，或者粘贴一段文章……"
           />
           <button type="submit" className="button-link">
-            生成三种变化 <span aria-hidden="true">↗</span>
+            生成三种变化
           </button>
         </form>
       </section>

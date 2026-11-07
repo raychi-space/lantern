@@ -1,22 +1,11 @@
 const preferenceKey = 'raychi.analytics.disabled'
-let disabledInMemory = false
 
 export function analyticsDisabled() {
   try {
     return localStorage.getItem(preferenceKey) === 'true'
   } catch {
-    return disabledInMemory
+    return false
   }
-}
-
-export function setAnalyticsDisabled(disabled: boolean) {
-  disabledInMemory = disabled
-  try {
-    localStorage.setItem(preferenceKey, String(disabled))
-  } catch {
-    /* The current tab still honours the setting without storage. */
-  }
-  window.dispatchEvent(new Event('raychi-analytics-preference'))
 }
 
 export function browserOptedOut() {

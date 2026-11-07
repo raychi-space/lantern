@@ -25,7 +25,7 @@ function LatestWriting({ items }: { items: PublicContent[] }) {
       <div className="home-list-heading">
         <h3 id="recent-writing">最近的文章</h3>
         <Link href="/writing" transitionTypes={['nav-forward']}>
-          全部文章 <span aria-hidden="true">↗</span>
+          全部文章
         </Link>
       </div>
       {items.length ? (
@@ -47,7 +47,7 @@ function LatestPosts({ items }: { items: PublicContent[] }) {
       <div className="home-list-heading">
         <h3 id="recent-posts">最近的帖子</h3>
         <Link href="/posts" transitionTypes={['nav-forward']}>
-          全部帖子 <span aria-hidden="true">↗</span>
+          全部帖子
         </Link>
       </div>
       {items.length ? (
@@ -122,7 +122,6 @@ export async function HomePage() {
                     rel={externalLink(link.href) ? 'noopener noreferrer' : undefined}
                   >
                     {link.label}
-                    <span aria-hidden="true">↗</span>
                   </Link>
                 ))}
               </div>
@@ -150,7 +149,7 @@ export async function HomePage() {
                         <p className="home-featured-label">精选文章</p>
                         <h3>第一篇文章正在准备中。</h3>
                         <Link href="/writing" transitionTypes={['nav-forward']}>
-                          浏览文章列表 ↗
+                          浏览文章列表
                         </Link>
                       </div>
                     )

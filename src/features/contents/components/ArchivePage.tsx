@@ -53,9 +53,6 @@ function ArchiveRows({ items, compact = false }: { items: PublicContent[]; compa
             {!compact && <small>{item.summary || firstSentence(item.bodyMarkdown)}</small>}
             {compact && item.title && <small>{firstSentence(item.bodyMarkdown)}</small>}
           </span>
-          <span className="archive-entry-arrow" aria-hidden="true">
-            ↗
-          </span>
         </Link>
       ))}
     </div>
