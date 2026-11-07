@@ -5,7 +5,6 @@ import { SiteNav } from '@/shared/ui/SiteNav'
 import { ThemeToggle } from '@/shared/ui/ThemeToggle'
 import { siteOrigin, siteUrl } from '@/shared/seo/site-url'
 import './globals.css'
-import { AnalyticsPreference } from '@/shared/ui/AnalyticsPreference'
 
 const themeInit = `try{if(localStorage.getItem('lantern-theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`
 
@@ -63,7 +62,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
               <Link href="/feed.xml" prefetch={false}>
                 RSS 订阅
               </Link>
-              <AnalyticsPreference />
             </div>
           </footer>
         </div>

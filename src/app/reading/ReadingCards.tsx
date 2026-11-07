@@ -48,10 +48,7 @@ function SourceCard({ source }: { source: ReadingSource }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <strong>
-              {featured.translatedTitle ?? featured.originalTitle}
-              <span aria-hidden="true"> ↗</span>
-            </strong>
+            <strong>{featured.translatedTitle ?? featured.originalTitle}</strong>
             {featured.translatedTitle && <span>{featured.originalTitle}</span>}
           </a>
           <p className="reading-feature-meta">
@@ -109,7 +106,6 @@ function ArticleList({
             <span>
               <span className="reading-cn-title">
                 {article.translatedTitle ?? article.originalTitle}
-                <span aria-hidden="true"> ↗</span>
               </span>
               {article.translatedTitle && (
                 <span className="reading-original-title">{article.originalTitle}</span>
