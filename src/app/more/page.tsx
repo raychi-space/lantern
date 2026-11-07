@@ -1,4 +1,3 @@
-import { PublicPageView } from '@/shared/ui/PublicPageView'
 import Link from 'next/link'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { pageMetadata } from '@/features/contents'
@@ -12,7 +11,6 @@ export default function MorePage() {
   return (
     <PageTransition>
       <main className="inner-page">
-        <PublicPageView path="/more" />
         <PageIntro kicker="MORE" title="更多">
           <p>
             其他内容会在这里相遇。现在可以先阅读<Link href="/archive">回顾</Link>。
