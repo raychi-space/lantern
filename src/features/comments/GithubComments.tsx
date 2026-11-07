@@ -114,7 +114,7 @@ export function GithubComments({
         target="_blank"
         rel="noopener noreferrer"
       >
-        前往 GitHub 讨论区 ↗
+        前往 GitHub 讨论区
       </a>
     </section>
   )
