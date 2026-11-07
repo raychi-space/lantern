@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Suspense } from 'react'
+import { PublicPageView } from '@/shared/ui/PublicPageView'
 import { siteSettings, publicLinks, externalLink, SocialLinks } from '@/features/contents'
 import { SiteNav } from '@/shared/ui/SiteNav'
 import { ThemeToggle } from '@/shared/ui/ThemeToggle'
@@ -27,6 +29,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <body>
+        <Suspense fallback={null}>
+          <PublicPageView />
+        </Suspense>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <div className="site-shell">
           <div className="paper-texture" aria-hidden="true" />
