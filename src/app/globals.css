@@ -1966,19 +1966,6 @@ a.home-featured:hover h3 {
   }
 }
 
-.analytics-preference {
-  border: 0;
-  background: none;
-  padding: 0;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-.analytics-preference:disabled {
-  cursor: default;
-  opacity: 0.7;
-}
-
 /* Surface and accessibility refinements shared by the reading routes. */
 .inner-page[role='alert'] button {
   padding: 12px 20px;
