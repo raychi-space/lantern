@@ -34,7 +34,7 @@ function LatestWriting({ items }: { items: PublicContent[] }) {
           ))}
         </div>
       ) : (
-        <EmptyState inline>更多文章正在准备中。</EmptyState>
+        <EmptyState inline>更多文章正在路上。</EmptyState>
       )}
     </section>
   )
@@ -97,16 +97,16 @@ export async function HomePage() {
               <Image
                 className="home-avatar"
                 src={headphoneGirlAvatar}
-                alt={`${settings.siteName}头像：戴耳机的少女与诗人工作室`}
+                alt={`${settings.siteName}头像`}
                 sizes="(max-width: 650px) 104px, 128px"
               />
             )}
-            <p className="home-kicker">一个人的工作室</p>
+            <p className="home-kicker">Mia San Mia</p>
             <h1>{settings.siteName}</h1>
             <p className="home-bio">{settings.intro}</p>
             {homepage.focus && (
               <div className="home-focus">
-                <span>当前关注</span>
+                {/* <span>当前关注</span> */}
                 <strong>{homepage.focus}</strong>
               </div>
             )}
@@ -127,7 +127,7 @@ export async function HomePage() {
             <SocialLinks accounts={settings.socialAccounts} />
             <figure className="home-illustration">
               <PaperScene />
-              <figcaption>在日常的缝隙里，留一点时间给自己。</figcaption>
+              <figcaption>：）</figcaption>
             </figure>
           </div>
           <div className="home-recent">
@@ -194,15 +194,15 @@ export async function HomePage() {
                 <aside className="home-numbers" aria-label="站点数据" key="stats">
                   <div>
                     <strong>{writing.total}</strong>
-                    <span>写过的文章</span>
+                    <span>文章</span>
                   </div>
                   <div>
                     <strong>{posts.total}</strong>
-                    <span>发布的帖子</span>
+                    <span>帖子</span>
                   </div>
                   <div>
                     <strong>{projects.length}</strong>
-                    <span>公开项目</span>
+                    <span>项目</span>
                   </div>
                 </aside>
               ),
