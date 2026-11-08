@@ -16,17 +16,14 @@ export function browserOptedOut() {
   )
 }
 
-function dailyVisitor(): string | undefined {
+function visitor(): string | undefined {
   try {
-    const key = 'raychi.analytics.visitor'
-    const day = new Date().toISOString().slice(0, 10)
-    const previous = JSON.parse(sessionStorage.getItem(key) ?? 'null') as {
-      day?: string
-      id?: string
-    } | null
-    if (previous?.day === day && /^[0-9a-f-]{36}$/.test(previous.id ?? '')) return previous!.id
+    const key = 'raychi.analytics.visitor.v2'
+    const previous = localStorage.getItem(key)
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(previous ?? ''))
+      return previous!
     const id = crypto.randomUUID()
-    sessionStorage.setItem(key, JSON.stringify({ day, id }))
+    localStorage.setItem(key, id)
     return id
   } catch {
     return undefined
@@ -46,7 +43,7 @@ export async function collectPageView(path: string) {
       id: crypto.randomUUID(),
       path,
       occurredAt: new Date().toISOString(),
-      visitorId: dailyVisitor(),
+      visitorId: visitor(),
     }
     if (document.referrer) {
       const source = new URL(document.referrer).hostname.toLowerCase()

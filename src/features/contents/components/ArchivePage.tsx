@@ -1,4 +1,3 @@
-import { PublicPageView } from '@/shared/ui/PublicPageView'
 import Link from 'next/link'
 import { contentPath, contents, firstSentence } from '../api'
 import type { PublicContent } from '../types'
@@ -94,7 +93,6 @@ export async function ArchivePage({ searchParams }: { searchParams: Promise<Para
   return (
     <PageTransition>
       <main className="inner-page archive-page">
-        <PublicPageView path="/archive" />
         <PageIntro kicker="ARCHIVE" title="回顾">
           <p>按公开时间，翻阅已经写下的内容。</p>
         </PageIntro>

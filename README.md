@@ -69,7 +69,7 @@ npm run dev
 
 ## 访问统计与退出
 
-已成功加载的公开首页、列表、详情、回顾及更多页在浏览器可见后采集路径，不采集搜索、404、预取、查询词或全文。公开站不展示统计开关；采集由管理台统一控制，同时遵守浏览器 DNT/GPC 及已有的本地退出偏好；随机访客标识仅保存在当前标签页，每个 UTC 日更新，存储受限时仅匿名 PV。采集失败不会显示阅读错误。后端配置及保留策略见 [站点统计 v1](https://github.com/raychi-space/wellspring/blob/main/docs/api/analytics-v1.md)，启用线上服务仍需批准发布。
+根布局只注册一次 `PublicPageView`，所有公开浏览器页面在可见后统一采集，包括拾阅、搜索、404 和翻页；SSR、预取、API、静态资源、查询词与正文不进入事件。公开站不展示统计开关；采集由管理台统一控制，继续遵守 DNT/GPC 及已有退出偏好。随机匿名标识保存在当前站点 localStorage，用于跨日和跨标签页去重；存储受限时只计 PV。采集失败不影响阅读；浏览器不上传 IP，服务端按可信连接取得地址。实现入口见[模块说明](docs/module.md)。后端契约见 [站点统计 v2](https://github.com/raychi-space/wellspring/blob/main/docs/api/analytics-v2.md)，开发不代表已部署。
 
 ## GitHub 评论
 

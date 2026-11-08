@@ -1,20 +1,28 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { collectPageView } from '../lib/analytics'
 
-/** Mount only after a public page has successfully resolved its published data. */
-export function PublicPageView({ path }: { path: string }) {
+/** One page view per visible navigation; query strings only trigger navigation, never enter the event. */
+export function PublicPageView() {
+  const path = usePathname()
+  const search = useSearchParams()
+  const navigation = `${path}?${search.toString()}`
   const lastPath = useRef<string | null>(null)
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined
     const schedule = () => {
-      if (document.visibilityState === 'hidden' || lastPath.current === path || timer !== undefined)
+      if (
+        document.visibilityState === 'hidden' ||
+        lastPath.current === navigation ||
+        timer !== undefined
+      )
         return
       timer = setTimeout(() => {
         timer = undefined
-        if (document.visibilityState === 'hidden' || lastPath.current === path) return
-        lastPath.current = path
+        if (document.visibilityState === 'hidden' || lastPath.current === navigation) return
+        lastPath.current = navigation
         void collectPageView(path)
       }, 0)
     }
@@ -24,6 +32,6 @@ export function PublicPageView({ path }: { path: string }) {
       clearTimeout(timer)
       document.removeEventListener('visibilitychange', schedule)
     }
-  }, [path])
+  }, [path, navigation])
   return null
 }
