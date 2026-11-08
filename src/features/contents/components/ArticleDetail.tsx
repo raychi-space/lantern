@@ -1,4 +1,3 @@
-import { PublicPageView } from '@/shared/ui/PublicPageView'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -21,7 +20,6 @@ export function ArticleDetail({
   return (
     <PageTransition>
       <main className="article-page">
-        <PublicPageView path={`/writing/${item.slug}`} />
         <header className="article-heading">
           <p className="eyebrow">WRITING / 文章</p>
           <h1>{item.title}</h1>

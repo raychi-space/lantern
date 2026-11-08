@@ -1,4 +1,3 @@
-import { PublicPageView } from '@/shared/ui/PublicPageView'
 import { ArticleDetail } from './ArticleDetail'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -44,7 +43,6 @@ export async function ContentList({
   return (
     <PageTransition>
       <main className="inner-page">
-        <PublicPageView path={info.path} />
         <PageIntro kicker={type} title={info.title}>
           <p>{info.intro}</p>
         </PageIntro>
@@ -116,7 +114,6 @@ export async function ContentDetail({
     return (
       <PageTransition>
         <main className="inner-page post-detail-page">
-          <PublicPageView path={`/posts/${item.slug}`} />
           <h1 className="sr-only">{item.title || '帖子'}</h1>
           <Link href="/posts" className="back-link" transitionTypes={['nav-back']}>
             ← 返回帖子时间线

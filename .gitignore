@@ -12,6 +12,7 @@ coverage/
 .next-audit/
 
 .next-analytics/
+.next-analytics-details/
 .next-comments/
 .next-reading/
 .next-related/
