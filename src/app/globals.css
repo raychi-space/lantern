@@ -2200,3 +2200,175 @@ a.home-featured:hover h3 {
     font-size: 11px;
   }
 }
+
+/* 拾阅：事件与跨来源资讯。 */
+.discovery-page {
+  padding-top: 32px;
+}
+.discovery-page .page-intro {
+  margin-bottom: 24px;
+}
+.discovery-tabs,
+.discovery-periods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.discovery-tabs {
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+.discovery-tabs a,
+.discovery-periods a {
+  padding: 7px 16px;
+  border-radius: 6px;
+  color: var(--muted);
+}
+.discovery-tabs a[aria-current],
+.discovery-periods a[aria-current] {
+  background: var(--card);
+  color: var(--ink);
+}
+.discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+.discovery-entry {
+  min-width: 0;
+  padding: 18px;
+  background: var(--paper-high);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.discovery-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 9px;
+}
+.discovery-entry h3 {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0 0 9px;
+  font-weight: 500;
+}
+.discovery-summary {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  color: var(--body-ink);
+}
+.discovery-original,
+.discovery-sources {
+  font-size: 12px;
+  color: var(--muted);
+}
+.discovery-sources summary {
+  cursor: pointer;
+  padding: 5px 0;
+}
+.discovery-sources ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+.discovery-sources li {
+  padding: 7px 0;
+  border-top: 1px solid var(--line-soft);
+}
+.discovery-sources a span {
+  display: block;
+  color: var(--accent);
+  margin-bottom: 3px;
+}
+.discovery-report-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.discovery-report-controls form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  max-width: 100%;
+}
+.discovery-report-controls select,
+.discovery-report-controls button {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper-high);
+  padding: 7px 10px;
+  font: inherit;
+  color: var(--ink);
+  min-width: 0;
+}
+.discovery-report-heading {
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 20px;
+  margin-bottom: 24px;
+}
+.discovery-report-heading > p:first-child {
+  color: var(--muted);
+  font-size: 13px;
+}
+.discovery-report-heading h2 {
+  font-size: 24px;
+  line-height: 1.5;
+  font-weight: 500;
+  margin: 12px 0;
+}
+.discovery-report-heading p,
+.discovery-section > p {
+  white-space: pre-wrap;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.discovery-section {
+  margin-bottom: 26px;
+}
+.discovery-section > h2 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+.discovery-next {
+  display: block;
+  width: fit-content;
+  padding: 12px 22px;
+  margin: 24px auto 0;
+  background: var(--card);
+  border-radius: 6px;
+}
+.reading-note-status {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.discovery-page :is(a, button, summary, select):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (max-width: 680px) {
+  .discovery-page {
+    padding-top: 24px;
+  }
+  .discovery-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .discovery-entry {
+    padding: 16px;
+  }
+  .discovery-entry h3 {
+    font-size: 17px;
+  }
+}
