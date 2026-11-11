@@ -27,6 +27,7 @@ export function ArticleDetail({
           <div className="article-meta">
             <time dateTime={item.publishedAt}>
               {new Intl.DateTimeFormat('zh-CN', {
+                timeZone: 'Asia/Shanghai',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
