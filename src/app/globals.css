@@ -103,30 +103,6 @@ input {
   width: 100%;
   height: auto;
 }
-.home-illustration {
-  margin: 42px 0 0;
-}
-.home-illustration .paper-scene {
-  clip-path: polygon(
-    0 2%,
-    26% 0,
-    65% 1%,
-    100% 0,
-    99% 55%,
-    100% 98%,
-    73% 100%,
-    32% 98%,
-    0 100%,
-    1% 46%
-  );
-}
-.home-illustration figcaption {
-  margin-top: 15px;
-  color: var(--faint);
-  font-family: var(--serif);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-}
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 5px;
@@ -492,7 +468,7 @@ a.chip:hover {
 .home-intro-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  padding: 40px 0 80px;
+  padding: 24px 0 40px;
   border-bottom: 1px solid var(--line);
 }
 .home-profile {
@@ -719,58 +695,17 @@ a.home-featured:hover h3 {
 .home-writing-item:hover strong {
   color: var(--accent-hi);
 }
-.home-post-item {
-  display: block;
-  position: relative;
-  padding: 14px 0 17px 22px;
-  border: 0;
-  background: transparent;
-  border-radius: 0;
-  transition: background 0.18s;
-}
-.home-post-item::before {
-  content: '';
-  position: absolute;
-  left: 2px;
-  top: 21px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-}
-.home-post-item:hover,
-.home-post-item:focus-visible {
-  background: var(--accent-soft);
-}
-.home-post-item time {
-  color: var(--faint);
-  font-size: 11px;
-}
-.home-post-item h4 {
-  margin: 8px 0 0;
-  font-size: 15px;
-  font-weight: 700;
-}
-.home-post-item p {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.75;
-  overflow-wrap: anywhere;
-}
-.home-bottom {
-  display: grid;
-  grid-template-columns: minmax(0, 600px) minmax(0, 1fr);
-  gap: clamp(40px, 5vw, 72px);
-  align-items: start;
-  max-width: 980px;
-  padding: 87px 0 78px;
-}
+.home-posts-section,
 .home-projects {
   min-width: 0;
+  padding: 36px 0;
 }
+.home-posts-section {
+  border-bottom: 1px solid var(--line);
+}
+.home-posts-section .home-section-title,
 .home-projects .home-section-title {
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 .home-project-grid {
   display: block;
@@ -812,28 +747,6 @@ a.home-featured:hover h3 {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.75;
-}
-.home-numbers {
-  display: grid;
-  gap: 22px;
-  align-content: start;
-  min-width: 0;
-  padding: 6px 0 0 clamp(28px, 3vw, 48px);
-  border-left: 1px solid var(--line);
-}
-.home-numbers div {
-  display: grid;
-  gap: 3px;
-}
-.home-numbers strong {
-  color: var(--accent-hi);
-  font-family: var(--serif);
-  font-size: 28px;
-  font-weight: 500;
-}
-.home-numbers span {
-  color: var(--faint);
-  font-size: 12px;
 }
 
 /* ---------- 列表页（文章 / 帖子 / 回顾共用页头） ---------- */
@@ -1588,7 +1501,7 @@ a.home-featured:hover h3 {
   }
   .home-intro-grid {
     gap: 43px;
-    padding: 40px 0 64px;
+    padding: 24px 0 36px;
   }
   .home-avatar {
     width: 104px;
@@ -1615,19 +1528,6 @@ a.home-featured:hover h3 {
     display: flex;
     flex-direction: column;
     gap: 30px;
-  }
-  .home-bottom {
-    display: block;
-    padding: 67px 0 59px;
-  }
-  .home-numbers {
-    margin-top: 47px;
-    padding: 26px 0 0;
-    border-left: 0;
-    border-top: 1px solid var(--line);
-  }
-  .home-numbers strong {
-    font-size: 26px;
   }
   .inner-page {
     padding: 40px 25px 90px;
@@ -2174,9 +2074,6 @@ a.home-featured:hover h3 {
 .article-row:hover {
   background: var(--accent-soft);
 }
-.home-illustration {
-  max-width: 560px;
-}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -2185,19 +2082,6 @@ a.home-featured:hover h3 {
   *::before,
   *::after {
     transition: none !important;
-  }
-}
-@media (max-width: 900px) {
-  .home-illustration {
-    max-width: 650px;
-  }
-}
-@media (max-width: 650px) {
-  .home-illustration {
-    margin-top: 32px;
-  }
-  .home-illustration figcaption {
-    font-size: 11px;
   }
 }
 
@@ -2270,8 +2154,31 @@ a.home-featured:hover h3 {
   color: var(--muted);
 }
 .discovery-sources summary {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
   padding: 5px 0;
+  list-style: none;
+}
+.discovery-sources summary::-webkit-details-marker {
+  display: none;
+}
+.discovery-source-chevron {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.24s ease;
+}
+.discovery-sources[open]:not([data-closing]) .discovery-source-chevron {
+  transform: rotate(180deg);
+}
+.discovery-source-content {
+  display: flow-root;
 }
 .discovery-sources ul {
   list-style: none;

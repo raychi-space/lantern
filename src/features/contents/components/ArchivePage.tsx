@@ -93,9 +93,7 @@ export async function ArchivePage({ searchParams }: { searchParams: Promise<Para
   return (
     <PageTransition>
       <main className="inner-page archive-page">
-        <PageIntro kicker="ARCHIVE" title="回顾">
-          <p>按公开时间，翻阅已经写下的内容。</p>
-        </PageIntro>
+        <PageIntro kicker="ARCHIVE" title="回顾" />
         <div className="archive-columns">
           <section className="archive-col" id="articles" aria-labelledby="archive-articles-title">
             <div className="archive-col-head">

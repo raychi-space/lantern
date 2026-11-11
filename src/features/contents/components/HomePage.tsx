@@ -1,22 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import headphoneGirlAvatar from '@/shared/assets/headphone-girl-avatar.webp'
-import { contents, contentPath, firstSentence, siteSettings } from '../api'
+import { contents, siteSettings } from '../api'
 import type { PublicContent } from '../types'
 import { externalLink, publicLinks } from '../links'
 import { SocialLinks } from './SocialLinks'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { ContentCard } from './ContentCard'
-import { PaperScene } from '@/shared/ui/PaperScene'
 import { EmptyState } from '@/shared/ui/EmptyState'
-
-const date = (value: string) =>
-  new Intl.DateTimeFormat('zh-CN', {
-    timeZone: 'Asia/Shanghai',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(new Date(value))
+import { PostTimeline } from './PostTimeline'
 
 function LatestWriting({ items }: { items: PublicContent[] }) {
   return (
@@ -35,37 +27,6 @@ function LatestWriting({ items }: { items: PublicContent[] }) {
         </div>
       ) : (
         <EmptyState inline>更多文章正在路上。</EmptyState>
-      )}
-    </section>
-  )
-}
-
-function LatestPosts({ items }: { items: PublicContent[] }) {
-  return (
-    <section className="home-latest-group home-posts" aria-labelledby="recent-posts">
-      <div className="home-list-heading">
-        <h3 id="recent-posts">最近的帖子</h3>
-        <Link href="/posts" transitionTypes={['nav-forward']}>
-          全部帖子
-        </Link>
-      </div>
-      {items.length ? (
-        <div className="home-post-list">
-          {items.map((item) => (
-            <Link
-              href={contentPath(item)}
-              key={item.id}
-              className="home-post-item"
-              transitionTypes={['nav-forward']}
-            >
-              <time dateTime={item.publishedAt}>{date(item.publishedAt)}</time>
-              {item.title && <h4>{item.title}</h4>}
-              {firstSentence(item.bodyMarkdown) && <p>{firstSentence(item.bodyMarkdown)}</p>}
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <EmptyState inline>最近还没有帖子。</EmptyState>
       )}
     </section>
   )
@@ -125,19 +86,18 @@ export async function HomePage() {
               </div>
             )}
             <SocialLinks accounts={settings.socialAccounts} />
-            <figure className="home-illustration">
-              <PaperScene />
-              <figcaption>：）</figcaption>
-            </figure>
           </div>
           <div className="home-recent">
             <div className="home-section-title">
               <p className="eyebrow">FROM THE DESK</p>
-              <h2>最近写下</h2>
+              <h2>最近内容：</h2>
             </div>
             <div className="home-recent-sections">
               {homepage.recentSections
-                .filter((section) => section.visible)
+                .filter(
+                  (section) =>
+                    section.visible && (section.id === 'featured' || section.id === 'writing'),
+                )
                 .map((section) =>
                   section.id === 'featured' ? (
                     featured ? (
@@ -151,8 +111,6 @@ export async function HomePage() {
                         </Link>
                       </div>
                     )
-                  ) : section.id === 'posts' ? (
-                    <LatestPosts key="posts" items={posts.items} />
                   ) : (
                     <LatestWriting key="writing" items={writing.items.slice(1)} />
                   ),
@@ -161,53 +119,44 @@ export async function HomePage() {
           </div>
         </section>
 
-        <div className="home-bottom">
-          {homepage.bottomSections
-            .filter((section) => section.visible)
-            .map((section) =>
-              section.id === 'projects' ? (
-                <section className="home-projects" aria-labelledby="projects-title" key="projects">
-                  <div className="home-section-title">
-                    <p className="eyebrow">IN PROGRESS</p>
-                    <h2 id="projects-title">最近在做</h2>
-                    {settings.projectIntro && <p>{settings.projectIntro}</p>}
-                  </div>
-                  <div className="home-project-grid">
-                    {projects.map((project, index) => (
-                      <Link
-                        className="home-project"
-                        key={`${project.href}-${index}`}
-                        href={project.href}
-                        target={externalLink(project.href) ? '_blank' : undefined}
-                        rel={externalLink(project.href) ? 'noopener noreferrer' : undefined}
-                      >
-                        <div className="home-project-top">
-                          <h3>{project.name}</h3>
-                          <span>{project.status}</span>
-                        </div>
-                        <p>{project.description}</p>
-                      </Link>
-                    ))}
-                  </div>
-                </section>
-              ) : (
-                <aside className="home-numbers" aria-label="站点数据" key="stats">
-                  <div>
-                    <strong>{writing.total}</strong>
-                    <span>文章</span>
-                  </div>
-                  <div>
-                    <strong>{posts.total}</strong>
-                    <span>帖子</span>
-                  </div>
-                  <div>
-                    <strong>{projects.length}</strong>
-                    <span>项目</span>
-                  </div>
-                </aside>
-              ),
-            )}
-        </div>
+        <section className="home-posts-section" aria-labelledby="home-posts-title">
+          <div className="home-list-heading home-section-title">
+            <h2 id="home-posts-title">帖子</h2>
+            <Link href="/posts" transitionTypes={['nav-forward']}>
+              全部帖子
+            </Link>
+          </div>
+          {posts.items.length ? (
+            <PostTimeline items={posts.items} />
+          ) : (
+            <EmptyState inline>最近还没有帖子。</EmptyState>
+          )}
+        </section>
+
+        <section className="home-projects" aria-labelledby="projects-title">
+          <div className="home-section-title">
+            <p className="eyebrow">IN PROGRESS</p>
+            <h2 id="projects-title">最近在做</h2>
+            {settings.projectIntro && <p>{settings.projectIntro}</p>}
+          </div>
+          <div className="home-project-grid">
+            {projects.map((project, index) => (
+              <Link
+                className="home-project"
+                key={`${project.href}-${index}`}
+                href={project.href}
+                target={externalLink(project.href) ? '_blank' : undefined}
+                rel={externalLink(project.href) ? 'noopener noreferrer' : undefined}
+              >
+                <div className="home-project-top">
+                  <h3>{project.name}</h3>
+                  <span>{project.status}</span>
+                </div>
+                <p>{project.description}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
       </main>
     </PageTransition>
   )
