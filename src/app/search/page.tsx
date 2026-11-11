@@ -30,9 +30,7 @@ export default async function SearchPage({
   return (
     <PageTransition>
       <main className="inner-page search-page">
-        <PageIntro kicker="SEARCH" title="搜索">
-          <p>寻找文章和帖子中的文字。</p>
-        </PageIntro>
+        <PageIntro kicker="SEARCH" title="搜索" />
         <form action={`${process.env.RAYCHI_BASE_PATH ?? ''}/search`} className="search-form">
           <label htmlFor="search-q" className="sr-only">
             搜索关键词
