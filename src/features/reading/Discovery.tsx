@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { EmptyState } from '@/shared/ui/EmptyState'
 import type { DiscoveryEntry, DiscoveryPage } from './types'
+import { SourceDisclosure } from './SourceDisclosure'
 
 const date = (value: string) =>
   new Intl.DateTimeFormat('zh-CN', {
@@ -33,18 +34,7 @@ function Entries({ items }: { items: DiscoveryEntry[] }) {
               {item.sources[0].name || '原文'}
             </a>
           ) : item.sources.length > 1 ? (
-            <details className="discovery-sources">
-              <summary>查看原文来源（{item.sources.length}）</summary>
-              <ul>
-                {item.sources.map((source, i) => (
-                  <li key={source.url + i}>
-                    <a href={source.url} target="_blank" rel="noopener noreferrer">
-                      <span>{source.name || '原文'}</span> {source.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </details>
+            <SourceDisclosure sources={item.sources} />
           ) : null}
         </article>
       ))}

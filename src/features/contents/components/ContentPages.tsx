@@ -13,8 +13,8 @@ import { EmptyState } from '@/shared/ui/EmptyState'
 import { Pagination } from '@/shared/ui/Pagination'
 
 const labels = {
-  ARTICLE: { title: '文章', intro: '值得慢慢说的事情，写得完整一些。', path: '/writing' },
-  POST: { title: '帖子', intro: '按时间写下的短记录。', path: '/posts' },
+  ARTICLE: { title: '文章', path: '/writing' },
+  POST: { title: '帖子', path: '/posts' },
 }
 
 export async function ContentList({
@@ -43,9 +43,7 @@ export async function ContentList({
   return (
     <PageTransition>
       <main className="inner-page">
-        <PageIntro kicker={type} title={info.title}>
-          <p>{info.intro}</p>
-        </PageIntro>
+        <PageIntro kicker={type} title={info.title} />
         {(categoryNames.length > 0 || tagNames.length > 0) && (
           <div className="chip-row">
             <ChipLink href={info.path} active={!category && !tag}>

@@ -40,9 +40,7 @@ export default async function ReadingPage({
     return (
       <PageTransition>
         <main className="inner-page discovery-page">
-          <PageIntro kicker="READING" title="拾阅">
-            <p>汇集多方消息，整理值得关注的动态。</p>
-          </PageIntro>
+          <PageIntro kicker="READING" title="拾阅" />
           <Discovery data={discovery} />
         </main>
       </PageTransition>
