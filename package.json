@@ -14,14 +14,20 @@
   },
   "dependencies": {
     "@giscus/react": "3.1.0",
+    "katex": "0.19.1",
     "next": "16.4.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-markdown": "10.1.0",
+    "rehype-katex": "7.0.1",
     "remark-gfm": "4.0.1",
+    "remark-math": "6.0.0",
     "remark-parse": "11.0.0",
     "simple-icons": "16.33.0",
     "unified": "11.0.5"
+  },
+  "overrides": {
+    "katex": "$katex"
   },
   "devDependencies": {
     "@types/mdast": "4.0.4",

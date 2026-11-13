@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import remarkGfm from 'remark-gfm'
+import { articleRemarkPlugins } from '../src/features/contents/article-markdown.ts'
 import { readingOutline, remarkReadingHeadings } from '../src/features/contents/reading-outline.ts'
 
 test('outline and renderer agree for GFM, nested headings, duplicate Chinese and Setext', () => {
@@ -15,11 +15,23 @@ test('outline and renderer agree for GFM, nested headings, duplicate Chinese and
     { id: 'reading-section-6', depth: 2, label: '四级 图片替代文字' },
     { id: 'reading-section-7', depth: 4, label: '子节' },
   ] })
-  const processor = unified().use(remarkParse).use(remarkGfm).use(remarkReadingHeadings)
+  const processor = unified().use(remarkParse).use(articleRemarkPlugins).use(remarkReadingHeadings)
   const tree = processor.runSync(processor.parse(body))
   for (const entry of result.headings) {
     assert.ok(tree.children.some(node => node.type === 'heading' && node.depth === entry.depth && node.data?.hProperties?.id === entry.id))
   }
+})
+
+test('math blocks cannot add phantom headings or shift rendered anchors', () => {
+  const body = '## 行内 $a^2 + b^2$\n\n$$\n# not a heading\n## also not a heading\n$$\n\n## 结论\n\n`$literal$`'
+  const outline = readingOutline(body)
+  assert.deepEqual(outline.headings, [
+    { id: 'reading-section-1', depth: 2, label: '行内 a^2 + b^2' },
+    { id: 'reading-section-2', depth: 2, label: '结论' },
+  ])
+  const processor = unified().use(remarkParse).use(articleRemarkPlugins).use(remarkReadingHeadings)
+  const tree = processor.runSync(processor.parse(body))
+  assert.deepEqual(tree.children.filter(node => node.type === 'heading').map(node => node.data.hProperties.id), outline.headings.map(row => row.id))
 })
 
 test('large outlines are bounded, IDs are unique, empty/raw/code text excluded', () => {
