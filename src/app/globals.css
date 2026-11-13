@@ -1066,6 +1066,7 @@ a.home-featured:hover h3 {
   margin: auto;
 }
 .article-heading {
+  max-width: 760px;
   text-align: left;
   margin: 0 0 44px;
 }
@@ -1124,12 +1125,24 @@ a.home-featured:hover h3 {
 .prose :is(h1, h2, h3, h4, h5, h6)[id] {
   scroll-margin-top: 96px;
 }
+.article-reading-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 760px);
+}
+.article-reading-content {
+  min-width: 0;
+}
 .reading-outline {
   max-width: 760px;
-  margin: 0 0 40px;
-  padding: 18px 0;
+  margin: 0 0 24px;
+  padding: 14px 0;
   border-block: 1px solid var(--line);
   color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.reading-outline-desktop {
+  display: none;
 }
 .reading-outline summary {
   color: var(--ink);
@@ -1145,6 +1158,9 @@ a.home-featured:hover h3 {
   margin: 8px 0;
   overflow-wrap: anywhere;
 }
+.reading-outline a {
+  display: block;
+}
 .reading-outline .reading-depth-3 {
   padding-left: 18px;
 }
@@ -1157,6 +1173,53 @@ a.home-featured:hover h3 {
 .reading-outline :is(summary, a):focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
+}
+@media (min-width: 1100px) {
+  .article-reading-layout.has-outline {
+    grid-template-columns: minmax(0, 760px) minmax(180px, 220px);
+    gap: 36px;
+  }
+  .has-outline .article-reading-content {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .reading-outline {
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: 110px;
+    align-self: start;
+    max-height: calc(100dvh - 136px);
+    overflow-y: auto;
+    margin: 0;
+    padding: 4px 4px 4px 18px;
+    border-block: 0;
+    border-left: 1px solid var(--line);
+    scrollbar-width: thin;
+  }
+  .reading-outline-desktop {
+    display: block;
+  }
+  .reading-outline h2 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .reading-outline-mobile {
+    display: none;
+  }
+}
+.prose .katex-display {
+  max-width: 100%;
+  padding: 4px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.prose .katex-error {
+  color: var(--body-ink) !important;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 .prose a {
   color: var(--accent);
@@ -1598,6 +1661,9 @@ a.home-featured:hover h3 {
   }
   .prose {
     font-size: 16px;
+  }
+  .prose :is(h1, h2, h3, h4, h5, h6)[id] {
+    scroll-margin-top: 124px;
   }
   .archive-entry {
     grid-template-columns: minmax(0, 1fr);

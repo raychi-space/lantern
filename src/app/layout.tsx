@@ -6,6 +6,7 @@ import { siteSettings, publicLinks, externalLink, SocialLinks } from '@/features
 import { SiteNav } from '@/shared/ui/SiteNav'
 import { ThemeToggle } from '@/shared/ui/ThemeToggle'
 import { siteOrigin, siteUrl } from '@/shared/seo/site-url'
+import 'katex/dist/katex.min.css'
 import './globals.css'
 
 const themeInit = `try{if(localStorage.getItem('lantern-theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`
