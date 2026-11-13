@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import type { PublicContent, RelatedArticle } from '../types'
 import type { ReactNode } from 'react'
 import { ReadingOutline } from './ReadingOutline'
-import { remarkReadingHeadings } from '../reading-outline'
+import { readingOutline, remarkReadingHeadings } from '../reading-outline'
+import { articleRemarkPlugins, articleRehypePlugins } from '../article-markdown'
 import { RelatedArticles } from './RelatedArticles'
 
 export function ArticleDetail({
@@ -17,6 +17,8 @@ export function ArticleDetail({
   related: RelatedArticle[]
   footer?: ReactNode
 }) {
+  const markdown = item.bodyMarkdown ?? ''
+  const outline = readingOutline(markdown)
   return (
     <PageTransition>
       <main className="article-page">
@@ -45,21 +47,30 @@ export function ArticleDetail({
             ))}
           </div>
         </header>
-        <ReadingOutline markdown={item.bodyMarkdown ?? ''} />
-        <article className="prose">
-          <Markdown remarkPlugins={[remarkGfm, remarkReadingHeadings]}>
-            {item.bodyMarkdown ?? ''}
-          </Markdown>
-        </article>
-        <div className="article-end">
-          <span>✳</span>
-          <p>感谢读到这里。</p>
-          <Link href="/writing" transitionTypes={['nav-back']}>
-            继续读文章 →
-          </Link>
+        <div
+          className={`article-reading-layout${outline.headings.length >= 2 ? ' has-outline' : ''}`}
+        >
+          <ReadingOutline {...outline} />
+          <div className="article-reading-content">
+            <article className="prose">
+              <Markdown
+                remarkPlugins={[...articleRemarkPlugins, remarkReadingHeadings]}
+                rehypePlugins={articleRehypePlugins}
+              >
+                {markdown}
+              </Markdown>
+            </article>
+            <div className="article-end">
+              <span>✳</span>
+              <p>感谢读到这里。</p>
+              <Link href="/writing" transitionTypes={['nav-back']}>
+                继续读文章 →
+              </Link>
+            </div>
+            <RelatedArticles items={related} />
+            {footer}
+          </div>
         </div>
-        <RelatedArticles items={related} />
-        {footer}
       </main>
     </PageTransition>
   )

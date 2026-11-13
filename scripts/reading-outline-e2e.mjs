@@ -22,6 +22,7 @@ async function req(path, method = 'GET', data, expected = 200) {
   return expected === 204 ? undefined : response.json()
 }
 async function article(body) {
+  body += '\n\n行内 $E=mc^2$。\n\n$$\n\\frac{1}{2}\n$$\n\n$$\n## 公式中的文字不是章节\n$$'
   let item = await req('/api/v1/admin/contents?type=ARTICLE', 'POST', {}, 201)
   ids.push(item.id)
   item = await req(`/api/v1/admin/contents/${item.id}`, 'PUT', { version: item.version,
@@ -45,8 +46,12 @@ try {
   await page.goto(site + '/writing/' + item.slug)
   const toc = page.getByRole('navigation', { name: '文章目录' })
   await toc.waitFor()
-  assert.deepEqual(await toc.locator('a').allTextContents(), ['中文 链接 代码', '重复', '重复', 'Setext章节', '子节'])
-  const hrefs = await toc.locator('a').evaluateAll(links => links.map(link => link.getAttribute('href')))
+  assert.equal(await page.locator('.prose .katex').count(), 2)
+  assert.equal(await page.locator('.prose .katex-error').count(), 1)
+  await toc.locator('summary').click()
+  const links = toc.locator('.reading-outline-mobile a')
+  assert.deepEqual(await links.allTextContents(), ['中文 链接 代码', '重复', '重复', 'Setext章节', '子节'])
+  const hrefs = await links.evaluateAll(links => links.map(link => link.getAttribute('href')))
   assert.equal(new Set(hrefs).size, hrefs.length)
   for (const href of hrefs) assert.equal(await page.locator('article.prose').locator(href).count(), 1)
   await collected
@@ -78,17 +83,19 @@ try {
   item = await req(`/api/v1/admin/contents/${item.id}`, 'PUT', { version: item.version,
     slug: item.slug, title: '', bodyMarkdown: '# 新版本\n\n## 新章节一\n\n## 新章节二', category: item.category, tags: [] })
   await page.reload()
+  await toc.locator('summary').click()
   assert.equal(await toc.getByRole('link', { name: '新章节一' }).count(), 0)
   assert.equal(await toc.getByRole('link', { name: '重复', exact: true }).count(), 2)
   item = await req(`/api/v1/admin/contents/${item.id}/publish`, 'POST', { expectedVersion: item.version, metadataReviewed: true })
   await page.goto(site + '/writing/' + item.slug)
-  assert.deepEqual(await toc.locator('a').allTextContents(), ['新章节一', '新章节二'])
+  await toc.locator('summary').click()
+  assert.deepEqual(await links.allTextContents(), ['新章节一', '新章节二'])
   await page.goto(site + '/writing/' + short.slug)
   assert.equal(await page.getByRole('navigation', { name: '文章目录' }).count(), 0)
   await req(`/api/v1/admin/contents/${item.id}/unpublish`, 'POST', { expectedVersion: item.version })
   assert.equal((await page.goto(site + '/writing/' + item.slug)).status(), 404)
   assert.equal(await page.getByRole('navigation', { name: '文章目录' }).count(), 0)
-  console.log('PASS article outline: GFM/rendered anchors, duplicates, code/raw HTML exclusion, keyboard/hash navigation, no extra PV, 390px, draft isolation/republish, short text, withdrawal')
+  console.log('PASS article outline/math: GFM/math/rendered anchors, duplicates, code/raw HTML exclusion, keyboard/hash navigation, no extra PV, 390px, draft isolation/republish, short text, withdrawal')
 } finally {
   for (const id of ids) {
     const current = await req('/api/v1/admin/contents/' + id).catch(() => null)

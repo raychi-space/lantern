@@ -1,6 +1,6 @@
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import remarkGfm from 'remark-gfm'
+import { articleRemarkPlugins } from './article-markdown.ts'
 import type { Heading, Nodes, Root } from 'mdast'
 
 export type ReadingHeading = { id: string; depth: number; label: string }
@@ -41,7 +41,7 @@ export function readingOutline(markdown: string): {
   headings: ReadingHeading[]
   truncated: boolean
 } {
-  const root = unified().use(remarkParse).use(remarkGfm).parse(markdown)
+  const root = unified().use(remarkParse).use(articleRemarkPlugins).parse(markdown)
   identify(root)
   // Quoted/list headings still get anchors, but are not document sections.
   const headings = root.children.flatMap((node) => {
