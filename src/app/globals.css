@@ -176,11 +176,26 @@ input {
   letter-spacing: -0.04em;
   white-space: nowrap;
 }
-.logo-mark {
-  font-family: Arial, sans-serif;
-  color: var(--sun);
-  font-size: 29px;
-  font-weight: 400;
+.brand-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 60px;
+  height: 40px;
+}
+.brand-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.brand-icon .brand-icon-dark {
+  display: none;
+}
+:root[data-theme='dark'] .brand-icon-light {
+  display: none;
+}
+:root[data-theme='dark'] .brand-icon-dark {
+  display: block;
 }
 .main-nav {
   display: flex;
@@ -305,9 +320,9 @@ a.chip:hover {
   background: var(--paper-low);
   color: var(--muted);
 }
-.empty-state span {
-  font-size: 34px;
-  color: var(--accent);
+.empty-state .brand-icon {
+  width: 72px;
+  height: 48px;
 }
 .empty-state p {
   margin: 0;
@@ -1316,9 +1331,9 @@ a.home-featured:hover h3 {
   border-top: 1px solid var(--line);
   color: var(--muted);
 }
-.article-end span {
-  font-size: 30px;
-  color: var(--accent);
+.article-end .brand-icon {
+  width: 60px;
+  height: 40px;
 }
 .article-end a {
   display: inline-block;
@@ -1466,9 +1481,9 @@ a.home-featured:hover h3 {
   padding: 40px;
   text-align: center;
 }
-.not-found > span {
-  font-size: 80px;
-  color: var(--accent);
+.not-found > .brand-icon {
+  width: 120px;
+  height: 80px;
 }
 .not-found h1 {
   font-family: var(--serif);
@@ -1537,7 +1552,8 @@ a.home-featured:hover h3 {
     font-size: 21px;
   }
   .logo-mark {
-    font-size: 25px;
+    width: 48px;
+    height: 32px;
   }
   .header-tools {
     grid-column: 2;

@@ -5,6 +5,7 @@ import { PublicPageView } from '@/shared/ui/PublicPageView'
 import { siteSettings, publicLinks, externalLink, SocialLinks } from '@/features/contents'
 import { SiteNav } from '@/shared/ui/SiteNav'
 import { ThemeToggle } from '@/shared/ui/ThemeToggle'
+import { BrandMark } from '@/shared/ui/BrandMark'
 import { siteOrigin, siteUrl } from '@/shared/seo/site-url'
 import 'katex/dist/katex.min.css'
 import './globals.css'
@@ -39,7 +40,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <header className="site-header">
             <div className="header-inner">
               <Link href="/" className="site-logo" aria-label={`${settings.siteName} 首页`}>
-                <span className="logo-mark">✳</span>
+                <BrandMark className="logo-mark" />
                 <span>{settings.siteName}</span>
               </Link>
               <SiteNav configuredLinks={settings.navigation} />
