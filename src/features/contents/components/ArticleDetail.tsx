@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import { PageTransition } from '@/shared/ui/PageTransition'
+import { BrandMark } from '@/shared/ui/BrandMark'
 import type { PublicContent, RelatedArticle } from '../types'
 import type { ReactNode } from 'react'
 import { ReadingOutline } from './ReadingOutline'
@@ -61,7 +62,7 @@ export function ArticleDetail({
               </Markdown>
             </article>
             <div className="article-end">
-              <span>✳</span>
+              <BrandMark />
               <p>感谢读到这里。</p>
               <Link href="/writing" transitionTypes={['nav-back']}>
                 继续读文章 →
