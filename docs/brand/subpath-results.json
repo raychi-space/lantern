@@ -1,0 +1,26 @@
+{
+  "links": [
+    {
+      "rel": "icon",
+      "href": "/raychi/icon.png?icon.14ihrlc1gsb7h.png",
+      "sizes": "64x64"
+    },
+    {
+      "rel": "apple-touch-icon",
+      "href": "/raychi/apple-icon.png?apple-icon.2lil8929r6le2.png",
+      "sizes": "180x180"
+    }
+  ],
+  "widths": [
+    1440,
+    390,
+    320
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "persistedTheme": true,
+  "pageErrors": [],
+  "backend": "temporary read-only fixture"
+}
