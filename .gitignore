@@ -16,3 +16,6 @@ coverage/
 .next-comments/
 .next-reading/
 .next-related/
+
+/docs/
+/.next-preview/

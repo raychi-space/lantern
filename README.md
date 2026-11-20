@@ -1,104 +1,24 @@
 # lantern
 
-系统导航：[架构](https://github.com/raychi-space/raychi/blob/main/ARCHITECTURE.md)、[文档地图](https://github.com/raychi-space/raychi/blob/main/docs/README.md)、[当前产品](https://github.com/raychi-space/raychi/blob/main/docs/product-specs/current-behavior.md)。这些跨仓资料为私有；本仓运行、契约与工作约束可独立查阅，缺权限时由负责人提供相关范围与约束。
+RayChi 的公开阅读站，使用 Next.js 展示已发布的文章、帖子和站点内容。内容由 [wellspring](https://github.com/raychi-space/wellspring) 提供。
 
-<a id="系统文档审阅入口"></a>
+## 本地开发
 
-新系统文档由 [raychi#67](https://github.com/raychi-space/raychi/pull/67) 提供；该 PR 未合并时，上述 main 新路径尚不可用，可从[文档地图审阅版](https://github.com/raychi-space/raychi/blob/1b6cb94c68e00d7f375edec17ef9822fba5d1778/docs/README.md)进入架构、产品和流程。私有仓仍需访问权限。
-
-**Part of Raychi · 公开站**。访客在这里进入个人空间，浏览已发布文章和帖子。Next.js 16.3.8 + TypeScript；内容由 [wellspring](https://github.com/raychi-space/wellspring) 的公开 API 提供，管理界面在 [inkwell](https://github.com/raychi-space/inkwell)。
-
-当前实现首页 `/`、文章 `/writing`、帖子 `/posts`、回顾 `/archive`、拾阅 `/reading`、更多 `/more`、详情页和 404；旧 `/thoughts` 路径转向帖子。只读取发布快照；服务端请求使用 `no-store`，文章图片通过同源 `/api` 转发给内容服务鉴权。原始 HTML 不作为 Markdown 渲染输入。
-
-文章详情标题、正文与结束区域共用左侧基线，正文最大宽度保持 760px；宽屏右侧常开章节目录，窄屏目录折叠在正文上方，保留页面边距。详情发布日期与列表统一按 `Asia/Shanghai` 显示，不随服务器时区变化；接口的原始时间不变。
-
-页面链接、按钮和插画预览不显示右上方向的箭头装饰。
-
-页头、空状态、404 和文章结束标记统一使用鳐鱼品牌图标，自动适配深浅主题；浏览器与 Apple 图标使用同姿态简化版。资源和显示约定见[品牌说明](docs/brand/README.md)。
-
-文章、帖子、回顾、搜索及 AIHOT 拾阅页的页头仅显示英文标签与标题，不显示标题下的说明文字；SEO 描述独立保留。
-
-拾阅在 AIHOT 模式展示热榜、最近资讯和日/周/月汇总及历史期数；事件的原文来源支持平滑展开、收起和指示图标旋转，快速重复操作可反向过渡。减少动画偏好下直接切换；禁用 JavaScript 时仍可使用原生 details 展开来源。页面保持紧凑纸感布局，不直连 AIHOT、来源站或模型接口；后端未启用新模式时继续显示旧 90 天来源卡片。
-
-全站采用无描边纸感插画风格：默认米白纸底、灰蓝色面与深蓝文字，明黄仅作少量点缀；保留深蓝哑光主题与既有主题偏好。静态颗粒层不拦截交互，减少动态效果的系统偏好同时关闭平滑滚动与页面过渡。首页不再显示个人介绍下的窗边插画；其他插画的生成说明见[视觉说明](docs/paper-storybook.md)。未配置站点头像时，主页使用用户提供的「耳机少女与诗人工作室」图片，桌面显示 128px、手机显示 104px。
-
-首页从上到下固定为个人介绍与右侧“最近内容：”、帖子时间线、“最近在做”三个区域。顶部保留精选和最近文章，帖子移到独立区域，复用现有时间线展示最近3条，保留“全部帖子”入口；取消文章/帖子/项目数量块。主导航移除帖子，原 `/posts` 列表、详情及标签链接仍可访问。旧首页分组字段保持接口兼容，不再把帖子排回顶部或恢复数量块。
-
-首页精选与文章列表首条采用平面图文长条，桌面图片/内容比例为 3:7；后续文章为无图单列条目，采用留白与淡色分隔线。标题、类别、日期、摘要来自公开内容接口，整条可进入详情。手机上首条图文改为上下排列；未配置文章封面时，使用内容哈希驱动的 SVG 纸感插画生成器，内容关键词选取海岸、海港、灯塔、山谷、森林、花园、街区、高楼、屋顶、车站、桥梁、小巷、窗边、书信、器物、温室、沙丘或梦境意象等十八类题材，天气（晴、阴、雨、雪、雾、风）与时间（白天、黄昏、夜晚）独立选择，哈希决定构图、景物和纹理；不包含人物；同一发布内容的插画保持稳定，修改正文并重新发布后会变化。不调用外部服务。已配置的内容封面与头像仍按原数据展示。帖子时间线只显示日期点与正文，不使用默认图片或包围内容的圆角卡片；点击标题或正文进入详情，不再另外显示“独立链接”。正文内的链接和标签保留各自的目标。
-
-独立插画预览页 `/illustrations` 默认展示十八类题材各三幅，共54幅；可筛选题材、选择天气与时间、换一组、查看大图及输入文字生成三个变化。仅使用本地示例和当前页面输入，不保存文章或发送生成请求；页面设为 noindex，不加入主导航或站点地图。
-
-## 本机运行
-
-需要 Node.js 20.9+，以及已运行的 wellspring。
+使用 Node.js 26，并先本地启动 wellspring。
 
 ```bash
-cp .env.example .env.local
 npm ci
 npm run dev
 ```
 
-默认访问 <http://127.0.0.1:3000>。`RAYCHI_API_URL` 是服务端访问 wellspring 的地址，默认 `http://127.0.0.1:8080`。生产构建执行 `npm run build`，类型检查执行 `npm run typecheck`。
+开发站点默认在 `http://127.0.0.1:3000`。如需连接其他本地后端，设置 `RAYCHI_API_URL`，默认值是 `http://127.0.0.1:8080`。
 
-本仓库独立构建，不读取相邻仓库的文件。产品依据、跨仓流程和 [Raychi Project](https://github.com/orgs/raychi-space/projects/1) 的进度入口见 [raychi 项目文档](https://github.com/raychi-space/raychi)。
-
-模块内部职责见[模块说明](docs/module.md)，早期 v0.2 范围见[产品范围文档](docs/product-scope-v0.2.md)；当前路由和展示以本 README 为准，Agent 长期约定见 [AGENTS.md](AGENTS.md)。跨仓任务按[项目流程](https://github.com/raychi-space/raychi/blob/main/docs/workflow.md)处理；实时状态看[Raychi Project](https://github.com/orgs/raychi-space/projects/1)及对应 Issue/PR。
-
-## 目录约束
-
-- `src/app/` 遵循 Next.js App Router 文件约定，放路由、布局、404 和全局样式。
-- `src/features/articles/` 保留旧文章 API 类型；`src/features/contents/` 放 v0.2 内容与配置 API、独立 types.ts、components/ 展示组件及 index.ts 公开入口；首页和回顾的组合逻辑也在该功能目录中。其他业务功能以 `src/features/<feature>/` 扩展。
-- 导航和主题切换在 `src/shared/ui/`，导航数据类型在 `src/shared/types/`。页面从功能目录读取数据，不在页面中复制 `/api/v1` 请求逻辑；仅服务端访问 `RAYCHI_API_URL`。
-- `docs/` 放产品或技术说明；构建配置、环境示例和 CI 留在仓库根目录。
-
-## 搜索
-
-`/search` 使用 wellspring 的 `GET /api/v1/public/search`，支持关键词、article/post 筛选与 nextOffset 分页。配置服务端 `RAYCHI_API_URL`；禁止配置搜索内核 token 或让浏览器直连内核。页面按纯文本渲染结果，保留关键词和筛选，提供空状态、加载与独立搜索故障提示。
-
-接口契约：[wellspring 搜索 v1](https://github.com/raychi-space/wellspring/blob/main/docs/api/search-v1.md)。跨仓复现脚本及验收位于 raychi `scripts/search-e2e.ts` 与 `docs/search`。
-
-## SEO 与 RSS
-
-公开页面有独立标题、描述、canonical、Open Graph/Twitter；`/robots.txt`、动态分页 `/sitemap.xml` 和 `/feed.xml` 已实现。RSS 提供最近50条文章/帖子的摘要和详情链接，包含自动发现和页脚入口；草稿不进入，撤回/删除在下次请求移除。搜索、筛选页面及管理台不收录。
-
-`RAYCHI_SITE_URL` 配置公开 HTTP(S) 域名原点，不含路径，默认 `https://dev.raychi.site`；与 `RAYCHI_BASE_PATH` 组合生成绝对链接，不读取 Host。本次按用户要求配套开放开发域名公开页面收录，管理台、搜索与 API 继续排除。详见[SEO/RSS 说明](docs/seo-rss.md)。
-
-## 代码与故障回归（2026-10-03）
-
-`npm run lint` 检查功能和 shared 依赖边界；`npm run format:check` 检查统一排版，`npm run format` 修复排版。CI 执行上述检查。网站级 HTTP 回归脚本位于 raychi 的 `scripts/site-e2e.py`，只允许显式确认的隔离环境；运行方式见项目的完整网站验收文档。
-
-文章页 `/writing` 按发布时间展示文章并支持翻页。回顾 `/archive` 的文章栏提供分类、标签和排序，分类与标签各可选一项并可组合。选项即点即生效，筛选后文章回到第一页，帖子栏仍独立排序和翻页。筛选状态写入地址栏，文章详情与旧文章筛选链接指向对应的回顾结果。筛选选项只在点选后发起导航。
-
-回顾页每栏最多 50 条，后端先筛选和排序再分页。公开内容请求有 5 秒超时，页面和根布局故障提供重新加载入口。生产验证可设置 `RAYCHI_BUILD_DIR=.next-audit` 使用独立构建目录，构建与启动必须使用相同目录和 API 地址。
-
-## 子路径独立部署
-
-保留既有网站时，可在构建与启动阶段设置 `RAYCHI_BASE_PATH=/raychi`。导航与搜索表单均使用该前缀；接口与上传图片仍由同源 `/api/v1/` 提供，需配置代理。`RAYCHI_STANDALONE=1` 生成 Next standalone 服务目录；复制 `.next/static` 与 public 到该目录后，通过 Node server.js 启动。前缀在构建时固定，修改后须重新构建。未设置时保留根路径部署。
-
-## 访问统计与退出
-
-根布局只注册一次 `PublicPageView`，所有公开浏览器页面在可见后统一采集，包括拾阅、搜索、404 和翻页；SSR、预取、API、静态资源、查询词与正文不进入事件。公开站不展示统计开关；采集由管理台统一控制，继续遵守 DNT/GPC 及已有退出偏好。随机匿名标识保存在当前站点 localStorage，用于跨日和跨标签页去重；存储受限时只计 PV。采集失败不影响阅读；浏览器不上传 IP，服务端按可信连接取得地址。实现入口见[模块说明](docs/module.md)。后端契约见 [站点统计 v2](https://github.com/raychi-space/wellspring/blob/main/docs/api/analytics-v2.md)，开发不代表已部署。
-
-## GitHub 评论
-
-已发布文章/帖子详情可按需加载 giscus 评论，使用 GitHub 账号，无需注册本站。默认关闭，通过运行环境配置公开仓库及分类 ID；按内容 UUID 严格匹配讨论，支持主题切换和加载失败重试。列表、404 和撤回内容没有入口。配置步骤、数据归属与真实 OAuth 验收边界见 [评论说明](docs/comments.md)。
-
-## 文章目录
-
-文章详情根据已发布 Markdown 的二至四级顶层标题生成目录（至少两项、最多100项）；代码块、引用、公式块和原始 HTML 不作为目录章节。宽度达到1100px时，目录在正文右侧常开并随阅读固定，过长目录单独滚动；较窄屏幕使用正文上方默认收起的原生 details，可键盘展开。两种布局均服务端渲染，禁用 JavaScript 仍可使用。正文和目录共用 CommonMark/GFM/math 标题顺序，中文和重复标题各有独立锚点；点击只改变 URL 片段，不额外采集浏览。只有工作稿保存不会改变公开目录；锚点序号随正文标题结构调整，不作为永久章节链接承诺。
-
-## 数学公式
-
-已发布文章支持 `$E=mc^2$` 行内公式和独占行的 `$$` 块公式；公式源文本仍保存在 Markdown，无数据库或接口变化。使用 remark-math 6.0.0、rehype-katex 7.0.1 和 KaTeX 0.19.1 在服务端生成公式与 MathML，字体和样式随站点打包，不依赖 CDN。`overrides.katex` 将插件的传递依赖统一到直接依赖版本，避免低版本安全问题及渲染/CSS版本不一致；升级时需要同步管理台依赖并复验兼容性。
-
-渲染固定 `trust:false`，不启用原始 HTML 或可信 URL/HTML 宏；限制宏展开1000次、尺寸20em。错误公式保留可读源码，长块公式只在自身区域横向滚动；代码中的美元符号仍显示为代码。支持的是 KaTeX 数学语法，不是完整 TeX 文档编译。`npm test`（Node22.18+）覆盖真实解析树、SSR输出及不受信宏；`scripts/math-reading-e2e.mjs` 使用一次性本地HTTP夹具运行生产构建和Chrome，验证宽窄屏、禁用JS、公式溢出和片段统计：
+## 验证
 
 ```bash
-RAYCHI_E2E_PLAYWRIGHT=/absolute/path/to/playwright/index.mjs node scripts/math-reading-e2e.mjs
+npm run lint
+npm run format:check
+npm run typecheck
+npm test
+npm run build
 ```
-
-脚本仅绑定回环地址（页面15279、API随机端口），不连接数据库或模型；可设置 `RAYCHI_READING_E2E_SCREENSHOT_DIR` 保存截图。这不代替真实 wellspring 的跨服务验收；`scripts/reading-outline-e2e.mjs` 继续用于明确隔离数据库上的发布快照、撤回和统计回归。
-
-## 相关文章
-
-文章详情显示至多3篇有共同发布标签或非默认分类的文章；评分、精确标签匹配和限量由 wellspring 负责，只消费公开元数据。工作稿不改变推荐，帖子不展示；空结果或可选接口失败/1500ms超时隐藏推荐，正文仍可读。契约见 [相关文章v1](https://github.com/raychi-space/wellspring/blob/main/docs/api/related-articles-v1.md)。`scripts/related-articles-e2e.mjs` 在明确隔离环境验证真实后端和生产页面；故障验收使用仅用于测试的 `related-fault-proxy.mjs`，不安装到生产。
