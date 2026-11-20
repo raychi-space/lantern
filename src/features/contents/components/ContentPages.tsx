@@ -3,12 +3,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ContentCard } from './ContentCard'
 import { PostTimeline } from './PostTimeline'
-import { content, contents, names, relatedArticles } from '../api'
+import { content, contents, relatedArticles } from '../api'
 import type { ContentType, PublicContent } from '../types'
 import type { ReactNode } from 'react'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { PageIntro } from '@/shared/ui/PageIntro'
-import { ChipLink } from '@/shared/ui/Chip'
 import { EmptyState } from '@/shared/ui/EmptyState'
 import { Pagination } from '@/shared/ui/Pagination'
 
@@ -20,23 +19,16 @@ const labels = {
 export async function ContentList({
   type,
   page,
-  category,
   tag,
 }: {
   type: ContentType
   page: number
-  category?: string
   tag?: string
 }) {
-  const [result, categoryNames, tagNames] = await Promise.all([
-    contents({ type, page, pageSize: 12, category, tag }),
-    type === 'POST' ? Promise.resolve([]) : names('categories'),
-    type === 'POST' ? Promise.resolve([]) : names('tags'),
-  ])
+  const result = await contents({ type, page, pageSize: 12, tag })
   const info = labels[type]
   const query = (nextPage: number) => {
     const params = new URLSearchParams({ page: String(nextPage) })
-    if (category) params.set('category', category)
     if (tag) params.set('tag', tag)
     return `${info.path}?${params}`
   }
@@ -44,31 +36,6 @@ export async function ContentList({
     <PageTransition>
       <main className="inner-page">
         <PageIntro kicker={type} title={info.title} />
-        {(categoryNames.length > 0 || tagNames.length > 0) && (
-          <div className="chip-row">
-            <ChipLink href={info.path} active={!category && !tag}>
-              全部
-            </ChipLink>
-            {categoryNames.map((name) => (
-              <ChipLink
-                href={`${info.path}?category=${encodeURIComponent(name)}`}
-                active={category === name}
-                key={name}
-              >
-                {name}
-              </ChipLink>
-            ))}
-            {tagNames.map((name) => (
-              <ChipLink
-                href={`${info.path}?tag=${encodeURIComponent(name)}`}
-                active={tag === name}
-                key={name}
-              >
-                #{name}
-              </ChipLink>
-            ))}
-          </div>
-        )}
         {type === 'POST' && tag && (
           <div className="post-active-tag">
             <span>正在查看 #{tag}</span>

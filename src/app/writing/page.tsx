@@ -1,26 +1,22 @@
-import { ContentList, listMetadata } from '@/features/contents'
+import { permanentRedirect } from 'next/navigation'
+import { archiveHref, ContentList, filterValue, listMetadata } from '@/features/contents'
 
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string; category?: string; tag?: string }>
-}) {
-  return listMetadata('ARTICLE', await searchParams)
+type Props = {
+  searchParams: Promise<{ page?: string; category?: string | string[]; tag?: string | string[] }>
 }
 
-export default async function WritingPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string; category?: string; tag?: string }>
-}) {
-  const params = await searchParams
-  const parsed = Number(params.page ?? '1')
-  return (
-    <ContentList
-      type="ARTICLE"
-      page={Number.isInteger(parsed) && parsed > 0 ? parsed : 1}
-      category={params.category}
-      tag={params.tag}
-    />
-  )
+export async function generateMetadata({ searchParams }: Props) {
+  const { page } = await searchParams
+  return listMetadata('ARTICLE', { page })
+}
+
+export default async function WritingPage({ searchParams }: Props) {
+  const { page, category, tag } = await searchParams
+  const articlesCategory = filterValue(category)
+  const articlesTag = filterValue(tag)
+  if (articlesCategory || articlesTag)
+    permanentRedirect(archiveHref({ articlesCategory, articlesTag }))
+
+  const parsed = Number(page ?? '1')
+  return <ContentList type="ARTICLE" page={Number.isInteger(parsed) && parsed > 0 ? parsed : 1} />
 }

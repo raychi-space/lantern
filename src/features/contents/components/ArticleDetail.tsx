@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { archiveHref } from '../archive-query'
 import Markdown from 'react-markdown'
 import { PageTransition } from '@/shared/ui/PageTransition'
 import { BrandMark } from '@/shared/ui/BrandMark'
@@ -37,12 +38,12 @@ export function ArticleDetail({
               }).format(new Date(item.publishedAt))}
             </time>
             {item.category && (
-              <Link href={`/writing?category=${encodeURIComponent(item.category)}`}>
+              <Link href={archiveHref({ articlesCategory: item.category })} prefetch={false}>
                 {item.category}
               </Link>
             )}
             {item.tags.map((tag) => (
-              <Link href={`/writing?tag=${encodeURIComponent(tag)}`} key={tag}>
+              <Link href={archiveHref({ articlesTag: tag })} prefetch={false} key={tag}>
                 #{tag}
               </Link>
             ))}
