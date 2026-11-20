@@ -70,18 +70,17 @@ export async function contentMetadata(type: ContentType, slug: string): Promise<
 
 export async function listMetadata(
   type: ContentType,
-  params: { page?: string; category?: string; tag?: string },
+  params: { page?: string; tag?: string },
 ): Promise<Metadata> {
   const page = Number(params.page ?? '1')
   const query = new URLSearchParams()
   if (Number.isInteger(page) && page > 1) query.set('page', String(page))
-  if (type === 'ARTICLE' && params.category) query.set('category', params.category)
   if (params.tag) query.set('tag', params.tag)
   const path = type === 'ARTICLE' ? '/writing' : '/posts'
   return pageMetadata(
     `${type === 'ARTICLE' ? '文章' : '帖子'}${query.has('page') ? ` · 第 ${page} 页` : ''}`,
     `${path}${query.size ? `?${query}` : ''}`,
     type === 'ARTICLE' ? '值得慢慢说的事情，写得完整一些。' : '按时间写下的短记录。',
-    !query.has('category') && !query.has('tag'),
+    !query.has('tag'),
   )
 }

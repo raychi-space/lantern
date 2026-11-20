@@ -9,6 +9,7 @@ export {
 } from './api'
 export { publicLinks, externalLink } from './links'
 export { ContentList, ContentDetail } from './components/ContentPages'
+export { archiveHref, filterValue } from './archive-query'
 export { SocialLinks } from './components/SocialLinks'
 export { HomePage } from './components/HomePage'
 export { ArchivePage } from './components/ArchivePage'
